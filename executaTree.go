@@ -59,7 +59,7 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 		return strconv.FormatFloat(a, 'f', 6, 64)
 	}
 
-	if tree.token.tipo == "L3" {
+	if tree.token.tipo == "L5" {
 
 		a := executaTree(tree.filhos[1], simbolos)
 		if tree.filhos[0].token.id == "não" {
@@ -75,7 +75,7 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 	if tree.token.tipo == "+-" {
 		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos), 64)
 		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos), 64)
-		//fmt.Println("a:", a, ",b:", b)
+
 		c := 0.0
 		if tree.token.id == "+" {
 			c = b + a
@@ -89,7 +89,7 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 	if tree.token.tipo == "MOD" {
 		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos), 64)
 		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos), 64)
-		fmt.Println("a:", a, ",b:", b)
+
 		c := 0.0
 		c = math.Mod(a, b)
 
@@ -99,7 +99,7 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 	if tree.token.tipo == "DIV" {
 		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos), 64)
 		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos), 64)
-		fmt.Println("a:", a, ",b:", b)
+
 		c := 0.0
 		c = math.Trunc(a / b)
 
@@ -109,7 +109,7 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 	if tree.token.tipo == "**//" {
 		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos), 64)
 		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos), 64)
-		fmt.Println("a:", a, ",b:", b)
+
 		c := 0.0
 		if tree.token.id == "**" {
 			c = math.Pow(a, b)
@@ -152,34 +152,32 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 		}
 	}
 
-	if tree.token.tipo == "OP.LOGICO" {
-		if tree.token.id == "ou" {
-			a := executaTree(tree.filhos[0], simbolos)
-			b := executaTree(tree.filhos[1], simbolos)
+	if tree.token.tipo == "OP.LOGICO.E" {
+		a := executaTree(tree.filhos[0], simbolos)
+		b := executaTree(tree.filhos[1], simbolos)
 
-			c := ""
-			if a == "verdadeiro" || b == "verdadeiro" {
-				c = "verdadeiro"
-			} else {
-				c = "falso"
-			}
-
-			return c
+		c := ""
+		if a == "verdadeiro" && b == "verdadeiro" {
+			c = "verdadeiro"
+		} else {
+			c = "falso"
 		}
 
-		if tree.token.id == "e" {
-			a := executaTree(tree.filhos[0], simbolos)
-			b := executaTree(tree.filhos[1], simbolos)
+		return c
+	}
 
-			c := ""
-			if a == "verdadeiro" && b == "verdadeiro" {
-				c = "verdadeiro"
-			} else {
-				c = "falso"
-			}
+	if tree.token.tipo == "OP.LOGICO.OU" {
+		a := executaTree(tree.filhos[0], simbolos)
+		b := executaTree(tree.filhos[1], simbolos)
 
-			return c
+		c := ""
+		if a == "verdadeiro" || b == "verdadeiro" {
+			c = "verdadeiro"
+		} else {
+			c = "falso"
 		}
+
+		return c
 	}
 
 	if tree.token.tipo == "OP.RELACIONAL" {
@@ -269,5 +267,5 @@ func executaTree(tree *Node, simbolos map[string][]string) string {
 		}
 	}
 
-	return "EXPRESSAO NAO ENCONTRADA"
+	return "EXPRESSAO NAO ENCONTRADA: {" + tree.token.tipo + "}"
 }

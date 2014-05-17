@@ -43,6 +43,7 @@ func RetiraNodesVazios(tree *Node, res int) int {
 					"M2":     true,
 					"L2":     true,
 					"L4":     true,
+					"L6":     true,
 					"D3":     true,
 				}
 
@@ -95,7 +96,8 @@ func ComandoOperador(tree *Node, res int) int {
 		"DIV":           true,
 		"**//":          true,
 		"OP.RELACIONAL": true,
-		"OP.LOGICO":     true,
+		"OP.LOGICO.E":   true,
+		"OP.LOGICO.OU":  true,
 		"OP.LOGICO.XOU": true,
 	}
 

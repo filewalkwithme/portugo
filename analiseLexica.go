@@ -167,13 +167,13 @@ func pegaToken(linha string) (string, string, string) {
 	token = regexp.MustCompile("^(e)([^À-úA-z]+|$)").FindString(linha)
 	if len(token) > 0 {
 		token = "e"
-		return token, "OP.LOGICO", linha[len(token):]
+		return token, "OP.LOGICO.E", linha[len(token):]
 	}
 
 	token = regexp.MustCompile("^(ou)([^À-úA-z]+|$)").FindString(linha)
 	if len(token) > 0 {
 		token = "ou"
-		return token, "OP.LOGICO", linha[len(token):]
+		return token, "OP.LOGICO.OU", linha[len(token):]
 	}
 
 	token = regexp.MustCompile("^(xou)([^À-úA-z]+|$)").FindString(linha)
