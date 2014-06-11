@@ -19,7 +19,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	producao["LOG08"] = []string{"L5", "OP.LOGICO.UN", "L5"}
 	producao["LOG09"] = []string{"L5", "R1", "R2"}
 	producao["LOG10"] = []string{"L5", "LOGICO"}
-	producao["LOG11"] = []string{"L5", "v"}
+	//producao["LOG11"] = []string{"L5", "v"}
 	producao["LOG12"] = []string{"L5", "(", "L", ")"}
 	producao["LOG13"] = []string{"L6", "OP.LOGICO.OU", "L5", "L6"}
 	producao["LOG14"] = []string{"L6", "_"}
@@ -61,6 +61,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["L"]["("] = "LOG01"
 	tab["L"]["v"] = "LOG01"
 	tab["L"]["INTEIRO"] = "LOG01"
+	tab["L"]["REAL"] = "LOG01"
 	tab["L"]["+-"] = "LOG01"
 	tab["L"]["FUNCMAT"] = "LOG01"
 	tab["L"]["LOGICO"] = "LOG01"
@@ -71,6 +72,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["L1"]["("] = "LOG02"
 	tab["L1"]["v"] = "LOG02"
 	tab["L1"]["INTEIRO"] = "LOG02"
+	tab["L1"]["REAL"] = "LOG02"
 	tab["L1"]["+-"] = "LOG02"
 	tab["L1"]["LOGICO"] = "LOG02"
 	tab["L1"]["FUNCMAT"] = "LOG02"
@@ -82,11 +84,13 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["L2"][")"] = "LOG04"
 	tab["L2"][","] = "LOG04"
 	tab["L2"][";"] = "LOG04"
+	tab["L2"]["OP.RELACIONAL"] = "LOG04"
 
 	tab["L3"] = make(map[string]string)
 	tab["L3"]["OP.LOGICO.UN"] = "LOG05"
 	tab["L3"]["v"] = "LOG05"
 	tab["L3"]["INTEIRO"] = "LOG05"
+	tab["L3"]["REAL"] = "LOG05"
 	tab["L3"]["+-"] = "LOG05"
 	tab["L3"]["FUNCMAT"] = "LOG05"
 	tab["L3"]["("] = "LOG05"
@@ -98,14 +102,17 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["L4"][","] = "LOG07"
 	tab["L4"][";"] = "LOG07"
 	tab["L4"]["OP.LOGICO.XOU"] = "LOG07"
+	tab["L4"]["OP.RELACIONAL"] = "LOG07"
 
 	tab["L5"] = make(map[string]string)
 	tab["L5"]["OP.LOGICO.UN"] = "LOG08"
 	tab["L5"]["INTEIRO"] = "LOG09"
+	tab["L5"]["REAL"] = "LOG09"
 	tab["L5"]["+-"] = "LOG09"
 	tab["L5"]["FUNCMAT"] = "LOG09"
 	tab["L5"]["LOGICO"] = "LOG10"
-	tab["L5"]["v"] = "LOG11"
+	tab["L5"]["v"] = "LOG09"
+	//tab["L5"]["v"] = "LOG11"
 	tab["L5"]["("] = "LOG12"
 
 	tab["L6"] = make(map[string]string)
@@ -115,10 +122,12 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["L6"][";"] = "LOG14"
 	tab["L6"]["OP.LOGICO.E"] = "LOG14"
 	tab["L6"]["OP.LOGICO.XOU"] = "LOG14"
+	tab["L6"]["OP.RELACIONAL"] = "LOG14"
 
 	tab["R1"] = make(map[string]string)
 	tab["R1"]["v"] = "REL01"
 	tab["R1"]["INTEIRO"] = "REL01"
+	tab["R1"]["REAL"] = "REL01"
 	tab["R1"]["+-"] = "REL01"
 	tab["R1"]["FUNCMAT"] = "REL01"
 	tab["R1"]["("] = "REL01"
@@ -134,6 +143,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["M1"]["v"] = "MAT01"
 	tab["M1"]["("] = "MAT01"
 	tab["M1"]["INTEIRO"] = "MAT01"
+	tab["M1"]["REAL"] = "MAT01"
 	tab["M1"]["FUNCMAT"] = "MAT01"
 	tab["M1"]["+-"] = "MAT01"
 
@@ -151,6 +161,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["M3"]["v"] = "MAT04"
 	tab["M3"]["("] = "MAT04"
 	tab["M3"]["INTEIRO"] = "MAT04"
+	tab["M3"]["REAL"] = "MAT04"
 	tab["M3"]["FUNCMAT"] = "MAT04"
 	tab["M3"]["+-"] = "MAT04"
 
@@ -169,6 +180,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["M5"]["v"] = "MAT07"
 	tab["M5"]["("] = "MAT07"
 	tab["M5"]["INTEIRO"] = "MAT07"
+	tab["M5"]["REAL"] = "MAT07"
 	tab["M5"]["FUNCMAT"] = "MAT07"
 	tab["M5"]["+-"] = "MAT07"
 
@@ -188,6 +200,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["M7"]["v"] = "MAT10"
 	tab["M7"]["("] = "MAT10"
 	tab["M7"]["INTEIRO"] = "MAT10"
+	tab["M7"]["REAL"] = "MAT10"
 	tab["M7"]["FUNCMAT"] = "MAT10"
 	tab["M7"]["+-"] = "MAT10"
 
@@ -206,6 +219,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 
 	tab["M9"] = make(map[string]string)
 	tab["M9"]["INTEIRO"] = "MAT13"
+	tab["M9"]["REAL"] = "MAT14"
 	tab["M9"]["FUNCMAT"] = "MAT20"
 	tab["M9"]["v"] = "MAT15"
 	tab["M9"]["("] = "MAT16"
@@ -339,9 +353,9 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 		a := topo(pilha)
 		b := listaTokens[posToken]
 
-		//fmt.Println(i, pilha)
-		//fmt.Println(i, listaTokens)
-		//fmt.Println("")
+		fmt.Println(i, pilha)
+		fmt.Println(i, listaTokens)
+		fmt.Println("")
 		i++
 
 		if topo(pilha) == "_" {
