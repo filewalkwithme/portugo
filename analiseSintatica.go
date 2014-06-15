@@ -294,6 +294,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	tab["ESCV1"]["LOGICO"] = "ESCV02"
 	tab["ESCV1"]["v"] = "ESCV02"
 	tab["ESCV1"]["("] = "ESCV02"
+	tab["ESCV1"]["+-"] = "ESCV02"
 	tab["ESCV1"]["OP.LOGICO.UN"] = "ESCV02"
 	tab["ESCV1"]["FUNCMAT"] = "ESCV02"
 

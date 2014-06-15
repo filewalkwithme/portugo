@@ -76,17 +76,20 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 		return Resultado{valor: a}
 	}
 
+	//
 	if tree.token.tipo == "M9" {
-		resultadoInteiro := executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		resultadoA := executaTree(tree.filhos[1], simbolos)
+
+		resultadoInteiro := resultadoA.tipo == "inteiro" 
 		if resultadoInteiro {
-			a, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+			a, _ := strconv.ParseInt(resultadoA.valor, 10, 0)
 			if tree.filhos[0].token.id == "-" {
 				a = a * -1
 			}
 			return Resultado{valor: strconv.FormatInt(a, 10), tipo: "inteiro"}
 		}
 
-		a, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
+		a, _ := strconv.ParseFloat(resultadoA.valor, 64)
 		if tree.filhos[0].token.id == "-" {
 			a = a * -1
 		}
@@ -94,11 +97,15 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.token.tipo == "+-" {
-		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		resultadoA := executaTree(tree.filhos[0], simbolos)
+		resultadoB := executaTree(tree.filhos[1], simbolos)
+
+
+		resultadoInteiro := resultadoA.tipo == "inteiro" &&  resultadoB.tipo == "inteiro" 
 	
 		if resultadoInteiro {
-			a, _ := strconv.ParseInt(executaTree(tree.filhos[0], simbolos).valor, 10, 0)
-			b, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+			a, _ := strconv.ParseInt(resultadoA.valor, 10, 0)
+			b, _ := strconv.ParseInt(resultadoB.valor, 10, 0)
 
 			var c int64
 			c = 0
@@ -110,8 +117,8 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 
 			return Resultado{valor: strconv.FormatInt(c, 10), tipo: "inteiro"}
 		}
-		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos).valor, 64)
-		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
+		a, _ := strconv.ParseFloat(resultadoA.valor, 64)
+		b, _ := strconv.ParseFloat(resultadoB.valor, 64)
 
 		c := 0.0
 		if tree.token.id == "+" {
@@ -154,11 +161,14 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.token.tipo == "MOD" {
-		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		resultadoA := executaTree(tree.filhos[0], simbolos)
+		resultadoB := executaTree(tree.filhos[1], simbolos)		
+
+		resultadoInteiro := resultadoA.tipo == "inteiro" &&  resultadoB.tipo == "inteiro" 
 		
 		if resultadoInteiro {
-			a, _ := strconv.ParseInt(executaTree(tree.filhos[0], simbolos).valor, 10, 0)
-			b, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+			a, _ := strconv.ParseInt(resultadoA.valor, 10, 0)
+			b, _ := strconv.ParseInt(resultadoB.valor, 10, 0)
 
 			var c int64
 			c = 0
@@ -170,11 +180,14 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.token.tipo == "DIV" {
-		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		resultadoA := executaTree(tree.filhos[0], simbolos)
+		resultadoB := executaTree(tree.filhos[1], simbolos)		
+
+		resultadoInteiro := resultadoA.tipo == "inteiro" &&  resultadoB.tipo == "inteiro" 
 		
 		if resultadoInteiro {
-			a, _ := strconv.ParseInt(executaTree(tree.filhos[0], simbolos).valor, 10, 0)
-			b, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+			a, _ := strconv.ParseInt(resultadoA.valor, 10, 0)
+			b, _ := strconv.ParseInt(resultadoB.valor, 10, 0)
 
 			var c int64
 			c = 0
