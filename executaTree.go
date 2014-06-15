@@ -63,15 +63,6 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 		}
 	}
 
-	if tree.token.tipo == "M9" {
-
-		a, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
-		if tree.filhos[0].token.id == "-" {
-			a = a * -1
-		}
-		return Resultado{valor: strconv.FormatFloat(a, 'f', 6, 64), tipo: executaTree(tree.filhos[1], simbolos).tipo}
-	}
-
 	if tree.token.tipo == "L5" {
 
 		a := executaTree(tree.filhos[1], simbolos).valor
@@ -85,11 +76,24 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 		return Resultado{valor: a}
 	}
 
-	if tree.token.tipo == "+-" {
-		//soma de dois inteiros deve retornar um numero inteiro
-		//soma envolvendo real deve retornar um numero real
+	if tree.token.tipo == "M9" {
+		resultadoInteiro := executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		if resultadoInteiro {
+			a, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+			if tree.filhos[0].token.id == "-" {
+				a = a * -1
+			}
+			return Resultado{valor: strconv.FormatInt(a, 10), tipo: "inteiro"}
+		}
 
-		//otimizar pra chamar a funcao apenas 1 vez
+		a, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
+		if tree.filhos[0].token.id == "-" {
+			a = a * -1
+		}
+		return Resultado{valor: strconv.FormatFloat(a, 'f', 6, 64), tipo: "real"}
+	}
+
+	if tree.token.tipo == "+-" {
 		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
 	
 		if resultadoInteiro {
@@ -119,26 +123,6 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64), tipo: "real"}
 	}
 
-	if tree.token.tipo == "MOD" {
-		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos).valor, 64)
-		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
-
-		c := 0.0
-		c = math.Mod(a, b)
-
-		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64)}
-	}
-
-	if tree.token.tipo == "DIV" {
-		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos).valor, 64)
-		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
-
-		c := 0.0
-		c = math.Trunc(a / b)
-
-		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64)}
-	}
-
 	if tree.token.tipo == "**//" {
 		a, _ := strconv.ParseFloat(executaTree(tree.filhos[0], simbolos).valor, 64)
 		b, _ := strconv.ParseFloat(executaTree(tree.filhos[1], simbolos).valor, 64)
@@ -152,7 +136,7 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 			c = math.Pow(a, 1/b)
 		}
 
-		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64)}
+		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64), tipo: "real"}
 	}
 
 	if tree.token.tipo == "*/" {
@@ -166,8 +150,41 @@ func executaTree(tree *Node, simbolos map[string][]string) Resultado {
 			c = a / b
 		}
 
-		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64)}
+		return Resultado{valor: strconv.FormatFloat(c, 'f', 6, 64), tipo: "real"}
 	}
+
+	if tree.token.tipo == "MOD" {
+		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		
+		if resultadoInteiro {
+			a, _ := strconv.ParseInt(executaTree(tree.filhos[0], simbolos).valor, 10, 0)
+			b, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+
+			var c int64
+			c = 0
+			c = a % b
+
+			return Resultado{valor: strconv.FormatInt(c, 10), tipo:"inteiro"}
+		}
+		return Resultado{valor: "Função MOD: requer 2 operandos do tipo inteiro", tipo:"erro"}
+	}
+
+	if tree.token.tipo == "DIV" {
+		resultadoInteiro := executaTree(tree.filhos[0], simbolos).tipo == "inteiro" &&  executaTree(tree.filhos[1], simbolos).tipo == "inteiro" 
+		
+		if resultadoInteiro {
+			a, _ := strconv.ParseInt(executaTree(tree.filhos[0], simbolos).valor, 10, 0)
+			b, _ := strconv.ParseInt(executaTree(tree.filhos[1], simbolos).valor, 10, 0)
+
+			var c int64
+			c = 0
+			c = a / b
+	
+			return Resultado{valor: strconv.FormatInt(c, 10), tipo:"inteiro"}
+		}
+		return Resultado{valor: "Função DIV: requer 2 operandos do tipo inteiro", tipo:"erro"}
+	}
+
 
 	if tree.token.tipo == "OP.LOGICO.XOU" {
 		if tree.token.id == "xou" {
