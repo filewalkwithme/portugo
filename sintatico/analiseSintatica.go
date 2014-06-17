@@ -1,4 +1,4 @@
-package main
+package sintatico
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	util "github.com/maiconio/portugo/util"
 )
 
-func montaParsingTree(tree *core.Node, listaTokens []core.Token) {
+func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao := make(map[string][]string)
 	tab := make(map[string]map[string]string)
 
