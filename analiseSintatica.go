@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	core "github.com/maiconio/portugo/core"
+	util "github.com/maiconio/portugo/util"
 )
 
-func montaParsingTree(tree *Node, listaTokens []Token) {
+func montaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao := make(map[string][]string)
 	tab := make(map[string]map[string]string)
 
@@ -345,13 +347,13 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	//inicializa a pilha para reconhecimento de sentenca
 	pilha := []string{}
 	//pilha = push(pilha, ";")
-	pilha = push(pilha, "P")
+	pilha = util.Push(pilha, "P")
 
 	acaba := false
 	i := 0
 	z := 0
 	for acaba == false {
-		a := topo(pilha)
+		a := util.Topo(pilha)
 		b := listaTokens[posToken]
 
 		fmt.Println(i, pilha)
@@ -359,36 +361,36 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 		fmt.Println("")
 		i++
 
-		if topo(pilha) == "_" {
-			pilha, _ = pop(pilha)
+		if util.Topo(pilha) == "_" {
+			pilha, _ = util.Pop(pilha)
 		} else {
-			if topo(pilha) == listaTokens[0].tipo {
+			if util.Topo(pilha) == listaTokens[0].Tipo {
 				//fmt.Println("----",listaTokens[0].tipo, listaTokens[0].id)
-				pilha, _ = pop(pilha)
+				pilha, _ = util.Pop(pilha)
 				listaTokens = listaTokens[1:]
 			} else {
-				p := tab[a][b.tipo]
+				p := tab[a][b.Tipo]
 
 				if len(p) > 0 {
-					pilha, _ = pop(pilha)
+					pilha, _ = util.Pop(pilha)
 
 					tmp := producao[p]
-					tmpToken := []Token{}
+					tmpToken := []core.Token{}
 
 					for w := len(tmp) - 1; w >= 1; w-- {
-						pilha = push(pilha, tmp[w])
+						pilha = util.Push(pilha, tmp[w])
 					}
 
 					for w := 1; w < len(tmp); w++ {
 						executa := len(listaTokens) > 0
-						token := Token{tmp[w], tmp[w]}
+						token := core.Token{tmp[w], tmp[w]}
 						for y := 0; executa && y < len(listaTokens); y++ {
-							if listaTokens[y].tipo == tmp[w] {
-								token = Token{listaTokens[y].tipo, listaTokens[y].id}
+							if listaTokens[y].Tipo == tmp[w] {
+								token = core.Token{listaTokens[y].Tipo, listaTokens[y].Id}
 								executa = false
 							}
 						}
-						tmpToken = pushToken(tmpToken, token)
+						tmpToken = util.PushToken(tmpToken, token)
 						//fmt.Println("....",tmp[w],tmpToken)
 
 					}
@@ -399,8 +401,8 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 					//mostraTree(tree)
 				} else {
 					acaba = true
-					fmt.Println(a, b.tipo, "ERRO!")
-					tree = &Node{nil, nil, "E", 0, 0, Token{"", ""}}
+					fmt.Println(a, b.Tipo, "ERRO!")
+					tree = &core.Node{nil, nil, "E", 0, 0, core.Token{"", ""}}
 				}
 			}
 		}
@@ -419,7 +421,7 @@ func montaParsingTree(tree *Node, listaTokens []Token) {
 	}
 }
 
-func adicionarItem(tree *Node, valores []Token, z int) {
+func adicionarItem(tree *core.Node, valores []core.Token, z int) {
 	base := maiorPositivo(tree, -1)
 	//fmt.Println(valores);
 
@@ -428,73 +430,73 @@ func adicionarItem(tree *Node, valores []Token, z int) {
 }
 
 //elemento mais a esquerda, sem expansao
-func adicionar(tree *Node, valores []Token, base int, z int) {
+func adicionar(tree *core.Node, valores []core.Token, base int, z int) {
 	ast := tree
-	if ast.indice == base {
+	if ast.Indice == base {
 		//marca indice como -1
-		ast.indice = -1
+		ast.Indice = -1
 
 		//adiciona
 		if len(valores) > 0 {
 			j := z + len(valores)
 			for i := 0; i < len(valores); i++ {
 
-				filho := Node{tree, nil, valores[i].tipo, -1, 0, Token{valores[i].tipo, valores[i].id}}
-				if valores[i].tipo != "TIPOVAR" &&
-					valores[i].tipo != ":" &&
-					valores[i].tipo != "v" &&
-					valores[i].tipo != "," &&
-					valores[i].tipo != "_" &&
-					valores[i].tipo != "+-" &&
-					valores[i].tipo != "MOD" &&
-					valores[i].tipo != "DIV" &&
-					valores[i].tipo != "*/" &&
-					valores[i].tipo != "**//" &&
-					valores[i].tipo != "OP.LOGICO.E" &&
-					valores[i].tipo != "OP.LOGICO.OU" &&
-					valores[i].tipo != "OP.LOGICO.UN" &&
-					valores[i].tipo != "OP.LOGICO.XOU" &&
-					valores[i].tipo != "OP.RELACIONAL" &&
-					valores[i].tipo != "INTEIRO" &&
-					valores[i].tipo != "LOGICO" &&
-					valores[i].tipo != "REAL" &&
-					valores[i].tipo != "FUNCMAT" &&
-					valores[i].tipo != "LEIA" &&
-					valores[i].tipo != "ESCREVA" &&
-					valores[i].tipo != "INICIO" &&
-					valores[i].tipo != "FIM" &&
-					valores[i].tipo != "PONTO" &&
-					valores[i].tipo != "<-" &&
-					valores[i].tipo != "(" &&
-					valores[i].tipo != ")" &&
-					valores[i].tipo != ";" {
-					filho = Node{tree, nil, valores[i].tipo, j, 0, Token{valores[i].tipo, valores[i].id}}
+				filho := core.Node{tree, nil, valores[i].Tipo, -1, 0, core.Token{valores[i].Tipo, valores[i].Id}}
+				if valores[i].Tipo != "TIPOVAR" &&
+					valores[i].Tipo != ":" &&
+					valores[i].Tipo != "v" &&
+					valores[i].Tipo != "," &&
+					valores[i].Tipo != "_" &&
+					valores[i].Tipo != "+-" &&
+					valores[i].Tipo != "MOD" &&
+					valores[i].Tipo != "DIV" &&
+					valores[i].Tipo != "*/" &&
+					valores[i].Tipo != "**//" &&
+					valores[i].Tipo != "OP.LOGICO.E" &&
+					valores[i].Tipo != "OP.LOGICO.OU" &&
+					valores[i].Tipo != "OP.LOGICO.UN" &&
+					valores[i].Tipo != "OP.LOGICO.XOU" &&
+					valores[i].Tipo != "OP.RELACIONAL" &&
+					valores[i].Tipo != "INTEIRO" &&
+					valores[i].Tipo != "LOGICO" &&
+					valores[i].Tipo != "REAL" &&
+					valores[i].Tipo != "FUNCMAT" &&
+					valores[i].Tipo != "LEIA" &&
+					valores[i].Tipo != "ESCREVA" &&
+					valores[i].Tipo != "INICIO" &&
+					valores[i].Tipo != "FIM" &&
+					valores[i].Tipo != "PONTO" &&
+					valores[i].Tipo != "<-" &&
+					valores[i].Tipo != "(" &&
+					valores[i].Tipo != ")" &&
+					valores[i].Tipo != ";" {
+					filho = core.Node{tree, nil, valores[i].Tipo, j, 0, core.Token{valores[i].Tipo, valores[i].Id}}
 					j = j - 1
 				}
-				tree.filhos = append(tree.filhos[:len(tree.filhos)], &filho)
+				tree.Filhos = append(tree.Filhos[:len(tree.Filhos)], &filho)
 			}
 		}
 	} else {
-		if len(ast.filhos) > 0 {
-			for i := 0; i < len(ast.filhos); i++ {
-				adicionar(ast.filhos[i], valores, base, z)
+		if len(ast.Filhos) > 0 {
+			for i := 0; i < len(ast.Filhos); i++ {
+				adicionar(ast.Filhos[i], valores, base, z)
 			}
 		}
 	}
 
 }
 
-func maiorPositivo(tree *Node, maior int) int {
+func maiorPositivo(tree *core.Node, maior int) int {
 	ast := tree
-	if ast.indice >= 0 {
-		if ast.indice > maior {
-			maior = ast.indice
+	if ast.Indice >= 0 {
+		if ast.Indice > maior {
+			maior = ast.Indice
 		}
 	}
 
-	if len(ast.filhos) > 0 {
-		for i := 0; i < len(ast.filhos); i++ {
-			tmp2 := maiorPositivo(ast.filhos[i], maior)
+	if len(ast.Filhos) > 0 {
+		for i := 0; i < len(ast.Filhos); i++ {
+			tmp2 := maiorPositivo(ast.Filhos[i], maior)
 			if tmp2 > maior {
 				maior = tmp2
 			}

@@ -1,9 +1,13 @@
 início
-  inteiro: a, b;
+  inteiro: a, c;
+  real: b;
+  a <- 2;
+  b <- 3.2;
 
-  leia(a);
+  escreva(-1);
 
-  leia(b);
-
-  escreva(a+b);
+  escreva(a + b - 3 * 2);
+  escreva(5+9+7+8/4);
+  escreva(1-4*3/6-8);
+  escreva(3**2-4/2+10/2);
 fim.

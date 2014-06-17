@@ -1,28 +1,30 @@
 package main
 
-import ()
+import (
+	core "github.com/maiconio/portugo/core"
+)
 
-func RemoveNodeFilho(tree *Node, i int) {
-	copy(tree.filhos[i:], tree.filhos[i+1:])
-	tree.filhos[len(tree.filhos)-1] = nil // or the zero value of T
-	tree.filhos = tree.filhos[:len(tree.filhos)-1]
+func RemoveNodeFilho(tree *core.Node, i int) {
+	copy(tree.Filhos[i:], tree.Filhos[i+1:])
+	tree.Filhos[len(tree.Filhos)-1] = nil // or the zero value of T
+	tree.Filhos = tree.Filhos[:len(tree.Filhos)-1]
 }
 
-func AdicionaNodeFilho(tree *Node, i int, filho *Node) {
-	tree.filhos = append(tree.filhos, &Node{})
-	copy(tree.filhos[i+1:], tree.filhos[i:])
-	tree.filhos[i] = filho
+func AdicionaNodeFilho(tree *core.Node, i int, filho *core.Node) {
+	tree.Filhos = append(tree.Filhos, &core.Node{})
+	copy(tree.Filhos[i+1:], tree.Filhos[i:])
+	tree.Filhos[i] = filho
 }
 
-func RetiraNodesVazios(tree *Node, res int) int {
+func RetiraNodesVazios(tree *core.Node, res int) int {
 	r := res
 
-	for i := 0; i < len(tree.filhos); i++ {
-		if tree.filhos[i].valor == "_" {
+	for i := 0; i < len(tree.Filhos); i++ {
+		if tree.Filhos[i].Valor == "_" {
 			RemoveNodeFilho(tree, i)
 			r++
 		} else {
-			if len(tree.filhos[i].filhos) == 0 {
+			if len(tree.Filhos[i].Filhos) == 0 {
 				deletar := map[string]bool{
 					"INICIO": true,
 					"FIM":    true,
@@ -47,7 +49,7 @@ func RetiraNodesVazios(tree *Node, res int) int {
 					"D3":     true,
 				}
 
-				if deletar[tree.filhos[i].valor] {
+				if deletar[tree.Filhos[i].Valor] {
 					RemoveNodeFilho(tree, i)
 					r++
 				}
@@ -55,38 +57,38 @@ func RetiraNodesVazios(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + RetiraNodesVazios(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + RetiraNodesVazios(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func PromoveNodeSimples(tree *Node, res int) int {
+func PromoveNodeSimples(tree *core.Node, res int) int {
 	r := res
 
 	naoPromover := map[string]bool{
 		"+-": true,
 	}
 
-	if len(tree.filhos) == 1 {
-		if naoPromover[tree.valor] == false {
-			pai := &Node{}
-			pai = tree.pai
-			*tree = *tree.filhos[0]
-			tree.pai = pai
+	if len(tree.Filhos) == 1 {
+		if naoPromover[tree.Valor] == false {
+			pai := &core.Node{}
+			pai = tree.Pai
+			*tree = *tree.Filhos[0]
+			tree.Pai = pai
 			r++
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + PromoveNodeSimples(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + PromoveNodeSimples(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func ComandoOperador(tree *Node, res int) int {
+func ComandoOperador(tree *core.Node, res int) int {
 	r := res
 
 	operador := map[string]bool{
@@ -101,18 +103,18 @@ func ComandoOperador(tree *Node, res int) int {
 		"OP.LOGICO.XOU": true,
 	}
 
-	for i := 1; i < len(tree.filhos); i++ {
-		if len(tree.filhos[i].filhos) == 2 && tree.filhos[i-1].valor != "<-" && tree.filhos[i].valor != "M9" {
+	for i := 1; i < len(tree.Filhos); i++ {
+		if len(tree.Filhos[i].Filhos) == 2 && tree.Filhos[i-1].Valor != "<-" && tree.Filhos[i].Valor != "M9" {
 
-			if operador[tree.filhos[i].filhos[0].valor] {
-				AdicionaNodeFilho(tree, i+1, &Node{nil, nil, tree.filhos[i].filhos[0].valor, -1, 0, tree.filhos[i].filhos[0].token})
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i-1]
-				AdicionaNodeFilho(tree.filhos[i+1], 0, filho1)
+			if operador[tree.Filhos[i].Filhos[0].Valor] {
+				AdicionaNodeFilho(tree, i+1, &core.Node{nil, nil, tree.Filhos[i].Filhos[0].Valor, -1, 0, tree.Filhos[i].Filhos[0].Token})
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i-1]
+				AdicionaNodeFilho(tree.Filhos[i+1], 0, filho1)
 
-				filho2 := &Node{}
-				*filho2 = *tree.filhos[i].filhos[1]
-				AdicionaNodeFilho(tree.filhos[i+1], 1, filho2)
+				filho2 := &core.Node{}
+				*filho2 = *tree.Filhos[i].Filhos[1]
+				AdicionaNodeFilho(tree.Filhos[i+1], 1, filho2)
 
 				RemoveNodeFilho(tree, i-1)
 				RemoveNodeFilho(tree, i-1)
@@ -121,27 +123,27 @@ func ComandoOperador(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + ComandoOperador(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoOperador(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func ComandoAtribuicao(tree *Node, res int) int {
+func ComandoAtribuicao(tree *core.Node, res int) int {
 	r := res
 
-	if len(tree.filhos) == 3 {
-		if tree.filhos[1].valor == "<-" {
-			AdicionaNodeFilho(tree, 3, &Node{nil, nil, tree.filhos[1].valor, -1, 0, tree.filhos[1].token})
+	if len(tree.Filhos) == 3 {
+		if tree.Filhos[1].Valor == "<-" {
+			AdicionaNodeFilho(tree, 3, &core.Node{nil, nil, tree.Filhos[1].Valor, -1, 0, tree.Filhos[1].Token})
 
-			filho1 := &Node{}
-			*filho1 = *tree.filhos[0]
-			AdicionaNodeFilho(tree.filhos[3], 0, filho1)
+			filho1 := &core.Node{}
+			*filho1 = *tree.Filhos[0]
+			AdicionaNodeFilho(tree.Filhos[3], 0, filho1)
 
-			filho2 := &Node{}
-			*filho2 = *tree.filhos[2]
-			AdicionaNodeFilho(tree.filhos[3], 1, filho2)
+			filho2 := &core.Node{}
+			*filho2 = *tree.Filhos[2]
+			AdicionaNodeFilho(tree.Filhos[3], 1, filho2)
 
 			RemoveNodeFilho(tree, 0)
 			RemoveNodeFilho(tree, 0)
@@ -150,24 +152,24 @@ func ComandoAtribuicao(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + ComandoAtribuicao(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoAtribuicao(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func ComandoEscreva(tree *Node, res int) int {
+func ComandoEscreva(tree *core.Node, res int) int {
 	r := res
 
-	n := len(tree.filhos)
+	n := len(tree.Filhos)
 	if n >= 2 {
-		if tree.filhos[0].valor == "ESCREVA" {
-			AdicionaNodeFilho(tree, n, &Node{nil, nil, tree.filhos[0].valor, -1, 0, tree.filhos[0].token})
+		if tree.Filhos[0].Valor == "ESCREVA" {
+			AdicionaNodeFilho(tree, n, &core.Node{nil, nil, tree.Filhos[0].Valor, -1, 0, tree.Filhos[0].Token})
 			for i := 1; i < n; i++ {
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i]
-				AdicionaNodeFilho(tree.filhos[n], len(tree.filhos[n].filhos), filho1)
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i]
+				AdicionaNodeFilho(tree.Filhos[n], len(tree.Filhos[n].Filhos), filho1)
 				r++
 			}
 
@@ -177,14 +179,14 @@ func ComandoEscreva(tree *Node, res int) int {
 		}
 	}
 
-	n = len(tree.filhos)
+	n = len(tree.Filhos)
 	if n >= 2 {
 		for i := 0; i < n; i++ {
-			if tree.filhos[i].valor == "ESCV2" {
-				for j := 0; j < len(tree.filhos[i].filhos); j++ {
-					filho1 := &Node{}
-					*filho1 = *tree.filhos[i].filhos[j]
-					AdicionaNodeFilho(tree, len(tree.filhos), filho1)
+			if tree.Filhos[i].Valor == "ESCV2" {
+				for j := 0; j < len(tree.Filhos[i].Filhos); j++ {
+					filho1 := &core.Node{}
+					*filho1 = *tree.Filhos[i].Filhos[j]
+					AdicionaNodeFilho(tree, len(tree.Filhos), filho1)
 					r++
 				}
 
@@ -193,24 +195,24 @@ func ComandoEscreva(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + ComandoEscreva(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoEscreva(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func ComandoLeia(tree *Node, res int) int {
+func ComandoLeia(tree *core.Node, res int) int {
 	r := res
 
-	n := len(tree.filhos)
+	n := len(tree.Filhos)
 	if n >= 2 {
-		if tree.filhos[0].valor == "LEIA" {
-			AdicionaNodeFilho(tree, n, &Node{nil, nil, tree.filhos[0].valor, -1, 0, tree.filhos[0].token})
+		if tree.Filhos[0].Valor == "LEIA" {
+			AdicionaNodeFilho(tree, n, &core.Node{nil, nil, tree.Filhos[0].Valor, -1, 0, tree.Filhos[0].Token})
 			for i := 1; i < n; i++ {
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i]
-				AdicionaNodeFilho(tree.filhos[n], len(tree.filhos[n].filhos), filho1)
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i]
+				AdicionaNodeFilho(tree.Filhos[n], len(tree.Filhos[n].Filhos), filho1)
 				r++
 			}
 
@@ -220,14 +222,14 @@ func ComandoLeia(tree *Node, res int) int {
 		}
 	}
 
-	n = len(tree.filhos)
+	n = len(tree.Filhos)
 	if n >= 2 {
 		for i := 0; i < n; i++ {
-			if tree.filhos[i].valor == "LEIA2" {
-				for j := 0; j < len(tree.filhos[i].filhos); j++ {
-					filho1 := &Node{}
-					*filho1 = *tree.filhos[i].filhos[j]
-					AdicionaNodeFilho(tree, len(tree.filhos), filho1)
+			if tree.Filhos[i].Valor == "LEIA2" {
+				for j := 0; j < len(tree.Filhos[i].Filhos); j++ {
+					filho1 := &core.Node{}
+					*filho1 = *tree.Filhos[i].Filhos[j]
+					AdicionaNodeFilho(tree, len(tree.Filhos), filho1)
 					r++
 				}
 
@@ -236,24 +238,24 @@ func ComandoLeia(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + ComandoLeia(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoLeia(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func ComandoDeclaraVariavel(tree *Node, res int) int {
+func ComandoDeclaraVariavel(tree *core.Node, res int) int {
 	r := res
 
-	n := len(tree.filhos)
+	n := len(tree.Filhos)
 	if n >= 2 {
-		if tree.filhos[0].valor == "TIPOVAR" {
-			AdicionaNodeFilho(tree, n, &Node{nil, nil, tree.filhos[0].valor, -1, 0, tree.filhos[0].token})
+		if tree.Filhos[0].Valor == "TIPOVAR" {
+			AdicionaNodeFilho(tree, n, &core.Node{nil, nil, tree.Filhos[0].Valor, -1, 0, tree.Filhos[0].Token})
 			for i := 1; i < n; i++ {
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i]
-				AdicionaNodeFilho(tree.filhos[n], len(tree.filhos[n].filhos), filho1)
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i]
+				AdicionaNodeFilho(tree.Filhos[n], len(tree.Filhos[n].Filhos), filho1)
 			}
 
 			for i := 0; i < n; i++ {
@@ -262,38 +264,38 @@ func ComandoDeclaraVariavel(tree *Node, res int) int {
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		if tree.filhos[i].valor == "D2" {
-			for j := 0; j < len(tree.filhos[i].filhos); j++ {
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i].filhos[j]
-				AdicionaNodeFilho(tree, len(tree.filhos), filho1)
+	for i := 0; i < len(tree.Filhos); i++ {
+		if tree.Filhos[i].Valor == "D2" {
+			for j := 0; j < len(tree.Filhos[i].Filhos); j++ {
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i].Filhos[j]
+				AdicionaNodeFilho(tree, len(tree.Filhos), filho1)
 			}
 			RemoveNodeFilho(tree, i)
 		}
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + ComandoDeclaraVariavel(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoDeclaraVariavel(tree.Filhos[i], 0)
 	}
 
 	return r
 }
 
-func PromoveAcoes(tree *Node, res int) int {
+func PromoveAcoes(tree *core.Node, res int) int {
 	r := res
 
-	for i := 0; i < len(tree.filhos); i++ {
-		r = r + PromoveAcoes(tree.filhos[i], 0)
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + PromoveAcoes(tree.Filhos[i], 0)
 	}
 
-	for i := 0; i < len(tree.filhos); i++ {
-		if tree.filhos[i].valor == "AC1" || tree.filhos[i].valor == "V1" {
+	for i := 0; i < len(tree.Filhos); i++ {
+		if tree.Filhos[i].Valor == "AC1" || tree.Filhos[i].Valor == "V1" {
 
-			for j := 0; j < len(tree.filhos[i].filhos); j++ {
-				filho1 := &Node{}
-				*filho1 = *tree.filhos[i].filhos[j]
-				AdicionaNodeFilho(tree, len(tree.filhos), filho1)
+			for j := 0; j < len(tree.Filhos[i].Filhos); j++ {
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i].Filhos[j]
+				AdicionaNodeFilho(tree, len(tree.Filhos), filho1)
 				r++
 			}
 			RemoveNodeFilho(tree, i)
@@ -303,9 +305,9 @@ func PromoveAcoes(tree *Node, res int) int {
 	return r
 }
 
-func configuraAST(tree *Node) {
-	for tree.pai != nil {
-		tree = tree.pai
+func configuraAST(tree *core.Node) {
+	for tree.Pai != nil {
+		tree = tree.Pai
 	}
 
 	for RetiraNodesVazios(tree, 0) > 0 {

@@ -2,27 +2,17 @@ package main
 
 import (
 	"fmt"
+	lex "github.com/maiconio/portugo/lex"
+	core "github.com/maiconio/portugo/core"
+	util "github.com/maiconio/portugo/util"
 )
 
-type Token struct {
-	tipo, id string
-}
-
-type Node struct {
-	pai     *Node
-	filhos  []*Node
-	valor   string
-	indice  int
-	deletar int
-	token   Token
-}
-
 func main() {
-	listaTokens := carregaTokens("texte2")
-	parseTree := Node{nil, nil, "P", 0, 0, Token{"", ""}}
+	listaTokens := lex.CarregaTokens("texte2")
+	parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
 	montaParsingTree(&parseTree, listaTokens)
 	configuraAST(&parseTree)
-	mostraTree(&parseTree)
+	util.MostraTree(&parseTree)
 
 	fmt.Println("\n\n-----------inicio do programa-------")
 	simbolos := make(map[string][]string)

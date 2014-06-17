@@ -1,4 +1,4 @@
-package main
+package lex
 
 import (
 	"bufio"
@@ -6,9 +6,12 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strings"
+	util "github.com/maiconio/portugo/util"
+	core "github.com/maiconio/portugo/core"
 )
 
-func carregaTokens(arquivo string) []Token {
+
+func CarregaTokens(arquivo string) []core.Token {
 	arq, _ := ioutil.ReadFile(arquivo)
 	m := make(map[int]string)
 	var i int = 0
@@ -19,7 +22,7 @@ func carregaTokens(arquivo string) []Token {
 		i++
 	}
 
-	listaTokens := []Token{}
+	listaTokens := []core.Token{}
 
 	acaba := false
 	for j := 0; j < len(m); j++ {
@@ -29,12 +32,12 @@ func carregaTokens(arquivo string) []Token {
 				id, tipoToken, frase := pegaToken(strings.TrimRight(m[j], " "))
 				m[j] = frase
 
-				token := Token{tipoToken, id}
-				if token.tipo == "+-" && token.id == "-" {
-					listaTokens = pushToken(listaTokens, Token{"+-", "+"})
+				token := core.Token{tipoToken, id}
+				if token.Tipo == "+-" && token.Id == "-" {
+					listaTokens = util.PushToken(listaTokens, core.Token{"+-", "+"})
 				}
 
-				listaTokens = pushToken(listaTokens, token)
+				listaTokens = util.PushToken(listaTokens, token)
 
 				acaba = (len(m[j]) == 0) || (tipoToken == "ERRO")
 			}
