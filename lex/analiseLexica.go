@@ -304,7 +304,7 @@ func pegaToken(linha string) (string, string, string) {
 
 	token = regexp.MustCompile("^\"[^\"]*\"").FindString(linha)
 	if len(token) > 0 {
-		return token, "STRING", linha[len(token):]
+		return token[1:len(token)-1], "STRING", linha[len(token):]
 	}
 
 	token = regexp.MustCompile("^{.*}").FindString(linha)

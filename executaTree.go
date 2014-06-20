@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
+	core "github.com/maiconio/portugo/core"
 	"math"
 	"strconv"
-	core "github.com/maiconio/portugo/core"
 )
 
 type Resultado struct {
 	Valor string
-	Tipo string
+	Tipo  string
 }
 
 func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
@@ -28,6 +28,10 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 			if tipoVariavel == "lógico" {
 				simbolos[tree.Filhos[i].Token.Id] = []string{"falso", tipoVariavel}
 			}
+
+			if tipoVariavel == "caractere" {
+				simbolos[tree.Filhos[i].Token.Id] = []string{"", tipoVariavel}
+			}
 		}
 	}
 
@@ -36,11 +40,15 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "REAL" {
-		return Resultado{Valor: tree.Token.Id}
+		return Resultado{Valor: tree.Token.Id, Tipo: "real"}
 	}
 
 	if tree.Token.Tipo == "LOGICO" {
-		return Resultado{Valor: tree.Token.Id}
+		return Resultado{Valor: tree.Token.Id, Tipo: "lógico"}
+	}
+
+	if tree.Token.Tipo == "STRING" {
+		return Resultado{Valor: tree.Token.Id, Tipo: "string"}
 	}
 
 	if tree.Token.Tipo == "v" {
@@ -81,7 +89,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	if tree.Token.Tipo == "M9" {
 		resultadoA := executaTree(tree.Filhos[1], simbolos)
 
-		resultadoInteiro := resultadoA.Tipo == "inteiro" 
+		resultadoInteiro := resultadoA.Tipo == "inteiro"
 		if resultadoInteiro {
 			a, _ := strconv.ParseInt(resultadoA.Valor, 10, 0)
 			if tree.Filhos[0].Token.Id == "-" {
@@ -101,9 +109,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		resultadoA := executaTree(tree.Filhos[0], simbolos)
 		resultadoB := executaTree(tree.Filhos[1], simbolos)
 
+		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
 
-		resultadoInteiro := resultadoA.Tipo == "inteiro" &&  resultadoB.Tipo == "inteiro" 
-	
 		if resultadoInteiro {
 			a, _ := strconv.ParseInt(resultadoA.Valor, 10, 0)
 			b, _ := strconv.ParseInt(resultadoB.Valor, 10, 0)
@@ -163,10 +170,10 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 
 	if tree.Token.Tipo == "MOD" {
 		resultadoA := executaTree(tree.Filhos[0], simbolos)
-		resultadoB := executaTree(tree.Filhos[1], simbolos)		
+		resultadoB := executaTree(tree.Filhos[1], simbolos)
 
-		resultadoInteiro := resultadoA.Tipo == "inteiro" &&  resultadoB.Tipo == "inteiro" 
-		
+		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
+
 		if resultadoInteiro {
 			a, _ := strconv.ParseInt(resultadoA.Valor, 10, 0)
 			b, _ := strconv.ParseInt(resultadoB.Valor, 10, 0)
@@ -175,17 +182,17 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 			c = 0
 			c = a % b
 
-			return Resultado{Valor: strconv.FormatInt(c, 10), Tipo:"inteiro"}
+			return Resultado{Valor: strconv.FormatInt(c, 10), Tipo: "inteiro"}
 		}
-		return Resultado{Valor: "Função MOD: requer 2 operandos do tipo inteiro", Tipo:"erro"}
+		return Resultado{Valor: "Função MOD: requer 2 operandos do tipo inteiro", Tipo: "erro"}
 	}
 
 	if tree.Token.Tipo == "DIV" {
 		resultadoA := executaTree(tree.Filhos[0], simbolos)
-		resultadoB := executaTree(tree.Filhos[1], simbolos)		
+		resultadoB := executaTree(tree.Filhos[1], simbolos)
 
-		resultadoInteiro := resultadoA.Tipo == "inteiro" &&  resultadoB.Tipo == "inteiro" 
-		
+		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
+
 		if resultadoInteiro {
 			a, _ := strconv.ParseInt(resultadoA.Valor, 10, 0)
 			b, _ := strconv.ParseInt(resultadoB.Valor, 10, 0)
@@ -193,12 +200,11 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 			var c int64
 			c = 0
 			c = a / b
-	
-			return Resultado{Valor: strconv.FormatInt(c, 10), Tipo:"inteiro"}
-		}
-		return Resultado{Valor: "Função DIV: requer 2 operandos do tipo inteiro", Tipo:"erro"}
-	}
 
+			return Resultado{Valor: strconv.FormatInt(c, 10), Tipo: "inteiro"}
+		}
+		return Resultado{Valor: "Função DIV: requer 2 operandos do tipo inteiro", Tipo: "erro"}
+	}
 
 	if tree.Token.Tipo == "OP.LOGICO.XOU" {
 		if tree.Token.Id == "xou" {

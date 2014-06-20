@@ -30,6 +30,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao["REL02"] = []string{"R2", "OP.RELACIONAL", "R1"}
 	producao["REL03"] = []string{"R2", "_"}
 	producao["REL04"] = []string{"R1", "(", "L", ")"}
+	producao["REL05"] = []string{"R1", "STRING"}
 
 	producao["MAT01"] = []string{"M1", "M3", "M4"}
 	producao["MAT02"] = []string{"M2", "+-", "M1", "M2"}
@@ -64,9 +65,10 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["L"]["v"] = "LOG01"
 	tab["L"]["INTEIRO"] = "LOG01"
 	tab["L"]["REAL"] = "LOG01"
+	tab["L"]["LOGICO"] = "LOG01"
+	tab["L"]["STRING"] = "LOG01"
 	tab["L"]["+-"] = "LOG01"
 	tab["L"]["FUNCMAT"] = "LOG01"
-	tab["L"]["LOGICO"] = "LOG01"
 	tab["L"]["OP.LOGICO.E"] = "LOG01"
 	tab["L"]["OP.LOGICO.UN"] = "LOG01"
 
@@ -75,6 +77,8 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["L1"]["v"] = "LOG02"
 	tab["L1"]["INTEIRO"] = "LOG02"
 	tab["L1"]["REAL"] = "LOG02"
+	tab["L1"]["LOGICO"] = "LOG02"
+	tab["L1"]["STRING"] = "LOG02"
 	tab["L1"]["+-"] = "LOG02"
 	tab["L1"]["LOGICO"] = "LOG02"
 	tab["L1"]["FUNCMAT"] = "LOG02"
@@ -93,10 +97,11 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["L3"]["v"] = "LOG05"
 	tab["L3"]["INTEIRO"] = "LOG05"
 	tab["L3"]["REAL"] = "LOG05"
+	tab["L3"]["LOGICO"] = "LOG05"
+	tab["L3"]["STRING"] = "LOG05"
 	tab["L3"]["+-"] = "LOG05"
 	tab["L3"]["FUNCMAT"] = "LOG05"
 	tab["L3"]["("] = "LOG05"
-	tab["L3"]["LOGICO"] = "LOG05"
 
 	tab["L4"] = make(map[string]string)
 	tab["L4"]["OP.LOGICO.E"] = "LOG06"
@@ -110,6 +115,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["L5"]["OP.LOGICO.UN"] = "LOG08"
 	tab["L5"]["INTEIRO"] = "LOG09"
 	tab["L5"]["REAL"] = "LOG09"
+	tab["L5"]["STRING"] = "LOG09"
 	tab["L5"]["+-"] = "LOG09"
 	tab["L5"]["FUNCMAT"] = "LOG09"
 	tab["L5"]["LOGICO"] = "LOG10"
@@ -130,6 +136,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["R1"]["v"] = "REL01"
 	tab["R1"]["INTEIRO"] = "REL01"
 	tab["R1"]["REAL"] = "REL01"
+	tab["R1"]["STRING"] = "REL05"
 	tab["R1"]["+-"] = "REL01"
 	tab["R1"]["FUNCMAT"] = "REL01"
 	tab["R1"]["("] = "REL01"
@@ -278,6 +285,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao["ESCV02"] = []string{"ESCV1", "L"}
 	producao["ESCV03"] = []string{"ESCV2", ",", "ESCV1", "ESCV2"}
 	producao["ESCV04"] = []string{"ESCV2", "_"}
+	producao["ESCV05"] = []string{"ESCV1", "STRING"}
 
 	tab["A"] = make(map[string]string)
 	tab["A"]["v"] = "ATRV01"
@@ -292,6 +300,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["LEIA2"][")"] = "LEIA04"
 
 	tab["ESCV1"] = make(map[string]string)
+	tab["ESCV1"]["STRING"] = "ESCV05"
 	tab["ESCV1"]["INTEIRO"] = "ESCV02"
 	tab["ESCV1"]["LOGICO"] = "ESCV02"
 	tab["ESCV1"]["v"] = "ESCV02"
@@ -458,8 +467,9 @@ func adicionar(tree *core.Node, valores []core.Token, base int, z int) {
 					valores[i].Tipo != "OP.LOGICO.XOU" &&
 					valores[i].Tipo != "OP.RELACIONAL" &&
 					valores[i].Tipo != "INTEIRO" &&
-					valores[i].Tipo != "LOGICO" &&
 					valores[i].Tipo != "REAL" &&
+					valores[i].Tipo != "LOGICO" &&
+					valores[i].Tipo != "STRING" &&
 					valores[i].Tipo != "FUNCMAT" &&
 					valores[i].Tipo != "LEIA" &&
 					valores[i].Tipo != "ESCREVA" &&

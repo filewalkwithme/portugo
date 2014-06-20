@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	core "github.com/maiconio/portugo/core"
 	lex "github.com/maiconio/portugo/lex"
 	sintatico "github.com/maiconio/portugo/sintatico"
-	core "github.com/maiconio/portugo/core"
 	util "github.com/maiconio/portugo/util"
 )
 

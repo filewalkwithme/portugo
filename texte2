@@ -1,13 +1,6 @@
 início
-  inteiro: a, c;
-  real: b;
-  a <- 2;
-  b <- 3.2;
-
-  escreva(-1);
-
-  escreva(a + b - 3 * 2);
-  escreva(5+9+7+8/4);
-  escreva(1-4*3/6-8);
-  escreva(3**2-4/2+10/2);
+  caractere: c;
+  c <- "ho";
+  escreva("hey", c);
+  escreva("oi");
 fim.
