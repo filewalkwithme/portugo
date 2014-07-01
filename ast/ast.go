@@ -1,4 +1,4 @@
-package main
+package ast
 
 import (
 	core "github.com/maiconio/portugo/core"
@@ -305,7 +305,7 @@ func PromoveAcoes(tree *core.Node, res int) int {
 	return r
 }
 
-func configuraAST(tree *core.Node) {
+func ConfiguraAST(tree *core.Node) {
 	for tree.Pai != nil {
 		tree = tree.Pai
 	}

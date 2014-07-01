@@ -1,4 +1,4 @@
-package main
+package exec
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ type Resultado struct {
 	Tipo  string
 }
 
-func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
+func ExecutaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	//fmt.Println("exec", tree.Token.Id)
 	if tree.Token.Tipo == "TIPOVAR" {
 		tipoVariavel := tree.Token.Id
@@ -58,7 +58,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	if tree.Token.Tipo == "ESCREVA" {
 		c := ""
 		for i := 0; i < len(tree.Filhos); i++ {
-			c = c + executaTree(tree.Filhos[i], simbolos).Valor
+			c = c + ExecutaTree(tree.Filhos[i], simbolos).Valor
 		}
 		fmt.Println(c)
 	}
@@ -66,7 +66,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	if tree.Token.Tipo == "LEIA" {
 		c := ""
 		for i := 0; i < len(tree.Filhos); i++ {
-			//c = c + executaTree(tree.Filhos[i], simbolos)
+			//c = c + ExecutaTree(tree.Filhos[i], simbolos)
 			fmt.Scanln(&c)
 			simbolos[tree.Filhos[i].Token.Id][0] = c
 		}
@@ -74,7 +74,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 
 	if tree.Token.Tipo == "L5" {
 
-		a := executaTree(tree.Filhos[1], simbolos).Valor
+		a := ExecutaTree(tree.Filhos[1], simbolos).Valor
 		if tree.Filhos[0].Token.Id == "não" {
 			if a == "verdadeiro" {
 				a = "falso"
@@ -87,7 +87,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 
 	//
 	if tree.Token.Tipo == "M9" {
-		resultadoA := executaTree(tree.Filhos[1], simbolos)
+		resultadoA := ExecutaTree(tree.Filhos[1], simbolos)
 
 		resultadoInteiro := resultadoA.Tipo == "inteiro"
 		if resultadoInteiro {
@@ -106,8 +106,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "+-" {
-		resultadoA := executaTree(tree.Filhos[0], simbolos)
-		resultadoB := executaTree(tree.Filhos[1], simbolos)
+		resultadoA := ExecutaTree(tree.Filhos[0], simbolos)
+		resultadoB := ExecutaTree(tree.Filhos[1], simbolos)
 
 		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
 
@@ -139,8 +139,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "**//" {
-		a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-		b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+		a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+		b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 		c := 0.0
 		if tree.Token.Id == "**" {
@@ -155,8 +155,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "*/" {
-		a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-		b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+		a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+		b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 		c := 0.0
 		if tree.Token.Id == "*" {
@@ -169,8 +169,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "MOD" {
-		resultadoA := executaTree(tree.Filhos[0], simbolos)
-		resultadoB := executaTree(tree.Filhos[1], simbolos)
+		resultadoA := ExecutaTree(tree.Filhos[0], simbolos)
+		resultadoB := ExecutaTree(tree.Filhos[1], simbolos)
 
 		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
 
@@ -188,8 +188,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "DIV" {
-		resultadoA := executaTree(tree.Filhos[0], simbolos)
-		resultadoB := executaTree(tree.Filhos[1], simbolos)
+		resultadoA := ExecutaTree(tree.Filhos[0], simbolos)
+		resultadoB := ExecutaTree(tree.Filhos[1], simbolos)
 
 		resultadoInteiro := resultadoA.Tipo == "inteiro" && resultadoB.Tipo == "inteiro"
 
@@ -208,8 +208,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 
 	if tree.Token.Tipo == "OP.LOGICO.XOU" {
 		if tree.Token.Id == "xou" {
-			a := executaTree(tree.Filhos[0], simbolos).Valor
-			b := executaTree(tree.Filhos[1], simbolos).Valor
+			a := ExecutaTree(tree.Filhos[0], simbolos).Valor
+			b := ExecutaTree(tree.Filhos[1], simbolos).Valor
 
 			c := ""
 			if (a == "verdadeiro") != (b == "verdadeiro") {
@@ -223,8 +223,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "OP.LOGICO.E" {
-		a := executaTree(tree.Filhos[0], simbolos).Valor
-		b := executaTree(tree.Filhos[1], simbolos).Valor
+		a := ExecutaTree(tree.Filhos[0], simbolos).Valor
+		b := ExecutaTree(tree.Filhos[1], simbolos).Valor
 
 		c := ""
 		if a == "verdadeiro" && b == "verdadeiro" {
@@ -237,8 +237,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	}
 
 	if tree.Token.Tipo == "OP.LOGICO.OU" {
-		a := executaTree(tree.Filhos[0], simbolos).Valor
-		b := executaTree(tree.Filhos[1], simbolos).Valor
+		a := ExecutaTree(tree.Filhos[0], simbolos).Valor
+		b := ExecutaTree(tree.Filhos[1], simbolos).Valor
 
 		c := ""
 		if a == "verdadeiro" || b == "verdadeiro" {
@@ -253,8 +253,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	if tree.Token.Tipo == "OP.RELACIONAL" {
 		c := ""
 		if tree.Token.Id == ">" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a > b {
 				c = "verdadeiro"
@@ -264,8 +264,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 
 		if tree.Token.Id == ">=" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a >= b {
 				c = "verdadeiro"
@@ -275,8 +275,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 
 		if tree.Token.Id == "<" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a < b {
 				c = "verdadeiro"
@@ -286,8 +286,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 
 		if tree.Token.Id == "<=" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a <= b {
 				c = "verdadeiro"
@@ -297,8 +297,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 
 		if tree.Token.Id == "=" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a == b {
 				c = "verdadeiro"
@@ -308,8 +308,8 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 
 		if tree.Token.Id == "<>" {
-			a, _ := strconv.ParseFloat(executaTree(tree.Filhos[0], simbolos).Valor, 64)
-			b, _ := strconv.ParseFloat(executaTree(tree.Filhos[1], simbolos).Valor, 64)
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			b, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[1], simbolos).Valor, 64)
 
 			if a != b {
 				c = "verdadeiro"
@@ -323,10 +323,10 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 
 	if tree.Token.Tipo == "<-" {
 		a := tree.Filhos[0].Token.Id
-		b := executaTree(tree.Filhos[1], simbolos).Valor
+		b := ExecutaTree(tree.Filhos[1], simbolos).Valor
 
 		simbolos[a][0] = b
-		simbolos[a][1] = executaTree(tree.Filhos[1], simbolos).Tipo
+		simbolos[a][1] = ExecutaTree(tree.Filhos[1], simbolos).Tipo
 
 		return Resultado{Valor: ""}
 	}
@@ -334,7 +334,7 @@ func executaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 	if len(tree.Filhos) > 0 {
 		for i := 0; i < len(tree.Filhos); i++ {
 			tree.Filhos[i].Pai = tree
-			executaTree(tree.Filhos[i], simbolos)
+			ExecutaTree(tree.Filhos[i], simbolos)
 		}
 	}
 

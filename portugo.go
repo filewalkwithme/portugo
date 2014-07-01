@@ -6,18 +6,28 @@ import (
 	lex "github.com/maiconio/portugo/lex"
 	sintatico "github.com/maiconio/portugo/sintatico"
 	util "github.com/maiconio/portugo/util"
+	ast "github.com/maiconio/portugo/ast"
+	exec "github.com/maiconio/portugo/exec"
+	"flag"
 )
 
 func main() {
-	listaTokens := lex.CarregaTokens("texte2")
-	parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
-	sintatico.MontaParsingTree(&parseTree, listaTokens)
-	configuraAST(&parseTree)
-	util.MostraTree(&parseTree)
+	var arquivo = flag.String("arq", "", "Arquivo a ser processado [obrigatório]")	
+	flag.Parse()
 
-	fmt.Println("\n\n-----------inicio do programa-------")
-	simbolos := make(map[string][]string)
-	executaTree(&parseTree, simbolos)
-	//fmt.Println(simbolos)
-	fmt.Println("-----------fim do programa----------\n\n")
+	if (*arquivo != "") {
+		listaTokens := lex.CarregaTokens(*arquivo)
+		parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
+		sintatico.MontaParsingTree(&parseTree, listaTokens)
+		ast.ConfiguraAST(&parseTree)
+		util.MostraTree(&parseTree)
+
+		fmt.Println("\n\n-----------inicio do programa-------")
+		simbolos := make(map[string][]string)
+		exec.ExecutaTree(&parseTree, simbolos)
+		//fmt.Println(simbolos)
+		fmt.Println("-----------fim do programa----------\n\n")
+	} else {
+		flag.PrintDefaults()
+	}
 }
