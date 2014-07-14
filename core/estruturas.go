@@ -12,4 +12,3 @@ type Node struct {
 type Token struct {
 	Tipo, Id string
 }
-

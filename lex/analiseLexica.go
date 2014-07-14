@@ -10,7 +10,6 @@ import (
 	core "github.com/maiconio/portugo/core"
 )
 
-
 func CarregaTokens(arquivo string) []core.Token {
 	arq, _ := ioutil.ReadFile(arquivo)
 	m := make(map[int]string)
@@ -161,9 +160,9 @@ func pegaToken(linha string) (string, string, string) {
 		return token, "FUNCMAT", linha[len(token):]
 	}
 
-	token = regexp.MustCompile("^(RND)([^À-úA-z]+|$)").FindString(linha)
+	token = regexp.MustCompile("^(rnd)([^À-úA-z]+|$)").FindString(linha)
 	if len(token) > 0 {
-		token = "ard"
+		token = "rnd"
 		return token, "FUNCMAT", linha[len(token):]
 	}
 

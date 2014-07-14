@@ -1,6 +1,5 @@
 início
-  caractere: c;
-  c <- "ho";
-  escreva("hey", c);
-  escreva("oi");
+  escreva(rnd(20));
+  escreva(rnd(20));
+  escreva(rnd(20));
 fim.

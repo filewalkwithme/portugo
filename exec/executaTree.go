@@ -4,12 +4,18 @@ import (
 	"fmt"
 	core "github.com/maiconio/portugo/core"
 	"math"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 type Resultado struct {
 	Valor string
 	Tipo  string
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }
 
 func ExecutaTree(tree *core.Node, simbolos map[string][]string) Resultado {
@@ -331,6 +337,101 @@ func ExecutaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		return Resultado{Valor: ""}
 	}
 
+	if tree.Token.Tipo == "FUNCMAT" {
+
+		retornaReal := map[string]bool{
+			"sen":    true,
+			"cos":    true,
+			"tg":     true,
+			"arctg":  true,
+			"arccos": true,
+			"arcsen": true,
+			"abs":    true,
+			"frac":   true,
+		}
+
+		if retornaReal[tree.Token.Id] {
+			a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+			c := 0.0
+
+			if tree.Token.Id == "sen" {
+				c = math.Sin(a)
+			}
+
+			if tree.Token.Id == "cos" {
+				c = math.Cos(a)
+			}
+
+			if tree.Token.Id == "tg" {
+				c = math.Tan(a)
+			}
+
+			if tree.Token.Id == "arctg" {
+				c = math.Atan(a)
+			}
+
+			if tree.Token.Id == "arccos" {
+				c = math.Acos(a)
+			}
+
+			if tree.Token.Id == "arcsen" {
+				c = math.Asin(a)
+			}
+
+			if tree.Token.Id == "abs" {
+				c = math.Abs(a)
+			}
+
+			if tree.Token.Id == "frac" {
+				c = a - math.Trunc(a)
+			}
+			return Resultado{Valor: strconv.FormatFloat(c, 'f', 6, 64), Tipo: "real"}
+		} else {
+			if tree.Token.Id == "int" {
+				a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+				c := 0.0
+				c = math.Trunc(a)
+				return Resultado{Valor: strconv.FormatFloat(c, 'f', 0, 64), Tipo: "inteiro"}
+			}
+
+			if tree.Token.Id == "ard" {
+				a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+				frac := a - math.Trunc(a)
+				c := 0.0
+				if frac < 0.5 {
+					c = math.Floor(a)
+				} else {
+					c = math.Ceil(a)
+				}
+
+				return Resultado{Valor: strconv.FormatFloat(c, 'f', 0, 64), Tipo: "inteiro"}
+			}
+
+			if tree.Token.Id == "sinal" {
+				a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+
+				c := 0.0
+				if c != a {
+					if a < c {
+						c = -1.0
+					} else {
+						c = 1.0
+					}
+				}
+				return Resultado{Valor: strconv.FormatFloat(c, 'f', 0, 64), Tipo: "inteiro"}
+			}
+
+			if tree.Token.Id == "rnd" {
+				//a, _ := strconv.ParseFloat(ExecutaTree(tree.Filhos[0], simbolos).Valor, 64)
+				a, _ := strconv.ParseInt(ExecutaTree(tree.Filhos[0], simbolos).Valor, 10, 0)
+				c := rand.Int63n(a)
+				return Resultado{Valor: strconv.FormatInt(c, 10), Tipo: "inteiro"}
+			}
+		}
+		return Resultado{Valor: strconv.FormatFloat(0.0, 'f', 6, 64), Tipo: "real"}
+
+	}
+
 	if len(tree.Filhos) > 0 {
 		for i := 0; i < len(tree.Filhos); i++ {
 			tree.Filhos[i].Pai = tree
@@ -338,5 +439,5 @@ func ExecutaTree(tree *core.Node, simbolos map[string][]string) Resultado {
 		}
 	}
 
-	return Resultado{Valor: "EXPRESSAO NAO ENCONTRADA: {" + tree.Token.Tipo + "}"}
+	return Resultado{Valor: "EXPRESSAO NAO ENCONTRADA: {" + tree.Token.Tipo + "}", Tipo: "erro"}
 }

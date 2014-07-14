@@ -58,7 +58,6 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao["MAT19"] = []string{"M10", "_"}
 
 	producao["MAT20"] = []string{"FUNCMAT", "FUNCMAT", "(", "M1", "M2", ")"}
-	producao["MAT21"] = []string{"M9", "+-", "M1"}
 
 	tab["L"] = make(map[string]string)
 	tab["L"]["("] = "LOG01"
@@ -232,7 +231,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["M9"]["FUNCMAT"] = "MAT20"
 	tab["M9"]["v"] = "MAT15"
 	tab["M9"]["("] = "MAT16"
-	tab["M9"]["+-"] = "MAT21"
+	tab["M9"]["+-"] = "MAT17"
 
 	tab["M10"] = make(map[string]string)
 	tab["M10"]["**//"] = "MAT18"
@@ -365,9 +364,9 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 		a := util.Topo(pilha)
 		b := listaTokens[posToken]
 
-		fmt.Println(i, pilha)
-		fmt.Println(i, listaTokens)
-		fmt.Println("")
+		//fmt.Println(i, pilha)
+		//fmt.Println(i, listaTokens)
+		//fmt.Println("")
 		i++
 
 		if util.Topo(pilha) == "_" {

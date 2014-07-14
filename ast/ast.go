@@ -68,7 +68,8 @@ func PromoveNodeSimples(tree *core.Node, res int) int {
 	r := res
 
 	naoPromover := map[string]bool{
-		"+-": true,
+		"+-":      true,
+		"FUNCMAT": true,
 	}
 
 	if len(tree.Filhos) == 1 {
@@ -129,6 +130,37 @@ func ComandoOperador(tree *core.Node, res int) int {
 
 	return r
 }
+
+/*func ComandoFuncaoMatematica(tree *core.Node, res int) int {
+	r := res
+
+	for i := 1; i < len(tree.Filhos); i++ {
+		if len(tree.Filhos[i].Filhos) > 0 {
+
+			if tree.Filhos[i].Filhos[0].Valor == "FUNCMAT" {
+				AdicionaNodeFilho(tree, i+1, &core.Node{nil, nil, tree.Filhos[i].Filhos[0].Valor, -1, 0, tree.Filhos[i].Filhos[0].Token})
+				//filho1 := &core.Node{}
+				//*filho1 = *tree.Filhos[i-1]
+				//AdicionaNodeFilho(tree.Filhos[i+1], 0, filho1)
+
+				//filho2 := &core.Node{}
+				//*filho2 = *tree.Filhos[i].Filhos[1]
+				//AdicionaNodeFilho(tree.Filhos[i+1], 1, filho2)
+
+				//RemoveNodeFilho(tree, i-1)
+				//RemoveNodeFilho(tree, i-1)
+				r++
+			}
+		}
+	}
+
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoFuncaoMatematica(tree.Filhos[i], 0)
+	}
+
+	return r
+}
+*/
 
 func ComandoAtribuicao(tree *core.Node, res int) int {
 	r := res
@@ -245,6 +277,33 @@ func ComandoLeia(tree *core.Node, res int) int {
 	return r
 }
 
+func ComandoFuncaoMatematica(tree *core.Node, res int) int {
+	r := res
+
+	n := len(tree.Filhos)
+	if n >= 2 {
+		if tree.Filhos[0].Valor == "FUNCMAT" {
+			AdicionaNodeFilho(tree, n, &core.Node{nil, nil, tree.Filhos[0].Valor, -1, 0, tree.Filhos[0].Token})
+			for i := 1; i < n; i++ {
+				filho1 := &core.Node{}
+				*filho1 = *tree.Filhos[i]
+				AdicionaNodeFilho(tree.Filhos[n], len(tree.Filhos[n].Filhos), filho1)
+				r++
+			}
+
+			for i := 0; i < n; i++ {
+				RemoveNodeFilho(tree, 0)
+			}
+		}
+	}
+
+	for i := 0; i < len(tree.Filhos); i++ {
+		r = r + ComandoFuncaoMatematica(tree.Filhos[i], 0)
+	}
+
+	return r
+}
+
 func ComandoDeclaraVariavel(tree *core.Node, res int) int {
 	r := res
 
@@ -315,9 +374,10 @@ func ConfiguraAST(tree *core.Node) {
 
 	for PromoveNodeSimples(tree, 0) > 0 {
 	}
-
 	for ComandoOperador(tree, 0) > 0 {
 	}
+
+	ComandoFuncaoMatematica(tree, 0)
 
 	for PromoveNodeSimples(tree, 0) > 0 {
 	}
@@ -331,9 +391,13 @@ func ConfiguraAST(tree *core.Node) {
 	for ComandoLeia(tree, 0) > 0 {
 	}
 
+	for ComandoFuncaoMatematica(tree, 0) > 0 {
+	}
+
 	for ComandoDeclaraVariavel(tree, 0) > 0 {
 	}
 
 	for PromoveAcoes(tree, 0) > 0 {
 	}
+	/**/
 }
