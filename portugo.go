@@ -17,11 +17,17 @@ func main() {
 
 	if *arquivo != "" {
 		listaTokens := lex.CarregaTokens(*arquivo)
+		fmt.Println("TOKENS:\n------>")
+		fmt.Println(listaTokens)
+		
+
 		parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
 		sintatico.MontaParsingTree(&parseTree, listaTokens)
-		//util.MostraTree(&parseTree)
-
+		fmt.Println("\n\nÁRVORE SINTÁTICA:\n------>")
+		util.MostraTree(&parseTree)
+		
 		ast.ConfiguraAST(&parseTree)
+		fmt.Println("\n\nAST - ÁRVORE SINTÁTICA ABSTRATA:\n------>")
 		util.MostraTree(&parseTree)
 
 		fmt.Println("\n\n-----------inicio do programa-------")

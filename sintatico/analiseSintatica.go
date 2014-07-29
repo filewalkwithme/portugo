@@ -22,7 +22,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	producao["LOG09"] = []string{"L5", "R1", "R2"}
 	producao["LOG10"] = []string{"L5", "LOGICO"}
 	//producao["LOG11"] = []string{"L5", "v"}
-	producao["LOG12"] = []string{"L5", "(", "L", ")"}
+	//producao["LOG12"] = []string{"L5", "(", "L", ")"}
 	producao["LOG13"] = []string{"L6", "OP.LOGICO.OU", "L5", "L6"}
 	producao["LOG14"] = []string{"L6", "_"}
 
@@ -120,7 +120,8 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 	tab["L5"]["LOGICO"] = "LOG10"
 	tab["L5"]["v"] = "LOG09"
 	//tab["L5"]["v"] = "LOG11"
-	tab["L5"]["("] = "LOG12"
+	//tab["L5"]["("] = "LOG12"
+	tab["L5"]["("] = "LOG09"
 
 	tab["L6"] = make(map[string]string)
 	tab["L6"]["OP.LOGICO.OU"] = "LOG13"

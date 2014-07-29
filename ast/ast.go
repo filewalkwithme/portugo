@@ -1,3 +1,6 @@
+//Pacote responsável por converter a Árvore Sintática em uma Árvore Sintática Abstrata (AST, abstract syntax tree).
+//Nesta etapa são removidas todas as informações não essenciais e também são realizadas
+//manipulações nos filhos da Árvore Sintática com o objetivo de viabilizar a execução do programa
 package ast
 
 import (
@@ -130,37 +133,6 @@ func ComandoOperador(tree *core.Node, res int) int {
 
 	return r
 }
-
-/*func ComandoFuncaoMatematica(tree *core.Node, res int) int {
-	r := res
-
-	for i := 1; i < len(tree.Filhos); i++ {
-		if len(tree.Filhos[i].Filhos) > 0 {
-
-			if tree.Filhos[i].Filhos[0].Valor == "FUNCMAT" {
-				AdicionaNodeFilho(tree, i+1, &core.Node{nil, nil, tree.Filhos[i].Filhos[0].Valor, -1, 0, tree.Filhos[i].Filhos[0].Token})
-				//filho1 := &core.Node{}
-				//*filho1 = *tree.Filhos[i-1]
-				//AdicionaNodeFilho(tree.Filhos[i+1], 0, filho1)
-
-				//filho2 := &core.Node{}
-				//*filho2 = *tree.Filhos[i].Filhos[1]
-				//AdicionaNodeFilho(tree.Filhos[i+1], 1, filho2)
-
-				//RemoveNodeFilho(tree, i-1)
-				//RemoveNodeFilho(tree, i-1)
-				r++
-			}
-		}
-	}
-
-	for i := 0; i < len(tree.Filhos); i++ {
-		r = r + ComandoFuncaoMatematica(tree.Filhos[i], 0)
-	}
-
-	return r
-}
-*/
 
 func ComandoAtribuicao(tree *core.Node, res int) int {
 	r := res

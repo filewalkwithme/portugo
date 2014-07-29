@@ -1,5 +1,13 @@
 início
-  escreva(rnd(20));
-  escreva(rnd(20));
-  escreva(rnd(20));
+  inteiro: a, b;
+  real: c;
+
+  escreva("Digite a:");
+  leia(a);
+
+  escreva("Digite b:");
+  leia(b);
+
+  c <- (a + b)/2;
+  escreva("Media: ",c);
 fim.

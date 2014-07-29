@@ -3,11 +3,11 @@ package lex
 import (
 	"bufio"
 	"bytes"
+	core "github.com/maiconio/portugo/core"
+	util "github.com/maiconio/portugo/util"
 	"io/ioutil"
 	"regexp"
 	"strings"
-	util "github.com/maiconio/portugo/util"
-	core "github.com/maiconio/portugo/core"
 )
 
 func CarregaTokens(arquivo string) []core.Token {
@@ -303,7 +303,7 @@ func pegaToken(linha string) (string, string, string) {
 
 	token = regexp.MustCompile("^\"[^\"]*\"").FindString(linha)
 	if len(token) > 0 {
-		return token[1:len(token)-1], "STRING", linha[len(token):]
+		return token[1 : len(token)-1], "STRING", linha[len(token):]
 	}
 
 	token = regexp.MustCompile("^{.*}").FindString(linha)

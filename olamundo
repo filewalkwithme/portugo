@@ -1,0 +1,5 @@
+início
+  caractere: msg;
+  msg <- "oi";
+  escreva("Olá Mundo! ", msg);
+fim.
