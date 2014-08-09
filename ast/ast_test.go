@@ -124,12 +124,179 @@ func TestRetiraNodesVazios(t *testing.T) {
 }
 
 func TestPromoveNodeSimples(t *testing.T) {
+	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
+	filho0 := core.Node{nil, nil, "filho0", 0, 0, core.Token{"", ""}}
+	filho0a := core.Node{nil, nil, "filho0a", 0, 0, core.Token{"", ""}}
+
+	filho1 := core.Node{nil, nil, "FUNCMAT", 0, 0, core.Token{"FUNCMAT", "cos"}}
+	filho1a := core.Node{nil, nil, "filho1a", 0, 0, core.Token{"INTEIRO", "1"}}
+
+	filho2 := core.Node{nil, nil, "filho2", 0, 0, core.Token{"", ""}}
+	filho2a := core.Node{nil, nil, "filho2a", 0, 0, core.Token{"", ""}}
+	filho2b := core.Node{nil, nil, "filho2b", 0, 0, core.Token{"", ""}}
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho0)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0a)
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho1)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1a)
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho2)
+	AdicionaNodeFilho(&filho2, len(filho2.Filhos), &filho2a)
+	AdicionaNodeFilho(&filho2, len(filho2.Filhos), &filho2b)
+
+	for PromoveNodeSimples(&pai, 0) > 0 {
+	}
+
+	if len(pai.Filhos) != 3 {
+		t.Error("Número de filhos do nó pai é diferente do esperado [3]")
+	} else {
+		if len(pai.Filhos[0].Filhos) != 0 {
+			t.Error("Número de filhos do nó filho0 é diferente do esperado [0]")
+		}
+
+		if len(pai.Filhos[1].Filhos) != 1 {
+			t.Error("Número de filhos do nó filho1 é diferente do esperado [1]")
+		}
+
+		if len(pai.Filhos[2].Filhos) != 2 {
+			t.Error("Número de filhos do nó filho2 é diferente do esperado [2]")
+		}
+	}
 }
 
 func TestComandoOperador(t *testing.T) {
+	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
+
+	/*
+
+	   				R1[R1]
+	                     INTEIRO[1]
+	                     M2[M2]
+	                       +-[+]
+	                       INTEIRO[2]
+	*/
+
+	filho0 := core.Node{nil, nil, "R1", 0, 0, core.Token{"R1", "R1"}}
+
+	filho0a := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "1"}}
+	filho0b := core.Node{nil, nil, "M2", 0, 0, core.Token{"M2", "M2"}}
+
+	filho0b_a := core.Node{nil, nil, "+-", 0, 0, core.Token{"+-", "+"}}
+	filho0b_b := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "2"}}
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho0)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0a)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0b)
+	AdicionaNodeFilho(&filho0b, len(filho0b.Filhos), &filho0b_a)
+	AdicionaNodeFilho(&filho0b, len(filho0b.Filhos), &filho0b_b)
+	//--------------------
+
+	/*
+	   				R1[R1]
+	                     <-[<-]
+	                     M2[M2]
+	                       +-[+]
+	                       INTEIRO[2]
+	*/
+
+	filho1 := core.Node{nil, nil, "R1", 0, 0, core.Token{"R1", "R1"}}
+	filho1a := core.Node{nil, nil, "<-", 0, 0, core.Token{"<-", "<-"}}
+	filho1b := core.Node{nil, nil, "M2", 0, 0, core.Token{"M2", "M2"}}
+
+	filho1b_a := core.Node{nil, nil, "+-", 0, 0, core.Token{"+-", "+"}}
+	filho1b_b := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "2"}}
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho1)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1a)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1b)
+	AdicionaNodeFilho(&filho1b, len(filho1b.Filhos), &filho1b_a)
+	AdicionaNodeFilho(&filho1b, len(filho1b.Filhos), &filho1b_b)
+	//--------------------
+
+	for ComandoOperador(&pai, 0) > 0 {
+	}
+
+	if len(pai.Filhos) != 2 {
+		t.Error("Número de filhos do nó pai é diferente do esperado [2]")
+	} else {
+		if len(pai.Filhos[0].Filhos) != 1 {
+			t.Error("Número de filhos do nó filho0 é diferente do esperado [1]")
+		} else {
+			if len(pai.Filhos[0].Filhos[0].Filhos) != 2 {
+				t.Error("Número de filhos do nó filho0.0 é diferente do esperado [2]")
+			}
+		}
+
+		if len(pai.Filhos[1].Filhos) != 2 {
+			t.Error("Número de filhos do nó filho1 é diferente do esperado [1]")
+		}
+	}
 }
 
 func TestComandoAtribuicao(t *testing.T) {
+	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
+
+	/*
+	   	  A[A]
+	           v[c]
+	           <-[<-]
+	       	INTEIRO[1]
+	*/
+
+	filho0 := core.Node{nil, nil, "A", 0, 0, core.Token{"A", "A"}}
+
+	filho0a := core.Node{nil, nil, "v", 0, 0, core.Token{"A", "A"}}
+	filho0b := core.Node{nil, nil, "<-", 0, 0, core.Token{"<-", "<-"}}
+	filho0c := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "1"}}
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho0)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0a)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0b)
+	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0c)
+	//--------------------
+
+	/*
+	   	  A[A]
+	           v[c]
+	           <-[<-]
+	       	INTEIRO[1]
+	       	INTEIRO[2]
+	*/
+
+	filho1 := core.Node{nil, nil, "A", 0, 0, core.Token{"A", "A"}}
+
+	filho1a := core.Node{nil, nil, "v", 0, 0, core.Token{"A", "A"}}
+	filho1b := core.Node{nil, nil, "<-", 0, 0, core.Token{"<-", "<-"}}
+	filho1c := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "1"}}
+	filho1d := core.Node{nil, nil, "INTEIRO", 0, 0, core.Token{"INTEIRO", "2"}}
+
+	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho1)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1a)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1b)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1c)
+	AdicionaNodeFilho(&filho1, len(filho1.Filhos), &filho1d)
+	//--------------------
+
+	for ComandoAtribuicao(&pai, 0) > 0 {
+	}
+
+	if len(pai.Filhos) != 2 {
+		t.Error("Número de filhos do nó pai é diferente do esperado [2]")
+	} else {
+		if len(pai.Filhos[0].Filhos) != 1 {
+			t.Error("Número de filhos do nó filho0 é diferente do esperado [1]")
+		} else {
+			if len(pai.Filhos[0].Filhos[0].Filhos) != 2 {
+				t.Error("Número de filhos do nó filho0.0 é diferente do esperado [2]")
+			}
+		}
+
+		if len(pai.Filhos[1].Filhos) != 4 {
+			t.Error("Número de filhos do nó filho1 é diferente do esperado [4]")
+		}
+	}
+
 }
 
 func TestComandoEscreva(t *testing.T) {
