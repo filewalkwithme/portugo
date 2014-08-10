@@ -1,27 +1,27 @@
 package util
 
 import (
-	"fmt"
 	core "github.com/maiconio/portugo/core"
 )
 
-func MostraTree(tree *core.Node) {
+func MostraTree(tree *core.Node) string{
 	for tree.Pai != nil {
 		tree = tree.Pai
 	}
 
 	//achou o pai
-	mostraRec(tree, "", 0)
-
+	tmp := mostraRec(tree, "", 0)
+	return tmp
 }
 
-func mostraRec(tree *core.Node, tab string, index int) {
-	fmt.Printf(tab + tree.Valor + "[" + tree.Token.Id + "]\n")
+func mostraRec(tree *core.Node, tab string, index int) string{
+	tmp := tab + tree.Valor + "[" + tree.Token.Id + "]\n"
 	//fmt.Printf(tab + tree.valor + "[" + tree.token.id + "]["+strconv.Itoa(index)+"]\n")
 	tab = tab + "  "
 	for i := 0; i < len(tree.Filhos); i++ {
-		mostraRec(tree.Filhos[i], tab, i)
+		tmp = tmp + mostraRec(tree.Filhos[i], tab, i)
 	}
+	return tmp;
 }
 
 func Push(pilha []string, valor string) []string {

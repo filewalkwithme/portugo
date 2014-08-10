@@ -323,10 +323,10 @@ func PromoveAcoes(tree *core.Node, res int) int {
 	for i := 0; i < len(tree.Filhos); i++ {
 		if tree.Filhos[i].Valor == "AC1" || tree.Filhos[i].Valor == "V1" {
 
-			for j := 0; j < len(tree.Filhos[i].Filhos); j++ {
+			for j := len(tree.Filhos[i].Filhos)-1; j >= 0; j-- {
 				filho1 := &core.Node{}
 				*filho1 = *tree.Filhos[i].Filhos[j]
-				AdicionaNodeFilho(tree, len(tree.Filhos), filho1)
+				AdicionaNodeFilho(tree, i+1, filho1)
 				r++
 			}
 			RemoveNodeFilho(tree, i)

@@ -1,0 +1,9 @@
+início
+  real: a;
+  inteiro: b,c;
+  leia(a,b);
+  leia(c);
+  c<-a+b;
+  escreva(a,b);
+  escreva(c);
+fim.

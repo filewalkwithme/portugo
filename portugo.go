@@ -23,11 +23,11 @@ func main() {
 		parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
 		sintatico.MontaParsingTree(&parseTree, listaTokens)
 		fmt.Println("\n\nÁRVORE SINTÁTICA:\n------>")
-		util.MostraTree(&parseTree)
+		fmt.Println(util.MostraTree(&parseTree))
 
 		ast.ConfiguraAST(&parseTree)
 		fmt.Println("\n\nAST - ÁRVORE SINTÁTICA ABSTRATA:\n------>")
-		util.MostraTree(&parseTree)
+		fmt.Println(util.MostraTree(&parseTree))
 
 		fmt.Println("\n\n-----------inicio do programa-------")
 		simbolos := make(map[string][]string)
