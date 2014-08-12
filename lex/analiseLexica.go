@@ -28,17 +28,22 @@ func CarregaTokens(arquivo string) []core.Token {
 		acaba = false
 		if len(m[j]) > 0 {
 			for !acaba {
-				id, tipoToken, frase := pegaToken(strings.TrimRight(m[j], " "))
-				m[j] = frase
+				linha := strings.TrimRight(m[j], " \t")
+				if len(linha) > 0 {
+					id, tipoToken, frase := pegaToken(linha)
+					m[j] = frase
 
-				token := core.Token{tipoToken, id}
-				if token.Tipo == "+-" && token.Id == "-" {
-					listaTokens = util.PushToken(listaTokens, core.Token{"+-", "+"})
+					token := core.Token{tipoToken, id}
+					if token.Tipo == "+-" && token.Id == "-" {
+						listaTokens = util.PushToken(listaTokens, core.Token{"+-", "+"})
+					}
+
+					listaTokens = util.PushToken(listaTokens, token)
+
+					acaba = (len(m[j]) == 0) || (tipoToken == "ERRO")
+				} else {
+					acaba = true
 				}
-
-				listaTokens = util.PushToken(listaTokens, token)
-
-				acaba = (len(m[j]) == 0) || (tipoToken == "ERRO")
 			}
 		}
 	}

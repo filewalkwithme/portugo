@@ -4,7 +4,7 @@ import (
 	core "github.com/maiconio/portugo/core"
 )
 
-func MostraTree(tree *core.Node) string{
+func MostraTree(tree *core.Node) string {
 	for tree.Pai != nil {
 		tree = tree.Pai
 	}
@@ -14,14 +14,14 @@ func MostraTree(tree *core.Node) string{
 	return tmp
 }
 
-func mostraRec(tree *core.Node, tab string, index int) string{
+func mostraRec(tree *core.Node, tab string, index int) string {
 	tmp := tab + tree.Valor + "[" + tree.Token.Id + "]\n"
 	//fmt.Printf(tab + tree.valor + "[" + tree.token.id + "]["+strconv.Itoa(index)+"]\n")
 	tab = tab + "  "
 	for i := 0; i < len(tree.Filhos); i++ {
 		tmp = tmp + mostraRec(tree.Filhos[i], tab, i)
 	}
-	return tmp;
+	return tmp
 }
 
 func Push(pilha []string, valor string) []string {

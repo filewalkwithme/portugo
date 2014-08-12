@@ -3,8 +3,8 @@ package ast
 import (
 	core "github.com/maiconio/portugo/core"
 	lex "github.com/maiconio/portugo/lex"
-	util "github.com/maiconio/portugo/util"
 	sintatico "github.com/maiconio/portugo/sintatico"
+	util "github.com/maiconio/portugo/util"
 	"testing"
 )
 
@@ -196,11 +196,11 @@ func TestComandoOperador(t *testing.T) {
 	//--------------------
 
 	/*
-       R1[R1]
-         <-[<-]
-         M2[M2]
-           +-[+]
-           INTEIRO[2]
+	   R1[R1]
+	     <-[<-]
+	     M2[M2]
+	       +-[+]
+	       INTEIRO[2]
 	*/
 
 	filho1 := core.Node{nil, nil, "R1", 0, 0, core.Token{"R1", "R1"}}
@@ -305,12 +305,12 @@ func TestComandoAtribuicao(t *testing.T) {
 func TestComandoEscreva(t *testing.T) {
 	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
 
-/*
-  A[A]
-    ESCREVA[escreva]
-    STRING[Oi]
-    STRING[a]
- */
+	/*
+	   A[A]
+	     ESCREVA[escreva]
+	     STRING[Oi]
+	     STRING[a]
+	*/
 	filho0 := core.Node{nil, nil, "A", 0, 0, core.Token{"A", "A"}}
 
 	filho0a := core.Node{nil, nil, "ESCREVA", 0, 0, core.Token{"ESCREVA", "escreva"}}
@@ -321,8 +321,7 @@ func TestComandoEscreva(t *testing.T) {
 	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0a)
 	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0b)
 	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0c)
-	
-	
+
 	//--------------------
 	for ComandoEscreva(&pai, 0) > 0 {
 	}
@@ -335,21 +334,21 @@ func TestComandoEscreva(t *testing.T) {
 		} else {
 			if len(pai.Filhos[0].Filhos[0].Filhos) != 2 {
 				t.Error("Número de filhos do nó filho0a é diferente do esperado [2]")
-			} 
+			}
 		}
 	}
 }
 
 func TestComandoLeia(t *testing.T) {
 	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
-/*
-   A[A]
-    LEIA[leia]
-    v[a]
-    LEIA2[LEIA2]
-      v[b]
-      LEIA2[LEIA2]
-*/
+	/*
+	   A[A]
+	    LEIA[leia]
+	    v[a]
+	    LEIA2[LEIA2]
+	      v[b]
+	      LEIA2[LEIA2]
+	*/
 
 	filho0 := core.Node{nil, nil, "A", 0, 0, core.Token{"A", "A"}}
 
@@ -367,8 +366,7 @@ func TestComandoLeia(t *testing.T) {
 
 	AdicionaNodeFilho(&filho0c, len(filho0c.Filhos), &filho0c_a)
 	AdicionaNodeFilho(&filho0c, len(filho0c.Filhos), &filho0c_b)
-	
-	
+
 	//--------------------
 	for ComandoLeia(&pai, 0) > 0 {
 	}
@@ -381,18 +379,18 @@ func TestComandoLeia(t *testing.T) {
 		} else {
 			if len(pai.Filhos[0].Filhos[0].Filhos) != 2 {
 				t.Error("Número de filhos do nó filho0a é diferente do esperado [2]")
-			} 
+			}
 		}
 	}
 }
 
 func TestComandoFuncaoMatematica(t *testing.T) {
 	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
-/*	 
-    M9[M9]
-      FUNCMAT[sen]
-      INTEIRO[1]
-*/
+	/*
+	   M9[M9]
+	     FUNCMAT[sen]
+	     INTEIRO[1]
+	*/
 	filho0 := core.Node{nil, nil, "M9", 0, 0, core.Token{"M9", "M9"}}
 
 	filho0a := core.Node{nil, nil, "FUNCMAT", 0, 0, core.Token{"FUNCMAT", "sen"}}
@@ -401,7 +399,7 @@ func TestComandoFuncaoMatematica(t *testing.T) {
 	AdicionaNodeFilho(&pai, len(pai.Filhos), &filho0)
 	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0a)
 	AdicionaNodeFilho(&filho0, len(filho0.Filhos), &filho0b)
-		
+
 	//--------------------
 	for ComandoFuncaoMatematica(&pai, 0) > 0 {
 	}
@@ -414,22 +412,22 @@ func TestComandoFuncaoMatematica(t *testing.T) {
 		} else {
 			if len(pai.Filhos[0].Filhos[0].Filhos) != 1 {
 				t.Error("Número de filhos do nó filho0a é diferente do esperado [1]")
-			} 
+			}
 		}
 	}
 }
 
 func TestComandoDeclaraVariavel(t *testing.T) {
 	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
-/*
-  D[D]
-    TIPOVAR[real]
-    D2[D2]
-      v[a]
-      D2[D2]
-        v[b]
-        v[c] 
-*/	
+	/*
+	   D[D]
+	     TIPOVAR[real]
+	     D2[D2]
+	       v[a]
+	       D2[D2]
+	         v[b]
+	         v[c]
+	*/
 	filho0 := core.Node{nil, nil, "D", 0, 0, core.Token{"D", "D"}}
 
 	filho0a := core.Node{nil, nil, "TIPOVAR", 0, 0, core.Token{"TIPOVAR", "real"}}
@@ -450,7 +448,7 @@ func TestComandoDeclaraVariavel(t *testing.T) {
 
 	AdicionaNodeFilho(&filho0b_b, len(filho0b_b.Filhos), &filho0b_b_a)
 	AdicionaNodeFilho(&filho0b_b, len(filho0b_b.Filhos), &filho0b_b_b)
-		
+
 	//--------------------
 	for ComandoDeclaraVariavel(&pai, 0) > 0 {
 	}
@@ -463,24 +461,24 @@ func TestComandoDeclaraVariavel(t *testing.T) {
 		} else {
 			if len(pai.Filhos[0].Filhos[0].Filhos) != 3 {
 				t.Error("Número de filhos do nó filho0a é diferente do esperado [3]")
-			} 
+			}
 		}
 	}
 }
 
 func TestPromoveAcoes(t *testing.T) {
 	pai := core.Node{nil, nil, "pai", 0, 0, core.Token{"", ""}}
-/*
-P[]
-  V1[V1]
-    D[D]
-      TIPOVAR[real]
-        v[a]
-    D[D]
-      TIPOVAR[inteiro]
-        v[b]
+	/*
+	   P[]
+	     V1[V1]
+	       D[D]
+	         TIPOVAR[real]
+	           v[a]
+	       D[D]
+	         TIPOVAR[inteiro]
+	           v[b]
 
-*/
+	*/
 	filho0 := core.Node{nil, nil, "V1", 0, 0, core.Token{"D", "D"}}
 
 	filho0a := core.Node{nil, nil, "D", 0, 0, core.Token{"D", "D"}}
@@ -515,7 +513,7 @@ P[]
 			} else {
 				if len(pai.Filhos[0].Filhos[0].Filhos[0].Filhos) != 0 {
 					t.Error("Número de filhos do nó filho0a_a é diferente do esperado [0]")
-				} 
+				}
 			}
 		}
 	}
@@ -523,8 +521,8 @@ P[]
 }
 
 func TestConfiguraAST(t *testing.T) {
-r1 :=
-`P[]
+	r1 :=
+		`P[]
   D[D]
     TIPOVAR[real]
       v[a]
@@ -554,13 +552,13 @@ r1 :=
       v[c]
 `
 
-		listaTokens := lex.CarregaTokens("../testes_src/01.ptg")
-			
-		parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
-		sintatico.MontaParsingTree(&parseTree, listaTokens)
-		ConfiguraAST(&parseTree)
-		if r1 != util.MostraTree(&parseTree) {
-			t.Error(len(util.MostraTree(&parseTree)),"---------",len(r1))
-		}
-		
+	listaTokens := lex.CarregaTokens("../testes_src/01.ptg")
+
+	parseTree := core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
+	sintatico.MontaParsingTree(&parseTree, listaTokens)
+	ConfiguraAST(&parseTree)
+	if r1 != util.MostraTree(&parseTree) {
+		t.Error(len(util.MostraTree(&parseTree)), "---------", len(r1))
+	}
+
 }
