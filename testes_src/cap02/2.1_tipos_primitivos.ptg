@@ -1,0 +1,17 @@
+início
+  escreva("1.a) Ele tem ", 15, " irmãos.");
+  escreva("1.b) A temperatura desta noite será de ", -2, " graus.");
+  escreva("");
+  
+  escreva("2.a) Ela tem ", 1.73, " de altura");
+  escreva("2.b) Meu saldo bancário é de -R$", 121.07, " .");
+  escreva("");
+  
+  escreva("3.a) Constava na prova: ", "'Use somente caneta!'");
+  escreva("3.b) O parque municipal estava repleto de placas: ", "'Não pise na grama.'");
+  escreva("");
+
+  escreva("4.a) A porta pode estar aberta ou fechada. ", verdadeiro);
+  escreva("4.b) A lâmpada pode estar acesa ou apagada. ", falso);
+
+fim.

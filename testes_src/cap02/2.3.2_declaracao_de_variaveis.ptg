@@ -1,0 +1,6 @@
+início
+  inteiro: X;
+  caractere: NOME, ENDEREÇO, DATA;
+  real: ABC, XPTO, PESO, DÓLAR;
+  lógico: RESPOSTA, H286;
+fim.

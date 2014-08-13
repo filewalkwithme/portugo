@@ -321,7 +321,7 @@ func pegaToken(linha string) (string, string, string) {
 		return token, "LOGICO", linha[len(token):]
 	}
 
-	token = regexp.MustCompile("^[A-z]+[A-zÀ-ú0-9]*").FindString(linha)
+	token = regexp.MustCompile("^[A-Z]+[A-ZÀ-Ú0-9]*").FindString(linha)
 	if len(token) > 0 {
 		return token, "v", linha[len(token):]
 	}

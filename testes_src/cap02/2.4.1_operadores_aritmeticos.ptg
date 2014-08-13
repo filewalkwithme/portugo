@@ -1,0 +1,11 @@
+início
+  inteiro: XPTO, X, NOTA;
+  escreva(2+2);
+  escreva(XPTO/5);
+  escreva(X**2);
+  escreva(X-3);
+  escreva(3**2);
+  escreva(3//X);
+  escreva(2*NOTA);
+  escreva(3//9);
+fim.

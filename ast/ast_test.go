@@ -525,31 +525,31 @@ func TestConfiguraAST(t *testing.T) {
 		`P[]
   D[D]
     TIPOVAR[real]
-      v[a]
+      v[A]
   D[D]
     TIPOVAR[inteiro]
-      v[b]
-      v[c]
+      v[B]
+      v[C]
   A[A]
     LEIA[leia]
-      v[a]
-      v[b]
+      v[A]
+      v[B]
   A[A]
     LEIA[leia]
-      v[c]
+      v[C]
   A[A]
     <-[<-]
-      v[c]
+      v[C]
       +-[+]
-        v[a]
-        v[b]
+        v[A]
+        v[B]
   A[A]
     ESCREVA[escreva]
-      v[a]
-      v[b]
+      v[A]
+      v[B]
   A[A]
     ESCREVA[escreva]
-      v[c]
+      v[C]
 `
 
 	listaTokens := lex.CarregaTokens("../testes_src/01.ptg")
@@ -558,7 +558,39 @@ func TestConfiguraAST(t *testing.T) {
 	sintatico.MontaParsingTree(&parseTree, listaTokens)
 	ConfiguraAST(&parseTree)
 	if r1 != util.MostraTree(&parseTree) {
-		t.Error(len(util.MostraTree(&parseTree)), "---------", len(r1))
+		t.Error(len(util.MostraTree(&parseTree)), "r1---------", len(r1))
+	}
+
+	r2 :=
+		`P[]
+  D[D]
+    TIPOVAR[inteiro]
+      v[X]
+  D[D]
+    TIPOVAR[caractere]
+      v[NOME]
+      v[ENDEREÇO]
+      v[DATA]
+  D[D]
+    TIPOVAR[real]
+      v[ABC]
+      v[XPTO]
+      v[PESO]
+      v[DÓLAR]
+  D[D]
+    TIPOVAR[lógico]
+      v[RESPOSTA]
+      v[H286]
+  AC[AC]
+`
+
+	listaTokens = lex.CarregaTokens("../testes_src/cap02/2.3.2_declaracao_de_variaveis.ptg")
+
+	parseTree = core.Node{nil, nil, "P", 0, 0, core.Token{"", ""}}
+	sintatico.MontaParsingTree(&parseTree, listaTokens)
+	ConfiguraAST(&parseTree)
+	if r2 != util.MostraTree(&parseTree) {
+		t.Error(len(util.MostraTree(&parseTree)), "r2---------", len(r2))
 	}
 
 }

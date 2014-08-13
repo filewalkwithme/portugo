@@ -1,9 +1,9 @@
 início
-  real: a;
-  inteiro: b,c;
-  leia(a,b);
-  leia(c);
-  c<-a+b;
-  escreva(a,b);
-  escreva(c);
+  real: A;
+  inteiro: B,C;
+  leia(A,B);
+  leia(C);
+  C<-A+B;
+  escreva(A,B);
+  escreva(C);
 fim.

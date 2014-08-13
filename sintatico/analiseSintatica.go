@@ -301,6 +301,7 @@ func MontaParsingTree(tree *core.Node, listaTokens []core.Token) {
 
 	tab["ESCV1"] = make(map[string]string)
 	tab["ESCV1"]["STRING"] = "ESCV05"
+	tab["ESCV1"]["REAL"] = "ESCV02"
 	tab["ESCV1"]["INTEIRO"] = "ESCV02"
 	tab["ESCV1"]["LOGICO"] = "ESCV02"
 	tab["ESCV1"]["v"] = "ESCV02"
