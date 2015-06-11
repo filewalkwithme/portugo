@@ -2,34 +2,6 @@ package main
 
 import "testing"
 
-func TestVerificaCaractere(t *testing.T) {
-	vInteiro := "123"
-	vReal := "123,47"
-	vCaractere := "\"Absf cde\""
-	vLogicoVerdadeiro := "verdadeiro"
-	vLogicoFalso := "falso"
-
-	if verificaCaractere(vInteiro) {
-		t.Errorf("Token do tipo inteiro reconhecido como caractere: %v", vInteiro)
-	}
-
-	if verificaCaractere(vReal) {
-		t.Errorf("Token do tipo real reconhecido como caractere: %v", vReal)
-	}
-
-	if verificaCaractere(vCaractere) == false {
-		t.Errorf("Token do tipo caractere não reconhecido: %v", vCaractere)
-	}
-
-	if verificaCaractere(vLogicoVerdadeiro) {
-		t.Errorf("Token do tipo inteiro não reconhecido como caractere: %v", vLogicoVerdadeiro)
-	}
-
-	if verificaCaractere(vLogicoFalso) {
-		t.Errorf("Token do tipo inteiro não reconhecido como caractere: %v", vLogicoFalso)
-	}
-}
-
 func TestVerificaInteiro(t *testing.T) {
 	vInteiro := "123"
 	vReal := "123,47"
@@ -50,11 +22,11 @@ func TestVerificaInteiro(t *testing.T) {
 	}
 
 	if verificaInteiro(vLogicoVerdadeiro) {
-		t.Errorf("Token do tipo inteiro não reconhecido como inteiro: %v", vLogicoVerdadeiro)
+		t.Errorf("Token do tipo logico reconhecido como inteiro: %v", vLogicoVerdadeiro)
 	}
 
 	if verificaInteiro(vLogicoFalso) {
-		t.Errorf("Token do tipo inteiro não reconhecido como inteiro: %v", vLogicoFalso)
+		t.Errorf("Token do tipo logico reconhecido como inteiro: %v", vLogicoFalso)
 	}
 }
 
@@ -78,10 +50,66 @@ func TestVerificaReal(t *testing.T) {
 	}
 
 	if verificaReal(vLogicoVerdadeiro) {
-		t.Errorf("Token do tipo inteiro não reconhecido como real: %v", vLogicoVerdadeiro)
+		t.Errorf("Token do tipo logico reconhecido como real: %v", vLogicoVerdadeiro)
 	}
 
 	if verificaReal(vLogicoFalso) {
-		t.Errorf("Token do tipo inteiro não reconhecido como real: %v", vLogicoFalso)
+		t.Errorf("Token do tipo logico reconhecido como real: %v", vLogicoFalso)
+	}
+}
+
+func TestVerificaCaractere(t *testing.T) {
+	vInteiro := "123"
+	vReal := "123,47"
+	vCaractere := "\"Absf cde\""
+	vLogicoVerdadeiro := "verdadeiro"
+	vLogicoFalso := "falso"
+
+	if verificaCaractere(vInteiro) {
+		t.Errorf("Token do tipo inteiro reconhecido como caractere: %v", vInteiro)
+	}
+
+	if verificaCaractere(vReal) {
+		t.Errorf("Token do tipo real reconhecido como caractere: %v", vReal)
+	}
+
+	if verificaCaractere(vCaractere) == false {
+		t.Errorf("Token do tipo caractere não reconhecido: %v", vCaractere)
+	}
+
+	if verificaCaractere(vLogicoVerdadeiro) {
+		t.Errorf("Token do tipo logico reconhecido como caractere: %v", vLogicoVerdadeiro)
+	}
+
+	if verificaCaractere(vLogicoFalso) {
+		t.Errorf("Token do tipo logico reconhecido como caractere: %v", vLogicoFalso)
+	}
+}
+
+func TestVerificaLogico(t *testing.T) {
+	vInteiro := "123"
+	vReal := "123,47"
+	vCaractere := "\"Absf cde\""
+	vLogicoVerdadeiro := "verdadeiro"
+	vLogicoFalso := "falso"
+
+	if verificaLogico(vInteiro) {
+		t.Errorf("Token do tipo inteiro reconhecido como logico: %v", vInteiro)
+	}
+
+	if verificaLogico(vReal) {
+		t.Errorf("Token do tipo real reconhecido como logico: %v", vReal)
+	}
+
+	if verificaLogico(vCaractere) {
+		t.Errorf("Token do tipo caractere reconhecido como logico: %v", vCaractere)
+	}
+
+	if verificaLogico(vLogicoVerdadeiro) == false {
+		t.Errorf("Token do tipo logico não reconhecido: %v", vLogicoVerdadeiro)
+	}
+
+	if verificaLogico(vLogicoFalso) == false {
+		t.Errorf("Token do tipo logico não reconhecido: %v", vLogicoFalso)
 	}
 }
