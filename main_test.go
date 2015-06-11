@@ -2,6 +2,34 @@ package main
 
 import "testing"
 
+func TestVerificaCaractere(t *testing.T) {
+	vInteiro := "123"
+	vReal := "123,47"
+	vCaractere := "\"Absf cde\""
+	vLogicoVerdadeiro := "verdadeiro"
+	vLogicoFalso := "falso"
+
+	if verificaCaractere(vInteiro) {
+		t.Errorf("Token do tipo inteiro reconhecido como caractere: %v", vInteiro)
+	}
+
+	if verificaCaractere(vReal) {
+		t.Errorf("Token do tipo real reconhecido como caractere: %v", vReal)
+	}
+
+	if verificaCaractere(vCaractere) == false {
+		t.Errorf("Token do tipo caractere não reconhecido: %v", vCaractere)
+	}
+
+	if verificaCaractere(vLogicoVerdadeiro) {
+		t.Errorf("Token do tipo inteiro não reconhecido como caractere: %v", vLogicoVerdadeiro)
+	}
+
+	if verificaCaractere(vLogicoFalso) {
+		t.Errorf("Token do tipo inteiro não reconhecido como caractere: %v", vLogicoFalso)
+	}
+}
+
 func TestVerificaInteiro(t *testing.T) {
 	vInteiro := "123"
 	vReal := "123,47"
