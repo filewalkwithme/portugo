@@ -2,6 +2,32 @@ package main
 
 import "testing"
 
+func TestPegaInteiro(t *testing.T) {
+	textoOriginal := "25+50"
+	texto, tipo, conteudo := pegaInteiro(textoOriginal)
+
+	if tipo != "INTEIRO" ||
+		conteudo != "25" || texto != "+50" {
+		t.Errorf("\n texto original: %v \n tipo:            %v \n conteudo:        %v \n texto:     \t %v \n", textoOriginal, tipo, conteudo, texto)
+	}
+
+	textoOriginal = "25a50"
+	texto, tipo, conteudo = pegaInteiro(textoOriginal)
+
+	if tipo != "INTEIRO" ||
+		conteudo != "25" || texto != "a50" {
+		t.Errorf("\n texto original: %v \n tipo:            %v \n conteudo:        %v \n texto:     \t %v \n", textoOriginal, tipo, conteudo, texto)
+	}
+
+	textoOriginal = "25"
+	texto, tipo, conteudo = pegaInteiro(textoOriginal)
+
+	if tipo != "INTEIRO" ||
+		conteudo != "25" || texto != "" {
+		t.Errorf("\n texto original: %v \n tipo:            %v \n conteudo:        %v \n texto:     \t %v \n", textoOriginal, tipo, conteudo, texto)
+	}
+}
+
 func TestVerificaInteiro(t *testing.T) {
 	vInteiro := "123"
 	vReal := "123,47"

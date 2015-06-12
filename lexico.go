@@ -1,6 +1,24 @@
 package main
 
-import "regexp"
+import (
+	"fmt"
+	"regexp"
+)
+
+func pegaTokens(texto string) {
+	texto, tipo, conteudo := pegaInteiro(texto)
+	fmt.Printf("tipo = %v \n", tipo)
+	fmt.Printf("conteudo = %v \n", conteudo)
+	fmt.Printf("texto = %v \n", texto)
+}
+
+func pegaInteiro(texto string) (string, string, string) {
+	conteudoToken := regexp.MustCompile("^[0-9]+").FindString(texto)
+	if len(conteudoToken) > 0 {
+		return texto[len(conteudoToken):], "INTEIRO", conteudoToken
+	}
+	return texto, "", ""
+}
 
 func verificaInteiro(token string) bool {
 	matched, _ := regexp.MatchString("^[0-9]+$", token)
