@@ -25,3 +25,9 @@ func verificaLogico(token string) bool {
 	matched, _ := regexp.MatchString("^(verdadeiro|falso)$", token)
 	return matched
 }
+
+func verificaVariavel(token string) bool {
+	matched, _ := regexp.MatchString("^[A-z][A-z0-9]+$", token)
+
+	return matched && !verificaLogico(token)
+}

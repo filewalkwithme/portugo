@@ -113,3 +113,41 @@ func TestVerificaLogico(t *testing.T) {
 		t.Errorf("Token do tipo logico não reconhecido: %v", vLogicoFalso)
 	}
 }
+
+func TestVerificaVariavel(t *testing.T) {
+	vInteiro := "123"
+	vReal := "123,47"
+	vCaractere := "\"Absf cde\""
+	vLogicoVerdadeiro := "verdadeiro"
+	vLogicoFalso := "falso"
+	vVariavel := "a1A2b3"
+	vVariavelInvalida := "000"
+
+	if verificaVariavel(vInteiro) {
+		t.Errorf("Token do tipo inteiro reconhecido como variavel: %v", vInteiro)
+	}
+
+	if verificaVariavel(vReal) {
+		t.Errorf("Token do tipo real reconhecido como variavel: %v", vReal)
+	}
+
+	if verificaVariavel(vCaractere) {
+		t.Errorf("Token do tipo caractere reconhecido como variavel: %v", vCaractere)
+	}
+
+	if verificaVariavel(vLogicoVerdadeiro) {
+		t.Errorf("Token do tipo logico reconhecido como variavel: %v", vLogicoVerdadeiro)
+	}
+
+	if verificaVariavel(vLogicoFalso) {
+		t.Errorf("Token do tipo logico reconhecido como variavel: %v", vLogicoFalso)
+	}
+
+	if verificaVariavel(vVariavel) == false {
+		t.Errorf("Token do tipo variavel não reconhecido: %v", vVariavel)
+	}
+
+	if verificaVariavel(vVariavelInvalida) {
+		t.Errorf("Token do tipo variavel inválida reconhecido como variavel: %v", vVariavelInvalida)
+	}
+}
