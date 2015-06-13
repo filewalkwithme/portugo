@@ -58,17 +58,19 @@ func extraiReal(texto string) (bool, string, string) {
 		continua := verificaDigito(string(texto[0]))
 
 		for i := 0; continua; i++ {
-			bReal = true
 			if verificaDigito(string(texto[i])) {
 				vReal = vReal + string(texto[i])
 				vTextoRestante = texto[i+1:]
 			}
 
 			if parte == 1 && string(texto[i]) == "." {
-
+				vReal = ""
+				bReal = false
+				break
 			}
 
 			if parte == 0 && string(texto[i]) == "." {
+				bReal = true
 				parte = 1
 				vReal = vReal + "."
 				vTextoRestante = texto[i+1:]
@@ -83,6 +85,10 @@ func extraiReal(texto string) (bool, string, string) {
 
 			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || string(texto[i]) == ".")
 		}
+	}
+
+	if !bReal {
+		vTextoRestante = texto
 	}
 	return bReal, vReal, vTextoRestante
 }
