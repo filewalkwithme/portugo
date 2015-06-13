@@ -1,47 +1,88 @@
 package main
 
-import (
-	"fmt"
-	"regexp"
-)
+var digitos = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
-func pegaTokens(texto string) {
-	texto, tipo, conteudo := pegaInteiro(texto)
-	fmt.Printf("tipo = %v \n", tipo)
-	fmt.Printf("conteudo = %v \n", conteudo)
-	fmt.Printf("texto = %v \n", texto)
-}
-
-func pegaInteiro(texto string) (string, string, string) {
-	conteudoToken := regexp.MustCompile("^[0-9]+").FindString(texto)
-	if len(conteudoToken) > 0 {
-		return texto[len(conteudoToken):], "INTEIRO", conteudoToken
+func verificaDigito(simbolo string) bool {
+	encontrou := false
+	for _, digito := range digitos {
+		if digito == simbolo {
+			encontrou = true
+			break
+		}
 	}
-	return texto, "", ""
+	return encontrou
 }
 
-func verificaInteiro(token string) bool {
-	matched, _ := regexp.MatchString("^[0-9]+$", token)
-	return matched
+func extraiInteiro(texto string) (bool, string, string) {
+	bInteiro := false
+	vInteiro := ""
+	vTextoRestante := ""
+
+	if len(texto) > 0 {
+		continua := verificaDigito(string(texto[0]))
+
+		for i := 0; continua; i++ {
+			bInteiro = true
+
+			if verificaDigito(string(texto[i])) {
+				vInteiro = vInteiro + string(texto[i])
+				vTextoRestante = texto[i+1:]
+			}
+
+			//ignora real
+			if string(texto[i]) == "." {
+				vInteiro = ""
+				bInteiro = false
+				break
+			}
+
+			continua = i < len(texto)-1 && verificaDigito(string(texto[i]))
+		}
+	}
+
+	if !bInteiro {
+		vTextoRestante = texto
+	}
+	return bInteiro, vInteiro, vTextoRestante
 }
 
-func verificaReal(token string) bool {
-	matched, _ := regexp.MatchString("^[0-9]+,[0-9]+$", token)
-	return matched
-}
+func extraiReal(texto string) (bool, string, string) {
+	bReal := false
+	vReal := ""
+	vTextoRestante := ""
 
-func verificaCaractere(token string) bool {
-	matched, _ := regexp.MatchString("^\".*\"", token)
-	return matched
-}
+	if len(texto) > 0 {
+		//0 parte inteira
+		//1 parte decimal
+		parte := 0
+		continua := verificaDigito(string(texto[0]))
 
-func verificaLogico(token string) bool {
-	matched, _ := regexp.MatchString("^(verdadeiro|falso)$", token)
-	return matched
-}
+		for i := 0; continua; i++ {
+			bReal = true
+			if verificaDigito(string(texto[i])) {
+				vReal = vReal + string(texto[i])
+				vTextoRestante = texto[i+1:]
+			}
 
-func verificaVariavel(token string) bool {
-	matched, _ := regexp.MatchString("^[A-z][A-z0-9]+$", token)
+			if parte == 1 && string(texto[i]) == "." {
 
-	return matched && !verificaLogico(token)
+			}
+
+			if parte == 0 && string(texto[i]) == "." {
+				parte = 1
+				vReal = vReal + "."
+				vTextoRestante = texto[i+1:]
+
+				//se o proximo simbolo nao for um digito, então este token não é do tipo real
+				if i == len(texto) || verificaDigito(string(texto[i+1])) == false {
+					vReal = ""
+					bReal = false
+					break
+				}
+			}
+
+			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || string(texto[i]) == ".")
+		}
+	}
+	return bReal, vReal, vTextoRestante
 }
