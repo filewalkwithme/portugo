@@ -233,3 +233,30 @@ func TestExtraiConstanteCaractere(t *testing.T) {
 		t.Errorf("extraiConstanteCaractere('%v') Experado: b[false], v[\"abc: \\\" 123\"], r[\"] --> Obtido: b[%v], v[%v], r[%v]\n", texto, b, v, r)
 	}
 }
+
+func TestExtraiVariavel(t *testing.T) {
+	b, v, r := extraiVariavel("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("123")
+	if !(b == false && v == "" && r == "123") {
+		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("a123")
+	if !(b == true && v == "a123" && r == "") {
+		t.Errorf("extraiVariavel('') Experado: b[true], v[a123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("a123+45")
+	if !(b == true && v == "a123" && r == "+45") {
+		t.Errorf("extraiVariavel('') Experado: b[true], v[a123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("123+45")
+	if !(b == false && v == "" && r == "123+45") {
+		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+}

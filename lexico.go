@@ -13,7 +13,7 @@ func verificaLetra(simbolo string) bool {
 	return re.MatchString(simbolo)
 }
 
-func extraiInteiro(texto string) (bool, string, string) {
+func extraiConstanteInteira(texto string) (bool, string, string) {
 	bInteiro := false
 	vInteiro := ""
 	vTextoRestante := ""
@@ -46,7 +46,7 @@ func extraiInteiro(texto string) (bool, string, string) {
 	return bInteiro, vInteiro, vTextoRestante
 }
 
-func extraiReal(texto string) (bool, string, string) {
+func extraiConstanteReal(texto string) (bool, string, string) {
 	bReal := false
 	vReal := ""
 	vTextoRestante := ""
@@ -93,7 +93,7 @@ func extraiReal(texto string) (bool, string, string) {
 	return bReal, vReal, vTextoRestante
 }
 
-func extraiLogico(texto string) (bool, string, string) {
+func extraiConstanteLogica(texto string) (bool, string, string) {
 	bLogico := false
 	vLogico := ""
 	vTextoRestante := ""
@@ -135,15 +135,7 @@ func extraiLogico(texto string) (bool, string, string) {
 	return bLogico, vLogico, vTextoRestante
 }
 
-/*válido
-""
-"\"
-"\a"
-"\""
-"\"abc\""
-"abc 123"
-*/
-func extraiCaractere(texto string) (bool, string, string) {
+func extraiConstanteCaractere(texto string) (bool, string, string) {
 	bCaractere := false
 	vCaractere := ""
 	vCaractereAnterior := ""
@@ -181,4 +173,30 @@ func extraiCaractere(texto string) (bool, string, string) {
 		vTextoRestante = texto
 	}
 	return bCaractere, vCaractere, vTextoRestante
+}
+
+func extraiVariavel(texto string) (bool, string, string) {
+	bVariavel := false
+	vVariavel := ""
+	vTextoRestante := ""
+
+	if len(texto) > 0 {
+		continua := verificaLetra(string(texto[0]))
+
+		for i := 0; continua; i++ {
+			bVariavel = true
+
+			if verificaLetra(string(texto[i])) || verificaDigito(string(texto[i])) {
+				vVariavel = vVariavel + string(texto[i])
+				vTextoRestante = texto[i+1:]
+			}
+
+			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || verificaLetra(string(texto[i])))
+		}
+	}
+
+	if !bVariavel {
+		vTextoRestante = texto
+	}
+	return bVariavel, vVariavel, vTextoRestante
 }
