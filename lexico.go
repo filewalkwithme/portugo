@@ -2,6 +2,8 @@ package main
 
 import "regexp"
 
+var palavrasReservadas = []string{"verdadeiro", "falso"}
+
 func verificaDigito(simbolo string) bool {
 	re := regexp.MustCompile("[[:digit:]]")
 	return re.MatchString(simbolo)
@@ -11,6 +13,15 @@ func verificaLetra(simbolo string) bool {
 	//caracteres pt-BR
 	re := regexp.MustCompile("[[:alpha:]áàâãÀÁÂÃéÉíÍóÓúÚçÇ]")
 	return re.MatchString(simbolo)
+}
+
+func verificaPalavraReservada(alvo string) bool {
+	for _, palavra := range palavrasReservadas {
+		if palavra == alvo {
+			return true
+		}
+	}
+	return false
 }
 
 func extraiConstanteInteira(texto string) (bool, string, string) {
@@ -193,6 +204,11 @@ func extraiVariavel(texto string) (bool, string, string) {
 
 			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || verificaLetra(string(texto[i])))
 		}
+	}
+
+	if bVariavel && verificaPalavraReservada(vVariavel) {
+		vVariavel = ""
+		bVariavel = false
 	}
 
 	if !bVariavel {

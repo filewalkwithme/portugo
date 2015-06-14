@@ -41,6 +41,22 @@ func TestVerificaLetra(t *testing.T) {
 	}
 }
 
+func TestVerificaPalavraReservada(t *testing.T) {
+	testaPalavrasReservadas := []string{"verdadeiro", "falso"}
+	for _, palavra := range testaPalavrasReservadas {
+		if verificaPalavraReservada(palavra) == false {
+			t.Errorf("verificaPalavraReservada('%v') Experado: [true] --> Obtido: [false]\n", palavra)
+		}
+	}
+
+	testaPalavrasComuns := []string{"abc", "123", "+", " ", "%", " verdadeiro", " falso123"}
+	for _, palavra := range testaPalavrasComuns {
+		if verificaPalavraReservada(palavra) == true {
+			t.Errorf("verificaPalavraReservada('%v') Experado: [true] --> Obtido: [false]\n", palavra)
+		}
+	}
+}
+
 func TestExtraiConstanteInteira(t *testing.T) {
 	b, v, r := extraiConstanteInteira("")
 	if !(b == false && v == "" && r == "") {
@@ -242,21 +258,26 @@ func TestExtraiVariavel(t *testing.T) {
 
 	b, v, r = extraiVariavel("123")
 	if !(b == false && v == "" && r == "123") {
-		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+		t.Errorf("extraiVariavel('123') Experado: b[false], v[], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
 	b, v, r = extraiVariavel("a123")
 	if !(b == true && v == "a123" && r == "") {
-		t.Errorf("extraiVariavel('') Experado: b[true], v[a123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+		t.Errorf("extraiVariavel('a123') Experado: b[true], v[a123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
 	b, v, r = extraiVariavel("a123+45")
 	if !(b == true && v == "a123" && r == "+45") {
-		t.Errorf("extraiVariavel('') Experado: b[true], v[a123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+		t.Errorf("extraiVariavel('a123+45') Experado: b[true], v[a123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
 	b, v, r = extraiVariavel("123+45")
 	if !(b == false && v == "" && r == "123+45") {
-		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+		t.Errorf("extraiVariavel('123+45') Experado: b[false], v[], r[123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("verdadeiro")
+	if !(b == false && v == "" && r == "verdadeiro") {
+		t.Errorf("extraiVariavel('verdadeiro') Experado: b[false], v[], r[verdadeiro] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 }
