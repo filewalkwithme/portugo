@@ -1,16 +1,16 @@
 package main
 
-var digitos = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+import "regexp"
 
 func verificaDigito(simbolo string) bool {
-	encontrou := false
-	for _, digito := range digitos {
-		if digito == simbolo {
-			encontrou = true
-			break
-		}
-	}
-	return encontrou
+	re := regexp.MustCompile("[[:digit:]]")
+	return re.MatchString(simbolo)
+}
+
+func verificaLetra(simbolo string) bool {
+	//caracteres pt-BR
+	re := regexp.MustCompile("[[:alpha:]áàâãÀÁÂÃéÉíÍóÓúÚçÇ]")
+	return re.MatchString(simbolo)
 }
 
 func extraiInteiro(texto string) (bool, string, string) {
