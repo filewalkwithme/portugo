@@ -110,5 +110,86 @@ func TestExtraiReal(t *testing.T) {
 	if !(b8 == false && v8 == "" && r8 == "abc123") {
 		t.Errorf("b8: [%v], v8: [%v], r8: [%v]\n Experado: b8: [false], v8: [], r8: [abc123]\n", b8, v8, r8)
 	}
+}
 
+func TestExtraiLogico(t *testing.T) {
+	b, v, r := extraiLogico("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiLogico('') Experado: b[false], v[], r[] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico(" ")
+	if !(b == false && v == "" && r == " ") {
+		t.Errorf("extraiLogico(' ') Experado: b2[false], v[], r[ ] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falso")
+	if !(b == true && v == "falso" && r == "") {
+		t.Errorf("extraiLogico('falso') Experado: b2[false], v[falso], r[] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falso123")
+	if !(b == false && v == "" && r == "falso123") {
+		t.Errorf("extraiLogico('falso123') Experado: b[false], v[], r[falso123] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falsoabcde")
+	if !(b == false && v == "" && r == "falsoabcde") {
+		t.Errorf("extraiLogico('falsoabcde') Experado: b[false], v[], r[falsoabcde] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falsoAbcde")
+	if !(b == false && v == "" && r == "falsoAbcde") {
+		t.Errorf("extraiLogico('falsoAbcde') Experado: b[false], v[], r[falsoAbcde] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falso#")
+	if !(b == true && v == "falso" && r == "#") {
+		t.Errorf("extraiLogico('falso#') Experado: b[true], v[falso], r[#] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("falso ")
+	if !(b == true && v == "falso" && r == " ") {
+		t.Errorf("extraiLogico('falso ') Experado: b[true], v[falso], r[ ] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("123falso")
+	if !(b == false && v == "" && r == "123falso") {
+		t.Errorf("extraiLogico('123falso') Experado: b[false], v[], r[123falso] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiro")
+	if !(b == true && v == "verdadeiro" && r == "") {
+		t.Errorf("extraiLogico('verdadeiro') Experado: b2[true], v[verdadeiro], r[] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiro123")
+	if !(b == false && v == "" && r == "verdadeiro123") {
+		t.Errorf("extraiLogico('verdadeiro123') Experado: b[false], v[], r[verdadeiro123] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiroabcde")
+	if !(b == false && v == "" && r == "verdadeiroabcde") {
+		t.Errorf("extraiLogico('verdadeiroabcde') Experado: b[false], v[], r[verdadeiroabcde] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiroAbcde")
+	if !(b == false && v == "" && r == "verdadeiroAbcde") {
+		t.Errorf("extraiLogico('verdadeiroAbcde') Experado: b[false], v[], r[verdadeiroAbcde] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiro#")
+	if !(b == true && v == "verdadeiro" && r == "#") {
+		t.Errorf("extraiLogico('verdadeiro#') Experado: b[true], v[verdadeiro], r[#] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("verdadeiro ")
+	if !(b == true && v == "verdadeiro" && r == " ") {
+		t.Errorf("extraiLogico('verdadeiro ') Experado: b[true], v[verdadeiro], r[ ] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiLogico("123verdadeiro")
+	if !(b == false && v == "" && r == "123verdadeiro") {
+		t.Errorf("extraiLogico('123verdadeiro') Experado: b[false], v[], r[123verdadeiro] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
 }

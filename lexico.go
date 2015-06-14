@@ -92,3 +92,45 @@ func extraiReal(texto string) (bool, string, string) {
 	}
 	return bReal, vReal, vTextoRestante
 }
+
+func extraiLogico(texto string) (bool, string, string) {
+	bLogico := false
+	vLogico := ""
+	vTextoRestante := ""
+
+	if len(texto) == 10 {
+		if texto[0:10] == "verdadeiro" {
+			bLogico = true
+			vLogico = "verdadeiro"
+		}
+	}
+
+	if len(texto) > 10 {
+		if texto[0:10] == "verdadeiro" && verificaDigito(string(texto[10])) == false && verificaLetra(string(texto[10])) == false {
+			bLogico = true
+			vLogico = "verdadeiro"
+			vTextoRestante = texto[10:]
+		}
+	}
+
+	if len(texto) == 5 {
+		if texto[0:5] == "falso" {
+			bLogico = true
+			vLogico = "falso"
+		}
+	}
+
+	if len(texto) > 5 {
+		if texto[0:5] == "falso" && verificaDigito(string(texto[5])) == false && verificaLetra(string(texto[5])) == false {
+			bLogico = true
+			vLogico = "falso"
+			vTextoRestante = texto[5:]
+		}
+	}
+
+	if !bLogico {
+		vTextoRestante = texto
+	}
+
+	return bLogico, vLogico, vTextoRestante
+}
