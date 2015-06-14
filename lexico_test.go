@@ -193,3 +193,45 @@ func TestExtraiLogico(t *testing.T) {
 		t.Errorf("extraiLogico('123verdadeiro') Experado: b[false], v[], r[123verdadeiro] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
 	}
 }
+
+func TestExtraiCaractere(t *testing.T) {
+	b, v, r := extraiCaractere("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiCaractere('') Experado: b[false], v[], r[] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	b, v, r = extraiCaractere("abc123")
+	if !(b == false && v == "" && r == "abc123") {
+		t.Errorf("extraiCaractere('abc123') Experado: b[false], v[], r[abc123] Obtido: b[%v], v[%v], r[%v]\n \n", b, v, r)
+	}
+
+	texto := `abc: "123`
+	b, v, r = extraiCaractere(texto)
+	if !(b == false && v == "" && r == texto) {
+		t.Errorf("extraiCaractere('%v') Experado: b[false], v[], r[%v] Obtido: b[%v], v[%v], r[%v]\n \n", texto, texto, b, v, r)
+	}
+
+	texto = `"abc: 123`
+	b, v, r = extraiCaractere(texto)
+	if !(b == false && v == "" && r == texto) {
+		t.Errorf("extraiCaractere('%v') Experado: b[false], v[], r[%v] Obtido: b[%v], v[%v], r[%v]\n \n", texto, texto, b, v, r)
+	}
+
+	texto = `"abc: 123"`
+	b, v, r = extraiCaractere(texto)
+	if !(b == true && v == texto && r == "") {
+		t.Errorf("extraiCaractere('%v') Experado: b[true], v[%v], r[] Obtido: b[%v], v[%v], r[%v]\n \n", texto, texto, b, v, r)
+	}
+
+	texto = `"abc: \" 123"`
+	b, v, r = extraiCaractere(texto)
+	if !(b == true && v == texto && r == "") {
+		t.Errorf("extraiCaractere('%v') Experado: b[true], v[%v], r[] Obtido: b[%v], v[%v], r[%v]\n \n", texto, texto, b, v, r)
+	}
+
+	texto = `"abc: \" 123""`
+	b, v, r = extraiCaractere(texto)
+	if !(b == true && v == `"abc: \" 123"` && r == `"`) {
+		t.Errorf("extraiCaractere('%v') Experado: b[false], v[\"abc: \\\" 123\"], r[\"] Obtido: b[%v], v[%v], r[%v]\n \n", texto, b, v, r)
+	}
+}

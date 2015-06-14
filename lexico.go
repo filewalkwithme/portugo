@@ -134,3 +134,51 @@ func extraiLogico(texto string) (bool, string, string) {
 
 	return bLogico, vLogico, vTextoRestante
 }
+
+/*válido
+""
+"\"
+"\a"
+"\""
+"\"abc\""
+"abc 123"
+*/
+func extraiCaractere(texto string) (bool, string, string) {
+	bCaractere := false
+	vCaractere := ""
+	vCaractereAnterior := ""
+	vTextoRestante := ""
+	var aspas = "\""
+	var barra = "\\"
+	aspasEncerramento := false
+
+	if len(texto) > 0 {
+		continua := string(texto[0]) == aspas
+
+		for i := 0; continua; i++ {
+			bCaractere = true
+
+			vCaractere = vCaractere + string(texto[i])
+			vTextoRestante = texto[i+1:]
+
+			aspasEncerramento = string(texto[i]) == aspas && vCaractereAnterior != barra && i > 0
+			if aspasEncerramento {
+				bCaractere = true
+				break
+			}
+
+			continua = i < len(texto)-1 && !aspasEncerramento
+			vCaractereAnterior = string(texto[i])
+		}
+	}
+
+	if !aspasEncerramento {
+		bCaractere = false
+		vCaractere = ""
+	}
+
+	if !bCaractere {
+		vTextoRestante = texto
+	}
+	return bCaractere, vCaractere, vTextoRestante
+}
