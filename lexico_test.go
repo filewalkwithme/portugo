@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestVerificaDigito(t *testing.T) {
 	testaLetras := []string{"a", "A", "b", "B", "ç", "Ç", "é", "É", "ó", "#", "$"}
@@ -279,5 +282,94 @@ func TestExtraiVariavel(t *testing.T) {
 	b, v, r = extraiVariavel("verdadeiro")
 	if !(b == false && v == "" && r == "verdadeiro") {
 		t.Errorf("extraiVariavel('verdadeiro') Experado: b[false], v[], r[verdadeiro] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+}
+
+func TestExtraiTipoVariavel(t *testing.T) {
+	b, v, r := extraiTipoVariavel("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiTipoVariavel('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("real")
+	if !(b == true && v == "real" && r == "") {
+		t.Errorf("extraiTipoVariavel('real') Experado: b[true], v[real], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("realabc")
+	if !(b == false && v == "" && r == "realabc") {
+		t.Errorf("extraiTipoVariavel('realabc') Experado: b[false], v[], r[realabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("real123")
+	if !(b == false && v == "" && r == "real123") {
+		t.Errorf("extraiTipoVariavel('real123') Experado: b[false], v[], r[real123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("real: x")
+	if !(b == true && v == "real" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('real: x') Experado: b[true], v[real], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("inteiro")
+	if !(b == true && v == "inteiro" && r == "") {
+		t.Errorf("extraiTipoVariavel('inteiro') Experado: b[true], v[inteiro], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("inteiroabc")
+	if !(b == false && v == "" && r == "inteiroabc") {
+		t.Errorf("extraiTipoVariavel('inteiroabc') Experado: b[false], v[], r[inteiroabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("inteiro123")
+	if !(b == false && v == "" && r == "inteiro123") {
+		t.Errorf("extraiTipoVariavel('inteiro123') Experado: b[false], v[], r[inteiro123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("inteiro: x")
+	if !(b == true && v == "inteiro" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('inteiro: x') Experado: b[true], v[inteiro], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("lógico")
+	if !(b == true && v == "lógico" && r == "") {
+		fmt.Printf("--->%v<---", len("lógico"))
+		t.Errorf("extraiTipoVariavel('lógico') Experado: b[true], v[lógico], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("lógicoabc")
+	if !(b == false && v == "" && r == "lógicoabc") {
+		t.Errorf("extraiTipoVariavel('lógicoabc') Experado: b[false], v[], r[lógicoabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("lógico123")
+	if !(b == false && v == "" && r == "lógico123") {
+		t.Errorf("extraiTipoVariavel('lógico123') Experado: b[false], v[], r[lógico123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("lógico: x")
+	if !(b == true && v == "lógico" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('lógico: x') Experado: b[true], v[lógico], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("caractere")
+	if !(b == true && v == "caractere" && r == "") {
+		fmt.Printf("--->%v<---", len("caractere"))
+		t.Errorf("extraiTipoVariavel('caractere') Experado: b[true], v[caractere], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("caractereabc")
+	if !(b == false && v == "" && r == "caractereabc") {
+		t.Errorf("extraiTipoVariavel('caractereabc') Experado: b[false], v[], r[caractereabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("caractere123")
+	if !(b == false && v == "" && r == "caractere123") {
+		t.Errorf("extraiTipoVariavel('caractere123') Experado: b[false], v[], r[caractere123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiTipoVariavel("caractere: x")
+	if !(b == true && v == "caractere" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('caractere: x') Experado: b[true], v[caractere], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 }

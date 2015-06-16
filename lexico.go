@@ -2,7 +2,7 @@ package main
 
 import "regexp"
 
-var palavrasReservadas = []string{"verdadeiro", "falso"}
+var palavrasReservadas = []string{"verdadeiro", "falso", "inteiro", "caractere", "real", "lógico"}
 
 func verificaDigito(simbolo string) bool {
 	re := regexp.MustCompile("[[:digit:]]")
@@ -215,4 +215,82 @@ func extraiVariavel(texto string) (bool, string, string) {
 		vTextoRestante = texto
 	}
 	return bVariavel, vVariavel, vTextoRestante
+}
+
+func extraiTipoVariavel(texto string) (bool, string, string) {
+	bTipoVariavel := false
+	vTipoVariavel := ""
+	vTextoRestante := ""
+
+	if len(texto) > 0 {
+		if len(texto) == 4 {
+			if texto[0:4] == "real" {
+				bTipoVariavel = true
+				vTipoVariavel = "real"
+				vTextoRestante = texto[4:]
+			}
+		}
+
+		if len(texto) > 4 && verificaDigito(string(texto[4])) == false && verificaLetra(string(texto[4])) == false {
+			if texto[0:4] == "real" {
+				bTipoVariavel = true
+				vTipoVariavel = "real"
+				vTextoRestante = texto[4:]
+			}
+		}
+
+		if len(texto) == 7 {
+			if texto[0:7] == "inteiro" {
+				bTipoVariavel = true
+				vTipoVariavel = "inteiro"
+				vTextoRestante = texto[7:]
+			}
+		}
+
+		if len(texto) > 7 {
+			if texto[0:7] == "inteiro" && verificaDigito(string(texto[7])) == false && verificaLetra(string(texto[7])) == false {
+				bTipoVariavel = true
+				vTipoVariavel = "inteiro"
+				vTextoRestante = texto[7:]
+			}
+		}
+
+		if len(texto) == 7 {
+			if texto[0:7] == "lógico" {
+				bTipoVariavel = true
+				vTipoVariavel = "lógico"
+				vTextoRestante = texto[7:]
+			}
+		}
+
+		if len(texto) > 7 && verificaDigito(string(texto[7])) == false && verificaLetra(string(texto[7])) == false {
+			if texto[0:7] == "lógico" {
+				bTipoVariavel = true
+				vTipoVariavel = "lógico"
+				vTextoRestante = texto[7:]
+			}
+		}
+
+		if len(texto) == 9 {
+			if texto[0:9] == "caractere" {
+				bTipoVariavel = true
+				vTipoVariavel = "caractere"
+				vTextoRestante = texto[9:]
+			}
+		}
+
+		if len(texto) > 9 {
+			if texto[0:9] == "caractere" && verificaDigito(string(texto[9])) == false && verificaLetra(string(texto[9])) == false {
+				bTipoVariavel = true
+				vTipoVariavel = "caractere"
+				vTextoRestante = texto[9:]
+			}
+		}
+
+	}
+
+	if !bTipoVariavel {
+		vTextoRestante = texto
+	}
+	return bTipoVariavel, vTipoVariavel, vTextoRestante
 }
