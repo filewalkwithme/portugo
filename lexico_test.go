@@ -354,7 +354,6 @@ func TestExtraiTipoVariavel(t *testing.T) {
 
 	b, v, r = extraiTipoVariavel("caractere")
 	if !(b == true && v == "caractere" && r == "") {
-		fmt.Printf("--->%v<---", len("caractere"))
 		t.Errorf("extraiTipoVariavel('caractere') Experado: b[true], v[caractere], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
@@ -371,5 +370,89 @@ func TestExtraiTipoVariavel(t *testing.T) {
 	b, v, r = extraiTipoVariavel("caractere: x")
 	if !(b == true && v == "caractere" && r == ": x") {
 		t.Errorf("extraiTipoVariavel('caractere: x') Experado: b[true], v[caractere], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+}
+
+func TestExtraiDoisPontos(t *testing.T) {
+	b, v, r := extraiDoisPontos("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiDoisPontos('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos(":")
+	if !(b == true && v == ":" && r == "") {
+		t.Errorf("extraiDoisPontos(':') Experado: b[true], v[:], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos(":123")
+	if !(b == true && v == ":" && r == "123") {
+		t.Errorf("extraiDoisPontos(':123') Experado: b[true], v[:], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos(":abc")
+	if !(b == true && v == ":" && r == "abc") {
+		t.Errorf("extraiDoisPontos(':abc') Experado: b[true], v[:], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos(":#")
+	if !(b == true && v == ":" && r == "#") {
+		t.Errorf("extraiDoisPontos(':#') Experado: b[true], v[:], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos("123:")
+	if !(b == false && v == "" && r == "123:") {
+		t.Errorf("extraiDoisPontos('123:') Experado: b[false], v[], r[123:] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos("abc:")
+	if !(b == false && v == "" && r == "abc:") {
+		t.Errorf("extraiDoisPontos('abc:') Experado: b[false], v[], r[abc:] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiDoisPontos("#")
+	if !(b == false && v == "" && r == "#") {
+		t.Errorf("extraiDoisPontos('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+}
+
+func TestExtraiPontoEVirgula(t *testing.T) {
+	b, v, r := extraiPontoEVirgula("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiPontoEVirgula('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula(";")
+	if !(b == true && v == ";" && r == "") {
+		t.Errorf("extraiPontoEVirgula(';') Experado: b[true], v[;], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula(";123")
+	if !(b == true && v == ";" && r == "123") {
+		t.Errorf("extraiPontoEVirgula(';123') Experado: b[true], v[;], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula(";abc")
+	if !(b == true && v == ";" && r == "abc") {
+		t.Errorf("extraiPontoEVirgula(';abc') Experado: b[true], v[;], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula(";#")
+	if !(b == true && v == ";" && r == "#") {
+		t.Errorf("extraiPontoEVirgula(';#') Experado: b[true], v[;], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula("123;")
+	if !(b == false && v == "" && r == "123;") {
+		t.Errorf("extraiPontoEVirgula('123;') Experado: b[false], v[], r[123;] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula("abc;")
+	if !(b == false && v == "" && r == "abc;") {
+		t.Errorf("extraiPontoEVirgula('abc;') Experado: b[false], v[], r[abc;] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiPontoEVirgula("#")
+	if !(b == false && v == "" && r == "#") {
+		t.Errorf("extraiPontoEVirgula('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 }

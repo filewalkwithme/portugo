@@ -294,3 +294,41 @@ func extraiTipoVariavel(texto string) (bool, string, string) {
 	}
 	return bTipoVariavel, vTipoVariavel, vTextoRestante
 }
+
+func extraiDoisPontos(texto string) (bool, string, string) {
+	b := false
+	v := ""
+	vTextoRestante := ""
+
+	if len(texto) > 0 {
+		if texto[0:1] == ":" {
+			b = true
+			v = ":"
+			vTextoRestante = texto[1:]
+		}
+	}
+
+	if !b {
+		vTextoRestante = texto
+	}
+	return b, v, vTextoRestante
+}
+
+func extraiPontoEVirgula(texto string) (bool, string, string) {
+	b := false
+	v := ""
+	vTextoRestante := ""
+
+	if len(texto) > 0 {
+		if texto[0:1] == ";" {
+			b = true
+			v = ";"
+			vTextoRestante = texto[1:]
+		}
+	}
+
+	if !b {
+		vTextoRestante = texto
+	}
+	return b, v, vTextoRestante
+}
