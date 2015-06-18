@@ -44,6 +44,36 @@ func TestVerificaLetra(t *testing.T) {
 	}
 }
 
+func TestVerificaLetraMaiuscula(t *testing.T) {
+	testaLetrasMaiusculas := []string{"A", "B", "Ç", "É"}
+	for _, letra := range testaLetrasMaiusculas {
+		if verificaLetraMaiuscula(letra) == false {
+			t.Errorf("verificaLetraMaiuscula('%v') Experado: [true] --> Obtido: [false]\n", letra)
+		}
+	}
+
+	testaLetrasMinusculas := []string{"a", "b", "ç", "é"}
+	for _, letra := range testaLetrasMinusculas {
+		if verificaLetraMaiuscula(letra) == true {
+			t.Errorf("verificaLetraMaiuscula('%v') Experado: [false] --> Obtido: [false]\n", letra)
+		}
+	}
+
+	testaNumeros := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+	for _, numero := range testaNumeros {
+		if verificaLetraMaiuscula(numero) == true {
+			t.Errorf("verificaLetraMaiuscula('%v') Experado: [false] --> Obtido: [true]\n", numero)
+		}
+	}
+
+	testaOutrosSimbolos := []string{"Õ", "&", "#", "@", "%", "ü"}
+	for _, simbolo := range testaOutrosSimbolos {
+		if verificaLetraMaiuscula(simbolo) == true {
+			t.Errorf("verificaLetraMaiuscula('%v') Experado: [false] --> Obtido: [true]\n", simbolo)
+		}
+	}
+}
+
 func TestVerificaPalavraReservada(t *testing.T) {
 	testaPalavrasReservadas := []string{"verdadeiro", "falso"}
 	for _, palavra := range testaPalavrasReservadas {
@@ -264,14 +294,19 @@ func TestExtraiVariavel(t *testing.T) {
 		t.Errorf("extraiVariavel('123') Experado: b[false], v[], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
-	b, v, r = extraiVariavel("a123")
-	if !(b == true && v == "a123" && r == "") {
-		t.Errorf("extraiVariavel('a123') Experado: b[true], v[a123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	b, v, r = extraiVariavel("A123")
+	if !(b == true && v == "A123" && r == "") {
+		t.Errorf("extraiVariavel('A123') Experado: b[true], v[A123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVariavel("A123+45")
+	if !(b == true && v == "A123" && r == "+45") {
+		t.Errorf("extraiVariavel('A123+45') Experado: b[true], v[A123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
 	b, v, r = extraiVariavel("a123+45")
-	if !(b == true && v == "a123" && r == "+45") {
-		t.Errorf("extraiVariavel('a123+45') Experado: b[true], v[a123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	if !(b == false && v == "" && r == "a123+45") {
+		t.Errorf("extraiVariavel('a123+45') Experado: b[false], v[], r[a123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 
 	b, v, r = extraiVariavel("123+45")
@@ -454,5 +489,47 @@ func TestExtraiPontoEVirgula(t *testing.T) {
 	b, v, r = extraiPontoEVirgula("#")
 	if !(b == false && v == "" && r == "#") {
 		t.Errorf("extraiPontoEVirgula('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+}
+
+func TestExtraiVirgula(t *testing.T) {
+	b, v, r := extraiVirgula("")
+	if !(b == false && v == "" && r == "") {
+		t.Errorf("extraiVirgula('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula(",")
+	if !(b == true && v == "," && r == "") {
+		t.Errorf("extraiVirgula(',') Experado: b[true], v[,], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula(",123")
+	if !(b == true && v == "," && r == "123") {
+		t.Errorf("extraiVirgula(',123') Experado: b[true], v[,], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula(",abc")
+	if !(b == true && v == "," && r == "abc") {
+		t.Errorf("extraiVirgula(',abc') Experado: b[true], v[,], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula(",#")
+	if !(b == true && v == "," && r == "#") {
+		t.Errorf("extraiVirgula(',#') Experado: b[true], v[,], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula("123,")
+	if !(b == false && v == "" && r == "123,") {
+		t.Errorf("extraiVirgula('123,') Experado: b[false], v[], r[123,] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula("abc,")
+	if !(b == false && v == "" && r == "abc,") {
+		t.Errorf("extraiVirgula('abc,') Experado: b[false], v[], r[abc,] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	}
+
+	b, v, r = extraiVirgula("#")
+	if !(b == false && v == "" && r == "#") {
+		t.Errorf("extraiVirgula('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
 	}
 }

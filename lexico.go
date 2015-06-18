@@ -15,6 +15,12 @@ func verificaLetra(simbolo string) bool {
 	return re.MatchString(simbolo)
 }
 
+func verificaLetraMaiuscula(simbolo string) bool {
+	//caracteres pt-BR
+	re := regexp.MustCompile("[[:upper:]ÀÁÂÃÉÍÓÚÇ]")
+	return re.MatchString(simbolo)
+}
+
 func verificaPalavraReservada(alvo string) bool {
 	for _, palavra := range palavrasReservadas {
 		if palavra == alvo {
@@ -192,17 +198,17 @@ func extraiVariavel(texto string) (bool, string, string) {
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
-		continua := verificaLetra(string(texto[0]))
+		continua := verificaLetraMaiuscula(string(texto[0]))
 
 		for i := 0; continua; i++ {
 			bVariavel = true
 
-			if verificaLetra(string(texto[i])) || verificaDigito(string(texto[i])) {
+			if verificaLetraMaiuscula(string(texto[i])) || verificaDigito(string(texto[i])) {
 				vVariavel = vVariavel + string(texto[i])
 				vTextoRestante = texto[i+1:]
 			}
 
-			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || verificaLetra(string(texto[i])))
+			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || verificaLetraMaiuscula(string(texto[i])))
 		}
 	}
 
@@ -296,33 +302,26 @@ func extraiTipoVariavel(texto string) (bool, string, string) {
 }
 
 func extraiDoisPontos(texto string) (bool, string, string) {
-	b := false
-	v := ""
-	vTextoRestante := ""
-
-	if len(texto) > 0 {
-		if texto[0:1] == ":" {
-			b = true
-			v = ":"
-			vTextoRestante = texto[1:]
-		}
-	}
-
-	if !b {
-		vTextoRestante = texto
-	}
-	return b, v, vTextoRestante
+	return extraiCaractereUnico(texto, ":")
 }
 
 func extraiPontoEVirgula(texto string) (bool, string, string) {
+	return extraiCaractereUnico(texto, ";")
+}
+
+func extraiVirgula(texto string) (bool, string, string) {
+	return extraiCaractereUnico(texto, ",")
+}
+
+func extraiCaractereUnico(texto string, caractere string) (bool, string, string) {
 	b := false
 	v := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
-		if texto[0:1] == ";" {
+		if texto[0:1] == caractere {
 			b = true
-			v = ";"
+			v = caractere
 			vTextoRestante = texto[1:]
 		}
 	}
