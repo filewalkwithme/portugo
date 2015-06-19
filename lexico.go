@@ -68,9 +68,9 @@ func extraiConstanteInteira(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiConstanteReal(texto string) (bool, string, string) {
-	bReal := false
-	vReal := ""
+func extraiConstanteReal(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
@@ -81,26 +81,26 @@ func extraiConstanteReal(texto string) (bool, string, string) {
 
 		for i := 0; continua; i++ {
 			if verificaDigito(string(texto[i])) {
-				vReal = vReal + string(texto[i])
+				valorToken = valorToken + string(texto[i])
 				vTextoRestante = texto[i+1:]
 			}
 
 			if parte == 1 && string(texto[i]) == "." {
-				vReal = ""
-				bReal = false
+				valorToken = ""
+				tipoToken = ""
 				break
 			}
 
 			if parte == 0 && string(texto[i]) == "." {
-				bReal = true
+				tipoToken = "CONSTANTE_REAL"
 				parte = 1
-				vReal = vReal + "."
+				valorToken = valorToken + "."
 				vTextoRestante = texto[i+1:]
 
 				//se o proximo simbolo nao for um digito, então este token não é do tipo real
 				if i == len(texto) || verificaDigito(string(texto[i+1])) == false {
-					vReal = ""
-					bReal = false
+					valorToken = ""
+					tipoToken = ""
 					break
 				}
 			}
@@ -109,10 +109,10 @@ func extraiConstanteReal(texto string) (bool, string, string) {
 		}
 	}
 
-	if !bReal {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
-	return bReal, vReal, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiConstanteLogica(texto string) (bool, string, string) {
