@@ -2,6 +2,11 @@ package main
 
 import "regexp"
 
+type token struct {
+	tipo  string
+	valor string
+}
+
 var palavrasReservadas = []string{"verdadeiro", "falso", "inteiro", "caractere", "real", "lógico"}
 
 func verificaDigito(simbolo string) bool {
@@ -30,26 +35,26 @@ func verificaPalavraReservada(alvo string) bool {
 	return false
 }
 
-func extraiConstanteInteira(texto string) (bool, string, string) {
-	bInteiro := false
-	vInteiro := ""
+func extraiConstanteInteira(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
 		continua := verificaDigito(string(texto[0]))
 
 		for i := 0; continua; i++ {
-			bInteiro = true
+			tipoToken = "CONSTANTE_INTEIRA"
 
 			if verificaDigito(string(texto[i])) {
-				vInteiro = vInteiro + string(texto[i])
+				valorToken = valorToken + string(texto[i])
 				vTextoRestante = texto[i+1:]
 			}
 
 			//ignora real
 			if string(texto[i]) == "." {
-				vInteiro = ""
-				bInteiro = false
+				valorToken = ""
+				tipoToken = ""
 				break
 			}
 
@@ -57,10 +62,10 @@ func extraiConstanteInteira(texto string) (bool, string, string) {
 		}
 	}
 
-	if !bInteiro {
+	if tipoToken != "CONSTANTE_INTEIRA" {
 		vTextoRestante = texto
 	}
-	return bInteiro, vInteiro, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiConstanteReal(texto string) (bool, string, string) {

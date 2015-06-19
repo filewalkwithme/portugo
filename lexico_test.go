@@ -91,29 +91,29 @@ func TestVerificaPalavraReservada(t *testing.T) {
 }
 
 func TestExtraiConstanteInteira(t *testing.T) {
-	b, v, r := extraiConstanteInteira("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiConstanteInteira('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiConstanteInteira("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiConstanteInteira('') Experado: b[], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiConstanteInteira("123")
-	if !(b == true && v == "123" && r == "") {
-		t.Errorf("extraiConstanteInteira('123') Experado: b[true], v[123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiConstanteInteira("123")
+	if !(token.tipo == "CONSTANTE_INTEIRA" && token.valor == "123" && r == "") {
+		t.Errorf("extraiConstanteInteira('123') Experado: b[CONSTANTE_INTEIRA], v[123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiConstanteInteira("123abc")
-	if !(b == true && v == "123" && r == "abc") {
-		t.Errorf("extraiConstanteInteira('123abc') Experado: b[true], v[123], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiConstanteInteira("123abc")
+	if !(token.tipo == "CONSTANTE_INTEIRA" && token.valor == "123" && r == "abc") {
+		t.Errorf("extraiConstanteInteira('123abc') Experado: b[CONSTANTE_INTEIRA], v[123], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiConstanteInteira("123.45")
-	if !(b == false && v == "" && r == "123.45") {
-		t.Errorf("extraiConstanteInteira('123.45') Experado: b[false], v[], r[123.45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiConstanteInteira("123.45")
+	if !(token.tipo == "" && token.valor == "" && r == "123.45") {
+		t.Errorf("extraiConstanteInteira('123.45') Experado: b[], v[], r[123.45] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiConstanteInteira("abc123")
-	if !(b == false && v == "" && r == "abc123") {
-		t.Errorf("extraiConstanteInteira('abc123') Experado: b[false], v[], r[abc123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiConstanteInteira("abc123")
+	if !(token.tipo == "" && token.valor == "" && r == "abc123") {
+		t.Errorf("extraiConstanteInteira('abc123') Experado: b[CONSTANTE_INTEIRA], v[], r[abc123] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
