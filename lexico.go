@@ -115,46 +115,46 @@ func extraiConstanteReal(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiConstanteLogica(texto string) (bool, string, string) {
-	bLogico := false
-	vLogico := ""
+func extraiConstanteLogica(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) == 10 {
 		if texto[0:10] == "verdadeiro" {
-			bLogico = true
-			vLogico = "verdadeiro"
+			tipoToken = "CONSTANTE_LOGICA"
+			valorToken = "verdadeiro"
 		}
 	}
 
 	if len(texto) > 10 {
 		if texto[0:10] == "verdadeiro" && verificaDigito(string(texto[10])) == false && verificaLetra(string(texto[10])) == false {
-			bLogico = true
-			vLogico = "verdadeiro"
+			tipoToken = "CONSTANTE_LOGICA"
+			valorToken = "verdadeiro"
 			vTextoRestante = texto[10:]
 		}
 	}
 
 	if len(texto) == 5 {
 		if texto[0:5] == "falso" {
-			bLogico = true
-			vLogico = "falso"
+			tipoToken = "CONSTANTE_LOGICA"
+			valorToken = "falso"
 		}
 	}
 
 	if len(texto) > 5 {
 		if texto[0:5] == "falso" && verificaDigito(string(texto[5])) == false && verificaLetra(string(texto[5])) == false {
-			bLogico = true
-			vLogico = "falso"
+			tipoToken = "CONSTANTE_LOGICA"
+			valorToken = "falso"
 			vTextoRestante = texto[5:]
 		}
 	}
 
-	if !bLogico {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
 
-	return bLogico, vLogico, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiConstanteCaractere(texto string) (bool, string, string) {
