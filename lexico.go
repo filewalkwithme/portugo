@@ -157,9 +157,9 @@ func extraiConstanteLogica(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiConstanteCaractere(texto string) (bool, string, string) {
-	bCaractere := false
-	vCaractere := ""
+func extraiConstanteCaractere(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vCaractereAnterior := ""
 	vTextoRestante := ""
 	var aspas = "\""
@@ -170,14 +170,14 @@ func extraiConstanteCaractere(texto string) (bool, string, string) {
 		continua := string(texto[0]) == aspas
 
 		for i := 0; continua; i++ {
-			bCaractere = true
+			tipoToken = "CONSTANTE_CARACTERE"
 
-			vCaractere = vCaractere + string(texto[i])
+			valorToken = valorToken + string(texto[i])
 			vTextoRestante = texto[i+1:]
 
 			aspasEncerramento = string(texto[i]) == aspas && vCaractereAnterior != barra && i > 0
 			if aspasEncerramento {
-				bCaractere = true
+				tipoToken = "CONSTANTE_CARACTERE"
 				break
 			}
 
@@ -187,14 +187,14 @@ func extraiConstanteCaractere(texto string) (bool, string, string) {
 	}
 
 	if !aspasEncerramento {
-		bCaractere = false
-		vCaractere = ""
+		tipoToken = ""
+		valorToken = ""
 	}
 
-	if !bCaractere {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
-	return bCaractere, vCaractere, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiVariavel(texto string) (bool, string, string) {

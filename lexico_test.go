@@ -162,124 +162,124 @@ func TestExtraiConstanteReal(t *testing.T) {
 func TestExtraiConstanteLogica(t *testing.T) {
 	token, r := extraiConstanteLogica("")
 	if !(token.tipo == "" && token.valor == "" && r == "") {
-		t.Errorf("extraiConstanteLogica('') Experado: tipo[false], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica(" ")
 	if !(token.tipo == "" && token.valor == "" && r == " ") {
-		t.Errorf("extraiConstanteLogica(' ') Experado: tipo[false], valor[], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica(' ') Experado: tipo[], valor[], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falso")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "falso" && r == "") {
-		t.Errorf("extraiConstanteLogica('falso') Experado: tipo[false], valor[falso], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falso') Experado: tipo[], valor[falso], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falso123")
 	if !(token.tipo == "" && token.valor == "" && r == "falso123") {
-		t.Errorf("extraiConstanteLogica('falso123') Experado: tipo[false], valor[], resto[falso123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falso123') Experado: tipo[], valor[], resto[falso123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falsoabcde")
 	if !(token.tipo == "" && token.valor == "" && r == "falsoabcde") {
-		t.Errorf("extraiConstanteLogica('falsoabcde') Experado: tipo[false], valor[], resto[falsoabcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falsoabcde') Experado: tipo[], valor[], resto[falsoabcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falsoAbcde")
 	if !(token.tipo == "" && token.valor == "" && r == "falsoAbcde") {
-		t.Errorf("extraiConstanteLogica('falsoAbcde') Experado: tipo[false], valor[], resto[falsoAbcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falsoAbcde') Experado: tipo[], valor[], resto[falsoAbcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falso#")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "falso" && r == "#") {
-		t.Errorf("extraiConstanteLogica('falso#') Experado: tipo[true], valor[falso], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falso#') Experado: tipo[CONSTANTE_LOGICA], valor[falso], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falso ")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "falso" && r == " ") {
-		t.Errorf("extraiConstanteLogica('falso ') Experado: tipo[true], valor[falso], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falso ') Experado: tipo[CONSTANTE_LOGICA], valor[falso], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("123falso")
 	if !(token.tipo == "" && token.valor == "" && r == "123falso") {
-		t.Errorf("extraiConstanteLogica('123falso') Experado: tipo[false], valor[], resto[123falso] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('123falso') Experado: tipo[], valor[], resto[123falso] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiro")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "verdadeiro" && r == "") {
-		t.Errorf("extraiConstanteLogica('verdadeiro') Experado: b2[true], valor[verdadeiro], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiro') Experado: tipo[CONSTANTE_LOGICA], valor[verdadeiro], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiro123")
 	if !(token.tipo == "" && token.valor == "" && r == "verdadeiro123") {
-		t.Errorf("extraiConstanteLogica('verdadeiro123') Experado: tipo[false], valor[], resto[verdadeiro123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiro123') Experado: tipo[], valor[], resto[verdadeiro123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiroabcde")
 	if !(token.tipo == "" && token.valor == "" && r == "verdadeiroabcde") {
-		t.Errorf("extraiConstanteLogica('verdadeiroabcde') Experado: tipo[false], valor[], resto[verdadeiroabcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiroabcde') Experado: tipo[], valor[], resto[verdadeiroabcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiroAbcde")
 	if !(token.tipo == "" && token.valor == "" && r == "verdadeiroAbcde") {
-		t.Errorf("extraiConstanteLogica('verdadeiroAbcde') Experado: tipo[false], valor[], resto[verdadeiroAbcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiroAbcde') Experado: tipo[], valor[], resto[verdadeiroAbcde] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiro#")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "verdadeiro" && r == "#") {
-		t.Errorf("extraiConstanteLogica('verdadeiro#') Experado: tipo[true], valor[verdadeiro], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiro#') Experado: tipo[CONSTANTE_LOGICA], valor[verdadeiro], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("verdadeiro ")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "verdadeiro" && r == " ") {
-		t.Errorf("extraiConstanteLogica('verdadeiro ') Experado: tipo[true], valor[verdadeiro], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('verdadeiro ') Experado: tipo[CONSTANTE_LOGICA], valor[verdadeiro], resto[ ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("123verdadeiro")
 	if !(token.tipo == "" && token.valor == "" && r == "123verdadeiro") {
-		t.Errorf("extraiConstanteLogica('123verdadeiro') Experado: tipo[false], valor[], resto[123verdadeiro] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('123verdadeiro') Experado: tipo[], valor[], resto[123verdadeiro] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
 func TestExtraiConstanteCaractere(t *testing.T) {
-	b, v, r := extraiConstanteCaractere("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiConstanteCaractere('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiConstanteCaractere("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiConstanteCaractere('') Experado: tipo[], valor[], r[] --> Obtido: tipo[%v], valor[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiConstanteCaractere("abc123")
-	if !(b == false && v == "" && r == "abc123") {
-		t.Errorf("extraiConstanteCaractere('abc123') Experado: b[false], v[], r[abc123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiConstanteCaractere("abc123")
+	if !(token.tipo == "" && token.valor == "" && r == "abc123") {
+		t.Errorf("extraiConstanteCaractere('abc123') Experado: tipo[], valor[], r[abc123] --> Obtido: tipo[%v], valor[%v], r[%v]\n", token.tipo, token.valor, r)
 	}
 
 	texto := `abc: "123`
-	b, v, r = extraiConstanteCaractere(texto)
-	if !(b == false && v == "" && r == texto) {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: b[false], v[], r[%v] --> Obtido: b[%v], v[%v], r[%v]\n", texto, texto, b, v, r)
+	token, r = extraiConstanteCaractere(texto)
+	if !(token.tipo == "" && token.valor == "" && r == texto) {
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[], valor[], resto[%v] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, texto, token.tipo, token.valor, r)
 	}
 
 	texto = `"abc: 123`
-	b, v, r = extraiConstanteCaractere(texto)
-	if !(b == false && v == "" && r == texto) {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: b[false], v[], r[%v] --> Obtido: b[%v], v[%v], r[%v]\n", texto, texto, b, v, r)
+	token, r = extraiConstanteCaractere(texto)
+	if !(token.tipo == "" && token.valor == "" && r == texto) {
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[], valor[], resto[%v] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, texto, token.tipo, token.valor, r)
 	}
 
 	texto = `"abc: 123"`
-	b, v, r = extraiConstanteCaractere(texto)
-	if !(b == true && v == texto && r == "") {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: b[true], v[%v], r[] --> Obtido: b[%v], v[%v], r[%v]\n", texto, texto, b, v, r)
+	token, r = extraiConstanteCaractere(texto)
+	if !(token.tipo == "CONSTANTE_CARACTERE" && token.valor == texto && r == "") {
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[CONSTANTE_CARACTERE], valor[%v], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, texto, token.tipo, token.valor, r)
 	}
 
 	texto = `"abc: \" 123"`
-	b, v, r = extraiConstanteCaractere(texto)
-	if !(b == true && v == texto && r == "") {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: b[true], v[%v], r[] --> Obtido: b[%v], v[%v], r[%v]\n", texto, texto, b, v, r)
+	token, r = extraiConstanteCaractere(texto)
+	if !(token.tipo == "CONSTANTE_CARACTERE" && token.valor == texto && r == "") {
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[CONSTANTE_CARACTERE], valor[%v], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, texto, token.tipo, token.valor, r)
 	}
 
 	texto = `"abc: \" 123""`
-	b, v, r = extraiConstanteCaractere(texto)
-	if !(b == true && v == `"abc: \" 123"` && r == `"`) {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: b[false], v[\"abc: \\\" 123\"], r[\"] --> Obtido: b[%v], v[%v], r[%v]\n", texto, b, v, r)
+	token, r = extraiConstanteCaractere(texto)
+	if !(token.tipo == "CONSTANTE_CARACTERE" && token.valor == `"abc: \" 123"` && r == `"`) {
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[], valor[\"abc: \\\" 123\"], resto[\"] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, token.tipo, token.valor, r)
 	}
 }
 
