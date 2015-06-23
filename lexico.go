@@ -197,19 +197,19 @@ func extraiConstanteCaractere(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiVariavel(texto string) (bool, string, string) {
-	bVariavel := false
-	vVariavel := ""
+func extraiVariavel(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
 		continua := verificaLetraMaiuscula(string(texto[0]))
 
 		for i := 0; continua; i++ {
-			bVariavel = true
+			tipoToken = "VARIAVEL"
 
 			if verificaLetraMaiuscula(string(texto[i])) || verificaDigito(string(texto[i])) {
-				vVariavel = vVariavel + string(texto[i])
+				valorToken = valorToken + string(texto[i])
 				vTextoRestante = texto[i+1:]
 			}
 
@@ -217,15 +217,15 @@ func extraiVariavel(texto string) (bool, string, string) {
 		}
 	}
 
-	if bVariavel && verificaPalavraReservada(vVariavel) {
-		vVariavel = ""
-		bVariavel = false
+	if tipoToken == "VARIAVEL" && verificaPalavraReservada(valorToken) {
+		valorToken = ""
+		tipoToken = ""
 	}
 
-	if !bVariavel {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
-	return bVariavel, vVariavel, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiTipoVariavel(texto string) (bool, string, string) {

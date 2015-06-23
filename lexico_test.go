@@ -284,39 +284,39 @@ func TestExtraiConstanteCaractere(t *testing.T) {
 }
 
 func TestExtraiVariavel(t *testing.T) {
-	b, v, r := extraiVariavel("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiVariavel('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiVariavel("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiVariavel('') Experado: tipo[false], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("123")
-	if !(b == false && v == "" && r == "123") {
-		t.Errorf("extraiVariavel('123') Experado: b[false], v[], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("123")
+	if !(token.tipo == "" && token.valor == "" && r == "123") {
+		t.Errorf("extraiVariavel('123') Experado: tipo[false], valor[], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("A123")
-	if !(b == true && v == "A123" && r == "") {
-		t.Errorf("extraiVariavel('A123') Experado: b[true], v[A123], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("A123")
+	if !(token.tipo == "VARIAVEL" && token.valor == "A123" && r == "") {
+		t.Errorf("extraiVariavel('A123') Experado: tipo[true], valor[A123], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("A123+45")
-	if !(b == true && v == "A123" && r == "+45") {
-		t.Errorf("extraiVariavel('A123+45') Experado: b[true], v[A123], r[+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("A123+45")
+	if !(token.tipo == "VARIAVEL" && token.valor == "A123" && r == "+45") {
+		t.Errorf("extraiVariavel('A123+45') Experado: tipo[true], valor[A123], resto[+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("a123+45")
-	if !(b == false && v == "" && r == "a123+45") {
-		t.Errorf("extraiVariavel('a123+45') Experado: b[false], v[], r[a123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("a123+45")
+	if !(token.tipo == "" && token.valor == "" && r == "a123+45") {
+		t.Errorf("extraiVariavel('a123+45') Experado: tipo[false], valor[], resto[a123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("123+45")
-	if !(b == false && v == "" && r == "123+45") {
-		t.Errorf("extraiVariavel('123+45') Experado: b[false], v[], r[123+45] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("123+45")
+	if !(token.tipo == "" && token.valor == "" && r == "123+45") {
+		t.Errorf("extraiVariavel('123+45') Experado: tipo[false], valor[], resto[123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVariavel("verdadeiro")
-	if !(b == false && v == "" && r == "verdadeiro") {
-		t.Errorf("extraiVariavel('verdadeiro') Experado: b[false], v[], r[verdadeiro] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVariavel("verdadeiro")
+	if !(token.tipo == "" && token.valor == "" && r == "verdadeiro") {
+		t.Errorf("extraiVariavel('verdadeiro') Experado: tipo[false], valor[], resto[verdadeiro] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
