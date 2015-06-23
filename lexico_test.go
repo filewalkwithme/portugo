@@ -113,7 +113,7 @@ func TestExtraiConstanteInteira(t *testing.T) {
 
 	token, r = extraiConstanteInteira("abc123")
 	if !(token.tipo == "" && token.valor == "" && r == "abc123") {
-		t.Errorf("extraiConstanteInteira('abc123') Experado: tipo[CONSTANTE_INTEIRA], valor[], resto[abc123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteInteira('abc123') Experado: tipo[], valor[], resto[abc123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
@@ -172,7 +172,7 @@ func TestExtraiConstanteLogica(t *testing.T) {
 
 	token, r = extraiConstanteLogica("falso")
 	if !(token.tipo == "CONSTANTE_LOGICA" && token.valor == "falso" && r == "") {
-		t.Errorf("extraiConstanteLogica('falso') Experado: tipo[], valor[falso], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteLogica('falso') Experado: tipo[CONSTANTE_LOGICA], valor[falso], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteLogica("falso123")
@@ -279,132 +279,132 @@ func TestExtraiConstanteCaractere(t *testing.T) {
 	texto = `"abc: \" 123""`
 	token, r = extraiConstanteCaractere(texto)
 	if !(token.tipo == "CONSTANTE_CARACTERE" && token.valor == `"abc: \" 123"` && r == `"`) {
-		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[], valor[\"abc: \\\" 123\"], resto[\"] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteCaractere('%v') Experado: tipo[CONSTANTE_CARACTERE], valor[\"abc: \\\" 123\"], resto[\"] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", texto, token.tipo, token.valor, r)
 	}
 }
 
 func TestExtraiVariavel(t *testing.T) {
 	token, r := extraiVariavel("")
 	if !(token.tipo == "" && token.valor == "" && r == "") {
-		t.Errorf("extraiVariavel('') Experado: tipo[false], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("123")
 	if !(token.tipo == "" && token.valor == "" && r == "123") {
-		t.Errorf("extraiVariavel('123') Experado: tipo[false], valor[], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('123') Experado: tipo[], valor[], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("A123")
 	if !(token.tipo == "VARIAVEL" && token.valor == "A123" && r == "") {
-		t.Errorf("extraiVariavel('A123') Experado: tipo[true], valor[A123], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('A123') Experado: tipo[VARIAVEL], valor[A123], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("A123+45")
 	if !(token.tipo == "VARIAVEL" && token.valor == "A123" && r == "+45") {
-		t.Errorf("extraiVariavel('A123+45') Experado: tipo[true], valor[A123], resto[+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('A123+45') Experado: tipo[VARIAVEL], valor[A123], resto[+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("a123+45")
 	if !(token.tipo == "" && token.valor == "" && r == "a123+45") {
-		t.Errorf("extraiVariavel('a123+45') Experado: tipo[false], valor[], resto[a123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('a123+45') Experado: tipo[], valor[], resto[a123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("123+45")
 	if !(token.tipo == "" && token.valor == "" && r == "123+45") {
-		t.Errorf("extraiVariavel('123+45') Experado: tipo[false], valor[], resto[123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('123+45') Experado: tipo[], valor[], resto[123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiVariavel("verdadeiro")
 	if !(token.tipo == "" && token.valor == "" && r == "verdadeiro") {
-		t.Errorf("extraiVariavel('verdadeiro') Experado: tipo[false], valor[], resto[verdadeiro] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiVariavel('verdadeiro') Experado: tipo[], valor[], resto[verdadeiro] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
 func TestExtraiTipoVariavel(t *testing.T) {
-	b, v, r := extraiTipoVariavel("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiTipoVariavel('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiTipoVariavel("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiTipoVariavel('') Experado: tipo[], v[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("real")
-	if !(b == true && v == "real" && r == "") {
-		t.Errorf("extraiTipoVariavel('real') Experado: b[true], v[real], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("real")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "real" && r == "") {
+		t.Errorf("extraiTipoVariavel('real') Experado: tipo[TIPO_VARIAVEL], valor[real], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("realabc")
-	if !(b == false && v == "" && r == "realabc") {
-		t.Errorf("extraiTipoVariavel('realabc') Experado: b[false], v[], r[realabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("realabc")
+	if !(token.tipo == "" && token.valor == "" && r == "realabc") {
+		t.Errorf("extraiTipoVariavel('realabc') Experado: tipo[], valor[], resto[realabc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("real123")
-	if !(b == false && v == "" && r == "real123") {
-		t.Errorf("extraiTipoVariavel('real123') Experado: b[false], v[], r[real123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("real123")
+	if !(token.tipo == "" && token.valor == "" && r == "real123") {
+		t.Errorf("extraiTipoVariavel('real123') Experado: tipo[], valor[], resto[real123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("real: x")
-	if !(b == true && v == "real" && r == ": x") {
-		t.Errorf("extraiTipoVariavel('real: x') Experado: b[true], v[real], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("real: x")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "real" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('real: x') Experado: tipo[TIPO_VARIAVEL], valor[real], resto[: x] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("inteiro")
-	if !(b == true && v == "inteiro" && r == "") {
-		t.Errorf("extraiTipoVariavel('inteiro') Experado: b[true], v[inteiro], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("inteiro")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "inteiro" && r == "") {
+		t.Errorf("extraiTipoVariavel('inteiro') Experado: tipo[TIPO_VARIAVEL], valor[inteiro], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("inteiroabc")
-	if !(b == false && v == "" && r == "inteiroabc") {
-		t.Errorf("extraiTipoVariavel('inteiroabc') Experado: b[false], v[], r[inteiroabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("inteiroabc")
+	if !(token.tipo == "" && token.valor == "" && r == "inteiroabc") {
+		t.Errorf("extraiTipoVariavel('inteiroabc') Experado: tipo[], valor[], resto[inteiroabc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("inteiro123")
-	if !(b == false && v == "" && r == "inteiro123") {
-		t.Errorf("extraiTipoVariavel('inteiro123') Experado: b[false], v[], r[inteiro123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("inteiro123")
+	if !(token.tipo == "" && token.valor == "" && r == "inteiro123") {
+		t.Errorf("extraiTipoVariavel('inteiro123') Experado: tipo[], valor[], resto[inteiro123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("inteiro: x")
-	if !(b == true && v == "inteiro" && r == ": x") {
-		t.Errorf("extraiTipoVariavel('inteiro: x') Experado: b[true], v[inteiro], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("inteiro: x")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "inteiro" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('inteiro: x') Experado: tipo[TIPO_VARIAVEL], valor[inteiro], resto[: x] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("lógico")
-	if !(b == true && v == "lógico" && r == "") {
+	token, r = extraiTipoVariavel("lógico")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "lógico" && r == "") {
 		fmt.Printf("--->%v<---", len("lógico"))
-		t.Errorf("extraiTipoVariavel('lógico') Experado: b[true], v[lógico], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+		t.Errorf("extraiTipoVariavel('lógico') Experado: tipo[TIPO_VARIAVEL], valor[lógico], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("lógicoabc")
-	if !(b == false && v == "" && r == "lógicoabc") {
-		t.Errorf("extraiTipoVariavel('lógicoabc') Experado: b[false], v[], r[lógicoabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("lógicoabc")
+	if !(token.tipo == "" && token.valor == "" && r == "lógicoabc") {
+		t.Errorf("extraiTipoVariavel('lógicoabc') Experado: tipo[], valor[], resto[lógicoabc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("lógico123")
-	if !(b == false && v == "" && r == "lógico123") {
-		t.Errorf("extraiTipoVariavel('lógico123') Experado: b[false], v[], r[lógico123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("lógico123")
+	if !(token.tipo == "" && token.valor == "" && r == "lógico123") {
+		t.Errorf("extraiTipoVariavel('lógico123') Experado: tipo[], valor[], resto[lógico123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("lógico: x")
-	if !(b == true && v == "lógico" && r == ": x") {
-		t.Errorf("extraiTipoVariavel('lógico: x') Experado: b[true], v[lógico], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("lógico: x")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "lógico" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('lógico: x') Experado: tipo[TIPO_VARIAVEL], valor[lógico], resto[: x] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("caractere")
-	if !(b == true && v == "caractere" && r == "") {
-		t.Errorf("extraiTipoVariavel('caractere') Experado: b[true], v[caractere], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("caractere")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "caractere" && r == "") {
+		t.Errorf("extraiTipoVariavel('caractere') Experado: tipo[TIPO_VARIAVEL], valor[caractere], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("caractereabc")
-	if !(b == false && v == "" && r == "caractereabc") {
-		t.Errorf("extraiTipoVariavel('caractereabc') Experado: b[false], v[], r[caractereabc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("caractereabc")
+	if !(token.tipo == "" && token.valor == "" && r == "caractereabc") {
+		t.Errorf("extraiTipoVariavel('caractereabc') Experado: tipo[], valor[], resto[caractereabc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("caractere123")
-	if !(b == false && v == "" && r == "caractere123") {
-		t.Errorf("extraiTipoVariavel('caractere123') Experado: b[false], v[], r[caractere123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("caractere123")
+	if !(token.tipo == "" && token.valor == "" && r == "caractere123") {
+		t.Errorf("extraiTipoVariavel('caractere123') Experado: tipo[], valor[], resto[caractere123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiTipoVariavel("caractere: x")
-	if !(b == true && v == "caractere" && r == ": x") {
-		t.Errorf("extraiTipoVariavel('caractere: x') Experado: b[true], v[caractere], r[: x] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiTipoVariavel("caractere: x")
+	if !(token.tipo == "TIPO_VARIAVEL" && token.valor == "caractere" && r == ": x") {
+		t.Errorf("extraiTipoVariavel('caractere: x') Experado: tipo[TIPO_VARIAVEL], valor[caractere], resto[: x] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 

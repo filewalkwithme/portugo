@@ -228,82 +228,82 @@ func extraiVariavel(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiTipoVariavel(texto string) (bool, string, string) {
-	bTipoVariavel := false
-	vTipoVariavel := ""
+func extraiTipoVariavel(texto string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
 		if len(texto) == 4 {
 			if texto[0:4] == "real" {
-				bTipoVariavel = true
-				vTipoVariavel = "real"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "real"
 				vTextoRestante = texto[4:]
 			}
 		}
 
 		if len(texto) > 4 && verificaDigito(string(texto[4])) == false && verificaLetra(string(texto[4])) == false {
 			if texto[0:4] == "real" {
-				bTipoVariavel = true
-				vTipoVariavel = "real"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "real"
 				vTextoRestante = texto[4:]
 			}
 		}
 
 		if len(texto) == 7 {
 			if texto[0:7] == "inteiro" {
-				bTipoVariavel = true
-				vTipoVariavel = "inteiro"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "inteiro"
 				vTextoRestante = texto[7:]
 			}
 		}
 
 		if len(texto) > 7 {
 			if texto[0:7] == "inteiro" && verificaDigito(string(texto[7])) == false && verificaLetra(string(texto[7])) == false {
-				bTipoVariavel = true
-				vTipoVariavel = "inteiro"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "inteiro"
 				vTextoRestante = texto[7:]
 			}
 		}
 
 		if len(texto) == 7 {
 			if texto[0:7] == "lógico" {
-				bTipoVariavel = true
-				vTipoVariavel = "lógico"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "lógico"
 				vTextoRestante = texto[7:]
 			}
 		}
 
 		if len(texto) > 7 && verificaDigito(string(texto[7])) == false && verificaLetra(string(texto[7])) == false {
 			if texto[0:7] == "lógico" {
-				bTipoVariavel = true
-				vTipoVariavel = "lógico"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "lógico"
 				vTextoRestante = texto[7:]
 			}
 		}
 
 		if len(texto) == 9 {
 			if texto[0:9] == "caractere" {
-				bTipoVariavel = true
-				vTipoVariavel = "caractere"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "caractere"
 				vTextoRestante = texto[9:]
 			}
 		}
 
 		if len(texto) > 9 {
 			if texto[0:9] == "caractere" && verificaDigito(string(texto[9])) == false && verificaLetra(string(texto[9])) == false {
-				bTipoVariavel = true
-				vTipoVariavel = "caractere"
+				tipoToken = "TIPO_VARIAVEL"
+				valorToken = "caractere"
 				vTextoRestante = texto[9:]
 			}
 		}
 
 	}
 
-	if !bTipoVariavel {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
-	return bTipoVariavel, vTipoVariavel, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
 func extraiDoisPontos(texto string) (bool, string, string) {
