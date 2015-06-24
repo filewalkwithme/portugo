@@ -1,6 +1,9 @@
 package main
 
-import "regexp"
+import (
+	"regexp"
+	"unicode/utf8"
+)
 
 type token struct {
 	tipo  string
@@ -197,23 +200,32 @@ func extraiConstanteCaractere(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
+func extraiLetra(texto string) (string, int) {
+	bTexto := []byte(texto)
+	bLetra, tamanho := utf8.DecodeRune(bTexto)
+	letra := string(bLetra)
+	return letra, tamanho
+}
+
 func extraiVariavel(texto string) (token, string) {
 	tipoToken := ""
 	valorToken := ""
-	vTextoRestante := ""
+	vTextoRestante := texto
 
 	if len(texto) > 0 {
-		continua := verificaLetraMaiuscula(string(texto[0]))
+		letra, _ := extraiLetra(vTextoRestante)
+		continua := verificaLetraMaiuscula(letra)
 
 		for i := 0; continua; i++ {
 			tipoToken = "VARIAVEL"
+			letra, tamanho := extraiLetra(vTextoRestante)
 
-			if verificaLetraMaiuscula(string(texto[i])) || verificaDigito(string(texto[i])) {
-				valorToken = valorToken + string(texto[i])
-				vTextoRestante = texto[i+1:]
+			if verificaLetraMaiuscula(letra) || verificaDigito(letra) {
+				valorToken = valorToken + letra
+				vTextoRestante = vTextoRestante[tamanho:]
 			}
 
-			continua = i < len(texto)-1 && (verificaDigito(string(texto[i])) || verificaLetraMaiuscula(string(texto[i])))
+			continua = i < len(texto)-1 && (verificaDigito(letra) || verificaLetraMaiuscula(letra))
 		}
 	}
 
@@ -335,4 +347,12 @@ func extraiPontoEVirgula(texto string) (token, string) {
 
 func extraiVirgula(texto string) (token, string) {
 	return extraiCaractereUnico(texto, ",", "VIRGULA")
+}
+
+func extraiEspaco(texto string) (token, string) {
+	return extraiCaractereUnico(texto, " ", "ESPACO")
+}
+
+func extraiRetornoDeLinha(texto string) (token, string) {
+	return extraiCaractereUnico(texto, string('\n'), "RETORNO_DE_LINHA")
 }

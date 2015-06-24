@@ -533,3 +533,45 @@ func TestExtraiVirgula(t *testing.T) {
 		t.Errorf("extraiVirgula('#') Experado: tipo[], valor[], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
+
+func TestExtraiEspaco(t *testing.T) {
+	token, r := extraiEspaco("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiEspaco('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco(" ")
+	if !(token.tipo == "ESPACO" && token.valor == " " && r == "") {
+		t.Errorf("extraiEspaco(' ') Experado: tipo[ESPACO], valor[ ], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco(" 123")
+	if !(token.tipo == "ESPACO" && token.valor == " " && r == "123") {
+		t.Errorf("extraiEspaco(' 123') Experado: tipo[ESPACO], valor[ ], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco(" abc")
+	if !(token.tipo == "ESPACO" && token.valor == " " && r == "abc") {
+		t.Errorf("extraiEspaco(' abc') Experado: tipo[ESPACO], valor[ ], resto[abc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco(" #")
+	if !(token.tipo == "ESPACO" && token.valor == " " && r == "#") {
+		t.Errorf("extraiEspaco(' #') Experado: tipo[ESPACO], valor[ ], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco("123 ")
+	if !(token.tipo == "" && token.valor == "" && r == "123 ") {
+		t.Errorf("extraiEspaco('123 ') Experado: tipo[], valor[], resto[123 ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco("abc ")
+	if !(token.tipo == "" && token.valor == "" && r == "abc ") {
+		t.Errorf("extraiEspaco('abc ') Experado: tipo[], valor[], resto[abc ] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
+	token, r = extraiEspaco("#")
+	if !(token.tipo == "" && token.valor == "" && r == "#") {
+		t.Errorf("extraiEspaco('#') Experado: tipo[], valor[], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+}
