@@ -306,33 +306,33 @@ func extraiTipoVariavel(texto string) (token, string) {
 	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
 }
 
-func extraiDoisPontos(texto string) (bool, string, string) {
-	return extraiCaractereUnico(texto, ":")
-}
-
-func extraiPontoEVirgula(texto string) (bool, string, string) {
-	return extraiCaractereUnico(texto, ";")
-}
-
-func extraiVirgula(texto string) (bool, string, string) {
-	return extraiCaractereUnico(texto, ",")
-}
-
-func extraiCaractereUnico(texto string, caractere string) (bool, string, string) {
-	b := false
-	v := ""
+func extraiCaractereUnico(texto string, caractere string, tipoAlvo string) (token, string) {
+	tipoToken := ""
+	valorToken := ""
 	vTextoRestante := ""
 
 	if len(texto) > 0 {
 		if texto[0:1] == caractere {
-			b = true
-			v = caractere
+			tipoToken = tipoAlvo
+			valorToken = caractere
 			vTextoRestante = texto[1:]
 		}
 	}
 
-	if !b {
+	if tipoToken == "" {
 		vTextoRestante = texto
 	}
-	return b, v, vTextoRestante
+	return token{tipo: tipoToken, valor: valorToken}, vTextoRestante
+}
+
+func extraiDoisPontos(texto string) (token, string) {
+	return extraiCaractereUnico(texto, ":", "DOIS_PONTOS")
+}
+
+func extraiPontoEVirgula(texto string) (token, string) {
+	return extraiCaractereUnico(texto, ";", "PONTO_E_VIRGULA")
+}
+
+func extraiVirgula(texto string) (token, string) {
+	return extraiCaractereUnico(texto, ",", "VIRGULA")
 }

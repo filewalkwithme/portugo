@@ -120,12 +120,12 @@ func TestExtraiConstanteInteira(t *testing.T) {
 func TestExtraiConstanteReal(t *testing.T) {
 	token, r := extraiConstanteReal("")
 	if !(token.tipo == "" && token.valor == "" && r == "") {
-		t.Errorf("extraiConstanteReal('') Experado tipo[], valor[], resto[] --> Obtido: b[%v], v[%v], r[%v]. \n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteReal('') Experado tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]. \n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteReal("123")
 	if !(token.tipo == "" && token.valor == "123" && r == "123") {
-		t.Errorf("extraiConstanteReal('123') Experado tipo[], valor[123], resto[123] --> Obtido: b[%v], v[%v], r[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteReal('123') Experado tipo[], valor[123], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteReal("123abc")
@@ -244,12 +244,12 @@ func TestExtraiConstanteLogica(t *testing.T) {
 func TestExtraiConstanteCaractere(t *testing.T) {
 	token, r := extraiConstanteCaractere("")
 	if !(token.tipo == "" && token.valor == "" && r == "") {
-		t.Errorf("extraiConstanteCaractere('') Experado: tipo[], valor[], r[] --> Obtido: tipo[%v], valor[%v], r[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteCaractere('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiConstanteCaractere("abc123")
 	if !(token.tipo == "" && token.valor == "" && r == "abc123") {
-		t.Errorf("extraiConstanteCaractere('abc123') Experado: tipo[], valor[], r[abc123] --> Obtido: tipo[%v], valor[%v], r[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiConstanteCaractere('abc123') Experado: tipo[], valor[], resto[abc123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	texto := `abc: "123`
@@ -323,7 +323,7 @@ func TestExtraiVariavel(t *testing.T) {
 func TestExtraiTipoVariavel(t *testing.T) {
 	token, r := extraiTipoVariavel("")
 	if !(token.tipo == "" && token.valor == "" && r == "") {
-		t.Errorf("extraiTipoVariavel('') Experado: tipo[], v[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+		t.Errorf("extraiTipoVariavel('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
 	token, r = extraiTipoVariavel("real")
@@ -409,127 +409,127 @@ func TestExtraiTipoVariavel(t *testing.T) {
 }
 
 func TestExtraiDoisPontos(t *testing.T) {
-	b, v, r := extraiDoisPontos("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiDoisPontos('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiDoisPontos("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiDoisPontos('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos(":")
-	if !(b == true && v == ":" && r == "") {
-		t.Errorf("extraiDoisPontos(':') Experado: b[true], v[:], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos(":")
+	if !(token.tipo == "DOIS_PONTOS" && token.valor == ":" && r == "") {
+		t.Errorf("extraiDoisPontos(':') Experado: tipo[DOIS_PONTOS], valor[:], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos(":123")
-	if !(b == true && v == ":" && r == "123") {
-		t.Errorf("extraiDoisPontos(':123') Experado: b[true], v[:], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos(":123")
+	if !(token.tipo == "DOIS_PONTOS" && token.valor == ":" && r == "123") {
+		t.Errorf("extraiDoisPontos(':123') Experado: tipo[DOIS_PONTOS], valor[:], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos(":abc")
-	if !(b == true && v == ":" && r == "abc") {
-		t.Errorf("extraiDoisPontos(':abc') Experado: b[true], v[:], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos(":abc")
+	if !(token.tipo == "DOIS_PONTOS" && token.valor == ":" && r == "abc") {
+		t.Errorf("extraiDoisPontos(':abc') Experado: tipo[DOIS_PONTOS], valor[:], resto[abc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos(":#")
-	if !(b == true && v == ":" && r == "#") {
-		t.Errorf("extraiDoisPontos(':#') Experado: b[true], v[:], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos(":#")
+	if !(token.tipo == "DOIS_PONTOS" && token.valor == ":" && r == "#") {
+		t.Errorf("extraiDoisPontos(':#') Experado: tipo[DOIS_PONTOS], valor[:], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos("123:")
-	if !(b == false && v == "" && r == "123:") {
-		t.Errorf("extraiDoisPontos('123:') Experado: b[false], v[], r[123:] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos("123:")
+	if !(token.tipo == "" && token.valor == "" && r == "123:") {
+		t.Errorf("extraiDoisPontos('123:') Experado: tipo[], valor[], resto[123:] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos("abc:")
-	if !(b == false && v == "" && r == "abc:") {
-		t.Errorf("extraiDoisPontos('abc:') Experado: b[false], v[], r[abc:] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos("abc:")
+	if !(token.tipo == "" && token.valor == "" && r == "abc:") {
+		t.Errorf("extraiDoisPontos('abc:') Experado: tipo[], valor[], resto[abc:] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiDoisPontos("#")
-	if !(b == false && v == "" && r == "#") {
-		t.Errorf("extraiDoisPontos('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiDoisPontos("#")
+	if !(token.tipo == "" && token.valor == "" && r == "#") {
+		t.Errorf("extraiDoisPontos('#') Experado: tipo[], valor[], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
 func TestExtraiPontoEVirgula(t *testing.T) {
-	b, v, r := extraiPontoEVirgula("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiPontoEVirgula('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiPontoEVirgula("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiPontoEVirgula('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula(";")
-	if !(b == true && v == ";" && r == "") {
-		t.Errorf("extraiPontoEVirgula(';') Experado: b[true], v[;], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula(";")
+	if !(token.tipo == "PONTO_E_VIRGULA" && token.valor == ";" && r == "") {
+		t.Errorf("extraiPontoEVirgula(';') Experado: tipo[PONTO_E_VIRGULA], valor[;], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula(";123")
-	if !(b == true && v == ";" && r == "123") {
-		t.Errorf("extraiPontoEVirgula(';123') Experado: b[true], v[;], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula(";123")
+	if !(token.tipo == "PONTO_E_VIRGULA" && token.valor == ";" && r == "123") {
+		t.Errorf("extraiPontoEVirgula(';123') Experado: tipo[PONTO_E_VIRGULA], valor[;], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula(";abc")
-	if !(b == true && v == ";" && r == "abc") {
-		t.Errorf("extraiPontoEVirgula(';abc') Experado: b[true], v[;], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula(";abc")
+	if !(token.tipo == "PONTO_E_VIRGULA" && token.valor == ";" && r == "abc") {
+		t.Errorf("extraiPontoEVirgula(';abc') Experado: tipo[PONTO_E_VIRGULA], valor[;], resto[abc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula(";#")
-	if !(b == true && v == ";" && r == "#") {
-		t.Errorf("extraiPontoEVirgula(';#') Experado: b[true], v[;], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula(";#")
+	if !(token.tipo == "PONTO_E_VIRGULA" && token.valor == ";" && r == "#") {
+		t.Errorf("extraiPontoEVirgula(';#') Experado: tipo[PONTO_E_VIRGULA], valor[;], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula("123;")
-	if !(b == false && v == "" && r == "123;") {
-		t.Errorf("extraiPontoEVirgula('123;') Experado: b[false], v[], r[123;] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula("123;")
+	if !(token.tipo == "" && token.valor == "" && r == "123;") {
+		t.Errorf("extraiPontoEVirgula('123;') Experado: tipo[], valor[], resto[123;] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula("abc;")
-	if !(b == false && v == "" && r == "abc;") {
-		t.Errorf("extraiPontoEVirgula('abc;') Experado: b[false], v[], r[abc;] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula("abc;")
+	if !(token.tipo == "" && token.valor == "" && r == "abc;") {
+		t.Errorf("extraiPontoEVirgula('abc;') Experado: tipo[], valor[], resto[abc;] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiPontoEVirgula("#")
-	if !(b == false && v == "" && r == "#") {
-		t.Errorf("extraiPontoEVirgula('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiPontoEVirgula("#")
+	if !(token.tipo == "" && token.valor == "" && r == "#") {
+		t.Errorf("extraiPontoEVirgula('#') Experado: tipo[], valor[], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
 
 func TestExtraiVirgula(t *testing.T) {
-	b, v, r := extraiVirgula("")
-	if !(b == false && v == "" && r == "") {
-		t.Errorf("extraiVirgula('') Experado: b[false], v[], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r := extraiVirgula("")
+	if !(token.tipo == "" && token.valor == "" && r == "") {
+		t.Errorf("extraiVirgula('') Experado: tipo[], valor[], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula(",")
-	if !(b == true && v == "," && r == "") {
-		t.Errorf("extraiVirgula(',') Experado: b[true], v[,], r[] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula(",")
+	if !(token.tipo == "VIRGULA" && token.valor == "," && r == "") {
+		t.Errorf("extraiVirgula(',') Experado: tipo[VIRGULA], valor[,], resto[] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula(",123")
-	if !(b == true && v == "," && r == "123") {
-		t.Errorf("extraiVirgula(',123') Experado: b[true], v[,], r[123] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula(",123")
+	if !(token.tipo == "VIRGULA" && token.valor == "," && r == "123") {
+		t.Errorf("extraiVirgula(',123') Experado: tipo[VIRGULA], valor[,], resto[123] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula(",abc")
-	if !(b == true && v == "," && r == "abc") {
-		t.Errorf("extraiVirgula(',abc') Experado: b[true], v[,], r[abc] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula(",abc")
+	if !(token.tipo == "VIRGULA" && token.valor == "," && r == "abc") {
+		t.Errorf("extraiVirgula(',abc') Experado: tipo[VIRGULA], valor[,], resto[abc] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula(",#")
-	if !(b == true && v == "," && r == "#") {
-		t.Errorf("extraiVirgula(',#') Experado: b[true], v[,], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula(",#")
+	if !(token.tipo == "VIRGULA" && token.valor == "," && r == "#") {
+		t.Errorf("extraiVirgula(',#') Experado: tipo[VIRGULA], valor[,], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula("123,")
-	if !(b == false && v == "" && r == "123,") {
-		t.Errorf("extraiVirgula('123,') Experado: b[false], v[], r[123,] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula("123,")
+	if !(token.tipo == "" && token.valor == "" && r == "123,") {
+		t.Errorf("extraiVirgula('123,') Experado: tipo[], valor[], resto[123,] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula("abc,")
-	if !(b == false && v == "" && r == "abc,") {
-		t.Errorf("extraiVirgula('abc,') Experado: b[false], v[], r[abc,] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula("abc,")
+	if !(token.tipo == "" && token.valor == "" && r == "abc,") {
+		t.Errorf("extraiVirgula('abc,') Experado: tipo[], valor[], resto[abc,] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
-	b, v, r = extraiVirgula("#")
-	if !(b == false && v == "" && r == "#") {
-		t.Errorf("extraiVirgula('#') Experado: b[false], v[], r[#] --> Obtido: b[%v], v[%v], r[%v]\n", b, v, r)
+	token, r = extraiVirgula("#")
+	if !(token.tipo == "" && token.valor == "" && r == "#") {
+		t.Errorf("extraiVirgula('#') Experado: tipo[], valor[], resto[#] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 }
