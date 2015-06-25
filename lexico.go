@@ -356,3 +356,53 @@ func extraiEspaco(texto string) (token, string) {
 func extraiRetornoDeLinha(texto string) (token, string) {
 	return extraiCaractereUnico(texto, string('\n'), "RETORNO_DE_LINHA")
 }
+
+func extraiToken(texto string) (token, string) {
+	token, r := token{tipo: "", valor: ""}, ""
+
+	if token.tipo == "" {
+		token, r = extraiConstanteCaractere(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiConstanteInteira(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiConstanteReal(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiConstanteLogica(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiVariavel(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiTipoVariavel(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiVirgula(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiPontoEVirgula(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiDoisPontos(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiEspaco(texto)
+	}
+
+	if token.tipo == "" {
+		token, r = extraiRetornoDeLinha(texto)
+	}
+
+	return token, r
+}

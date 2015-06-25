@@ -304,6 +304,11 @@ func TestExtraiVariavel(t *testing.T) {
 		t.Errorf("extraiVariavel('A123+45') Experado: tipo[VARIAVEL], valor[A123], resto[+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
 	}
 
+	token, r = extraiVariavel("ENDEREÇO+45")
+	if !(token.tipo == "VARIAVEL" && token.valor == "ENDEREÇO" && r == "+45") {
+		t.Errorf("extraiVariavel('ENDEREÇO+45') Experado: tipo[VARIAVEL], valor[ENDEREÇO], resto[+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
+	}
+
 	token, r = extraiVariavel("a123+45")
 	if !(token.tipo == "" && token.valor == "" && r == "a123+45") {
 		t.Errorf("extraiVariavel('a123+45') Experado: tipo[], valor[], resto[a123+45] --> Obtido: tipo[%v], valor[%v], resto[%v]\n", token.tipo, token.valor, r)
