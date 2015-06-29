@@ -14,6 +14,12 @@ func init() {
 	arquivo = flag.Arg(0)
 }
 
+type NoArvore struct {
+	tipo   string
+	valor  string
+	filhos []NoArvore
+}
+
 func main() {
 
 	if len(arquivo) > 0 {
@@ -26,16 +32,26 @@ func main() {
 			conteudoArquivo := string(bufferArquivo)
 
 			texto := conteudoArquivo
-			token := token{tipo: "inicio"}
+			tokenTmp := token{tipo: "inicio"}
+			tokens := []token{}
 
-			if *exibeTokens {
-				for token.tipo != "" {
-					token, texto = extraiToken(texto)
-					fmt.Printf("%v\t\t\t\t%v\n", token.valor, token.tipo)
+			for tokenTmp.tipo != "" {
+				tokenTmp, texto = extraiToken(texto)
+				tokens = append(tokens, tokenTmp)
+				if *exibeTokens {
+					fmt.Printf("%v\t\t\t\t%v\n", tokenTmp.valor, tokenTmp.tipo)
 				}
 			}
+
+			Parse(tokens)
 		}
 	} else {
 		fmt.Printf("Nenhum arquivo foi especificado. Ex.: \n portugo arquivo.txt \n")
+	}
+}
+
+func Parse(tokens []token) {
+	for i, token := range tokens {
+		fmt.Printf("[%v]%v\n", i, token)
 	}
 }

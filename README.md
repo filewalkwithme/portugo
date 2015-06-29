@@ -14,8 +14,8 @@ Os objetivos principais deste projeto são:
     # percorre o arquivo e mostra todos os tokens extraídos e classificados por tipo
     ./portugo -tokens nome_aquivo.txt
     ---------------------------------  
-    inteiro		TIPO_VARIAVEL
-    :				  DOIS_PONTOS
+    inteiro   TIPO_VARIAVEL
+    :         DOIS_PONTOS
               ESPACO
-    X				  VARIAVEL
+    X         VARIAVEL
     ;				  PONTO_E_VIRGULA
